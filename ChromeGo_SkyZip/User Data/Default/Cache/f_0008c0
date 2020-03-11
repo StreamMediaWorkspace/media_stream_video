@@ -1,0 +1,851 @@
+/* generate a faceted search */
+do_faceted_search = function(checked, value, content_type) {
+  var search_type = checked == 'page' ? 'page' : content_type;
+
+  var params = add_facet_params(checked, value, search_type);
+
+  update_hash(params, search_type, content_type);
+};
+
+/* search with facets and query */
+generate_faceted_search = function(
+  params,
+  checked,
+  value,
+  content_type,
+  search_type
+) {
+  // hide main content, result header, search filters and pager while searching
+  $('.content_result_body, .content_result_header, .result_box').hide();
+  // show loading spinner
+  $('#spinner').show();
+
+  var faceted_search_url = '';
+
+  if (content_type == 'document') {
+    faceted_search_url = krugle.conf.urls.DOCUMENT_SEARCH;
+  } else if (content_type == 'comment') {
+    faceted_search_url = krugle.conf.urls.COMMENT_SEARCH;
+  }
+
+  if (krugle.conf.last_ajax) {
+    krugle.conf.last_ajax.abort();
+  }
+  krugle.conf.last_ajax = $.ajax({
+    url: faceted_search_url,
+    data: params,
+    dataType: 'json',
+    type: 'GET',
+    traditional: true,
+    success: function(data) {
+      var status = data.status;
+
+      if (status == 401) {
+        window.location.href = krugle.conf.urls.REDIRECT_URL;
+      } else {
+        var response_result = data.results;
+
+        handle_response(
+          response_result,
+          checked,
+          value,
+          search_type,
+          content_type
+        );
+      }
+    }
+  });
+};
+
+/* search and show all projects */
+do_project_search = function(checked, value, content_type) {
+  // hide projects list and paging
+  $('.project_sort_cont, .paging').hide();
+
+  // handle projects list
+  get_projects_filtered_list();
+
+  handle_response(
+    krugle.conf.filtered_list,
+    checked,
+    value,
+    'project_list',
+    content_type
+  );
+};
+
+/* search and show snippets */
+do_snippet_search = function(checked, value, content_type) {
+  // hide main content, result header, snippet and pager while searching
+  $('#paging').hide();
+  // show loading spinner
+  //$('#spinner').show();
+
+  var precision = $('#precision').val();
+  if (precision == 1) {
+    var search_type = 'exact_snippet';
+  } else {
+    var search_type = 'snippet';
+  }
+  // snippet search params
+  var params = add_snippet_params();
+
+  // if there is more page, change current page parameters
+  if (checked == 'page') {
+    params.page = value;
+  }
+
+  if (krugle.conf.last_ajax) {
+    krugle.conf.last_ajax.abort();
+  }
+  krugle.conf.last_ajax = $.ajax({
+    url: krugle.conf.urls.SNIPPET_SEARCH,
+    data: params,
+    dataType: 'json',
+    type: 'POST',
+    traditional: true,
+    success: function(data) {
+      var status = data.status;
+
+      if (status == 401) {
+        window.location.href = krugle.conf.urls.REDIRECT_URL;
+      } else {
+        var response_result = data.results;
+
+        handle_response(response_result, '', '', search_type, content_type);
+      }
+    }
+  });
+};
+
+/* search with more parameters */
+do_advanced_search = function() {
+  // set search type for advanced search
+  var snippet_content = $('#snippet_code');
+  var is_snippet_disabled = snippet_content.attr('disabled') ? true : false;
+  var search_type = is_snippet_disabled ? 'document' : 'snippet';
+  if (!is_snippet_disabled) {
+    if (null == snippet_content.val() || snippet_content.val() == '') {
+      search_type = 'document';
+    }
+  }
+  // generate url hash
+  if (search_type == 'document') {
+    var url_hash = generate_query_facets();
+    var url_origin = window.location.protocol + '//' + window.location.host;
+    var url_pathname = krugle.conf.urls.DOCUMENT_SEARCH_INIT;
+    window.location = url_origin + url_pathname + '#' + url_hash;
+  } else {
+    // submit form to do snippet search
+    document.forms.advanced_search.submit();
+  }
+};
+
+/* do common or facet search while the search filed is not null */
+init_search = function(content_type) {
+  // parse hash and set values in template
+  setup_hash(content_type);
+
+  var snippet_uid = $('#snippet_uid');
+  var project_list = $('.project_sort_cont');
+  var snippet_lang = $('#snippet_lang');
+
+  // if snippet uid and language exist, do snippet search
+  if (
+    snippet_uid.length > 0 &&
+    snippet_uid &&
+    (snippet_lang.length > 0 && snippet_lang)
+  ) {
+    do_snippet_search('', '', content_type);
+  } else {
+    if (content_type == 'project') {
+      // if project list object exist, show project list
+      if (project_list.length > 0) {
+        do_project_search('', '', content_type);
+      }
+    } else {
+      var url_pathname = window.location.pathname;
+
+      if (
+        url_pathname.indexOf(krugle.conf.urls.DOCUMENT_SEARCH_INIT) != -1 ||
+        url_pathname.indexOf(krugle.conf.urls.COMMENT_SEARCH_INIT) != -1
+      ) {
+        var search_type = content_type;
+        var params = add_facet_params('', '', search_type);
+
+        generate_faceted_search(params, '', '', content_type, search_type);
+      }
+    }
+  }
+};
+
+/* method used to handle search response */
+handle_response = function(
+  response_result,
+  checked,
+  value,
+  search_type,
+  content_type
+) {
+  var authors = ''; // get authors from response
+  var projects = ''; // get projects from response
+  var languages = ''; // get authors from response
+  var last_query = ''; // get the search query from search box
+  var page = ''; // get results page number
+  var json_start = ''; // the start number of the first result
+  var total_number = ''; // total number of search result
+  var hit_results = ''; // results number per page
+  var filters = {}; // search filters for facet search
+  var has_next = true; // if has next page
+
+  // handle error response
+  if (response_result.error) {
+    if (content_type == 'document' || content_type == 'comment') {
+      last_query = $('#query').val();
+      // update search results info
+      update_info(last_query, 0, 0, 0, content_type);
+      // refresh facet controls
+      refresh_facets('', '', '', [], search_type, content_type);
+      // hide search results
+      $('.content_result_body').hide();
+      // hide loading spinner
+      $('#spinner').hide();
+    } else if (content_type == 'project') {
+      // update search results info
+      update_info('', 0, 0, 0, content_type);
+      // hide loading spinner
+      $('#spinner').hide();
+    }
+  } else {
+    // if has next page for code search & snippet search
+    if (content_type == 'document') {
+      has_next = response_result.next;
+    }
+
+    // for document and comment, set facets params to refresh
+    if (
+      response_result.facets &&
+      (content_type == 'document' || content_type == 'comment')
+    ) {
+      filters = response_result.facets;
+      krugle.conf.filters = filters;
+
+      // filters to generate left facets
+      if (filters.author) {
+        authors = filters.author;
+      }
+      if (filters.project) {
+        projects = filters.project;
+      }
+      if (filters.language) {
+        languages = filters.language;
+      }
+    }
+
+    if (response_result.query) {
+      last_query =
+        search_type == 'snippet' || search_type == 'exact_snippet'
+          ? $('#snippet_content').val()
+          : response_result.query;
+    }
+
+    if (search_type == 'project_list') {
+      total_number = response_result.length;
+      page = Math.ceil(total_number / krugle.conf.max_hits);
+      json_start = value ? (value - 1) * krugle.conf.max_hits : 0;
+      response_result = response_result.slice(
+        json_start,
+        json_start + krugle.conf.max_hits
+      );
+      hit_results = response_result.length;
+    } else {
+      total_number = response_result.total_number;
+      page = Math.ceil(total_number / krugle.conf.max_hits);
+      json_start = response_result.start;
+
+      // parse search results' hits
+      if (content_type == 'document') {
+        if (search_type != 'snippet' && search_type != 'exact_snippet') {
+          hit_results = response_result.docs.length;
+        } else {
+          hit_results = response_result.snippets.length;
+        }
+      } else {
+        hit_results = response_result.comments.length;
+      }
+    }
+
+    if (search_type == content_type || search_type == 'page') {
+      var facet_date = [];
+      if (response_result.facets) {
+        facet_date.push(response_result.facets.date_start);
+        facet_date.push(response_result.facets.date_end);
+      }
+
+      // refresh facet controls
+      if (content_type == 'comment') {
+        refresh_facets(
+          projects,
+          authors,
+          '',
+          facet_date,
+          search_type,
+          content_type
+        );
+      } else {
+        refresh_facets(
+          projects,
+          authors,
+          languages,
+          facet_date,
+          search_type,
+          content_type
+        );
+      }
+
+      // update search filters
+      if (!$.isEmptyObject(filters)) {
+        update_filters(filters, content_type);
+      } else {
+        $('.result_box').hide();
+      }
+    }
+
+    if (search_type == 'snippet') {
+      // update search results info
+      update_info(
+        last_query,
+        total_number,
+        json_start,
+        hit_results,
+        content_type,
+        search_type
+      );
+      // show results in page
+      show_results(response_result, content_type, search_type);
+      // generate paging
+      generate_paging(
+        page,
+        hit_results,
+        json_start,
+        has_next,
+        content_type,
+        search_type
+      );
+    } else if (search_type == 'exact_snippet') {
+      // update search results info
+      update_info(
+        last_query,
+        total_number,
+        json_start,
+        hit_results,
+        content_type,
+        search_type
+      );
+      // show results in page
+      show_results(response_result, content_type, search_type);
+      // generate paging
+      generate_showmore(
+        page,
+        hit_results,
+        json_start,
+        has_next,
+        content_type,
+        search_type
+      );
+    } else {
+      // update search results info
+      update_info(
+        last_query,
+        total_number,
+        json_start,
+        hit_results,
+        content_type
+      );
+      // show results in page
+      show_results(response_result, content_type);
+      // generate paging
+      generate_paging(page, hit_results, json_start, has_next, content_type);
+    }
+
+    if (search_type == 'project_list') {
+      // make sure the vertical bar in projects list page at top
+      $('#project_list_container').scrollTop(0);
+    } else {
+      // make sure the vertical bar in search results page at top
+      $('.content_result_body').scrollTop(0);
+    }
+
+    // bind events for window resize
+    bind_window_resize_func(search_type);
+  }
+};
+
+/* refresh facet controls after get search results */
+refresh_facets = function(
+  projects,
+  authors,
+  languages,
+  date,
+  search_type,
+  content_type
+) {
+  var projects_list = $('#projects_list'); // get the ul used to contain projects
+  var authors_list = $('#authors_list'); // get the ul used to contain authors
+  var languages_list = $('#languages_list'); // get the ul used to contain languages
+  var project_show_more = $('#more_projects'); // show more projects section
+  var author_show_more = $('#more_authors'); // show more authors section
+  var lang_show_more = $('#more_languages'); // show more languages section
+
+  // clear inputs in filters section
+  $('.facet_filter input').val('');
+  $('.facet_filter input').focusout();
+
+  if (projects) {
+    // refresh projects
+    generate_facet_html(
+      projects_list,
+      projects,
+      'p',
+      search_type,
+      content_type
+    );
+  } else {
+    clear_side_bar_facet_common(projects_list, project_show_more);
+  }
+
+  if (authors) {
+    // refresh authors
+    generate_facet_html(authors_list, authors, 'a', search_type, content_type);
+  } else {
+    clear_side_bar_facet_common(authors_list, author_show_more);
+  }
+
+  if (languages) {
+    // refresh languages
+    generate_facet_html(
+      languages_list,
+      languages,
+      'l',
+      search_type,
+      content_type
+    );
+  } else {
+    clear_side_bar_facet_common(languages_list, lang_show_more);
+  }
+
+  if (date.length != 0) {
+    // refresh date
+    var date_start = date[0] ? date[0] : '';
+    var date_end = date[1] ? date[1] : '';
+
+    if (date_start == '' || date_end == '') {
+      $('#select').val('');
+    }
+
+    $('#date_start_cache').val(date_start);
+    $('#date_end_cache').val(date_end);
+    $('#date_start').val(date_start);
+    $('#date_end').val(date_end);
+  } else {
+    // reset date range select and clear dates
+    $('#select').val('');
+    $('#date_start').val('');
+    $('#date_end').val('');
+  }
+
+  bind_side_bar_filter_events(search_type, content_type);
+};
+
+/* show search results */
+show_results = function(json, content_type, search_type) {
+  var hit_list = '';
+  var html_code = '';
+  var docs_length = 0; // items to shown per page
+
+  if (
+    search_type &&
+    (search_type == 'snippet' || search_type == 'exact_snippet') &&
+    json.results
+  ) {
+    docs_length = json.results.snippets.length;
+  } else {
+    if (json.result != undefined) {
+      docs_length = json.result.length;
+    } else {
+      docs_length = json.length;
+    }
+  }
+
+  // set container of search result
+  if (content_type == 'project') {
+    hit_list = $('.project_sort_cont');
+    hit_list.html('');
+
+    // show projects list and paging
+    $('.project_sort_cont, .paging').show();
+  } else {
+    hit_list = $('#hit_list');
+    //hit_list.html('');
+
+    // show main content and search box at bottom while searching
+    $('.content_result_body, .content_result_body .tsearch_panel').show();
+  }
+
+  if (docs_length != 0) {
+    // hide loading spinner
+    $('#spinner').hide();
+
+    if (content_type == 'document') {
+      if (
+        search_type != undefined &&
+        (search_type == 'snippet' || search_type == 'exact_snippet')
+      ) {
+        // show snippet
+        generate_snippet_result(content_type);
+        // html code for snippet search
+        html_code = generate_snippet(json, content_type);
+        if (search_type == 'exact_snippet') {
+          $(html_code)
+            .hide()
+            .appendTo(hit_list)
+            .fadeIn();
+        } else {
+          hit_list.html(html_code);
+        }
+        // bind events for each line to open file with line number
+        $('.hit_summary').each(function() {
+          var snippet_fragment = $(this);
+          snippet_fragment.find('tr').each(function(index) {
+            bind_snippet_view_file_event(snippet_fragment, index);
+          });
+        });
+      } else {
+        // html code for document search
+        html_code = generate_document(json, content_type);
+        hit_list.html(html_code);
+
+        // generate code snippet
+        generate_code_snippet(json);
+      }
+    } else if (content_type == 'comment') {
+      // html code for comment search
+      html_code = generate_comment(json, content_type);
+      hit_list.html(html_code);
+    } else if (content_type == 'project') {
+      // html code for project search
+      html_code = generate_project_list(json, content_type);
+      hit_list.html(html_code);
+
+      // generate projects activity chart
+      generate_projects_activity_chart(json);
+    } else {
+      hit_list.html(html_code);
+    }
+  } else {
+    hit_list.html(html_code);
+    // hide main content and search box at bottom, when nothing found
+    $('.content_result_body, .content_result_body .tsearch_panel').hide();
+    // hide loading spinner
+    $('#spinner').hide();
+  }
+};
+
+/* update search results info */
+update_info = function(
+  query,
+  total_number,
+  json_start,
+  length,
+  content_type,
+  search_type
+) {
+  var info_bar = '';
+  var info_header = '';
+  var result_hitinfobar = '';
+
+  // generate info header for different types
+  if (content_type == 'document' || content_type == 'comment') {
+    info_bar = $('#info_bar');
+    //info_bar.html('');
+
+    if (content_type == 'document') {
+      // modify download search results anchor
+      var download_file_href = generate_download_url();
+
+      $('.download_results').attr('url', download_file_href);
+    }
+
+    // reset qeury
+    if (search_type == undefined) {
+      $('#query').val(query);
+      $('#query_cache').val(query);
+      $('#query_everything').val(query);
+    }
+
+    if (length > 0) {
+      if (krugle.conf.download_status == 'downloaded') {
+        $('.download_results').show();
+      }
+      if (search_type != undefined && search_type == 'snippet') {
+        result_hitinfobar =
+          total_number + ' search results for the snippet below.';
+      } else if (search_type == 'exact_snippet') {
+        result_hitinfobar = '';
+      } else {
+        result_hitinfobar = total_number + ' search results';
+        if (query) {
+          result_hitinfobar +=
+            ' for <strong>[' + _.escape(query) + ']</strong>';
+        }
+      }
+    } else {
+      // hide download results when nothing found
+      $('.download_results').hide();
+      if (search_type == 'exact_snippet') {
+        result_hitinfobar = '';
+      } else {
+        result_hitinfobar = 'Nothing found.';
+      }
+    }
+
+    info_bar.html(result_hitinfobar);
+    info_bar.parent().show();
+  } else if (content_type == 'project') {
+    info_bar = $('.show_num');
+    info_bar.html('');
+
+    var start = json_start + 1;
+    var end = json_start + length;
+    var first = start / krugle.conf.max_hits + 1;
+
+    if (length > 0) {
+      result_hitinfobar =
+        'Show <strong>' +
+        start +
+        '</strong> - <strong>' +
+        end +
+        '</strong> of <strong>' +
+        total_number +
+        '</strong> items';
+    } else if (search_type != 'exact_snippet') {
+      result_hitinfobar = 'Nothing found.';
+    }
+
+    info_bar.html(result_hitinfobar);
+    info_bar.parent().show();
+  }
+};
+
+/* update search filters for facet search */
+update_filters = function(filters, content_type) {
+  var search_filter_section = $('.result_box');
+
+  // clear & hide searching filters
+  search_filter_section.html('');
+  search_filter_section.hide();
+
+  if (!$.isEmptyObject(filters)) {
+    // facets selected in response
+    var filters_list = setup_search_result_filters(filters, content_type);
+
+    // generate html code to fill search filter section in template
+    var filter_content = generate_filters(filters_list, content_type);
+
+    if (filter_content) {
+      search_filter_section.html(filter_content);
+      search_filter_section.show();
+    } else {
+      search_filter_section.hide();
+    }
+  }
+};
+
+/* request server to detect if file exits */
+validate_file = function(file_uri) {
+  if (krugle.conf.last_ajax) {
+    krugle.conf.last_ajax.abort();
+  }
+
+  krugle.conf.last_ajax = $.ajax({
+    url: krugle.conf.urls.DOCUMENT_VALIDATION,
+    data: {
+      uri: file_uri
+    },
+    dataType: 'json',
+    type: 'GET',
+    traditional: true,
+    success: function(data) {
+      var status = data.status;
+
+      if (status == 401) {
+        window.location.href = krugle.conf.urls.REDIRECT_URL;
+      } else if (status == 200) {
+        window.location.href = krugle.conf.urls.DOCUMENT_VIEW_FILE + file_uri;
+      } else {
+        if (data.message) {
+          alert(data.message);
+        }
+      }
+    }
+  });
+};
+
+generate_code_selected = function() {
+  var error_msg = '';
+  var user_selection = get_selection();
+
+  if (user_selection == '') {
+    error_msg = 'Please select a code snippet to search.';
+    alert(error_msg);
+  } else if (user_selection.length > 2048) {
+    error_msg =
+      'Code snippet may not exceed 2048 characters in length. Please shorten your code selection.';
+    alert(error_msg);
+  } else {
+    var render_advanced_search = $('form[name=render_advanced_search]');
+    try {
+      localStorage.setItem(
+        'ad_lang',
+        render_advanced_search.find('input[name=lang]').val()
+      );
+      localStorage.setItem('ad_content', user_selection);
+      window.location.href = '/document/advanced_search/';
+    } catch (e) { // support browser which doesn't support HTML 5
+      // post data to render advanced search page
+      var render_advanced_search = $('form[name=render_advanced_search]');
+
+      // set snippet value
+      render_advanced_search.find('input[name=content]').val(user_selection);
+      render_advanced_search.submit();
+    }
+  }
+};
+
+generate_projects_activity_chart = function(projects) {
+  // get project uids
+  var project_uid_arr = _.pluck(projects, 'uid');
+
+  if (krugle.conf.last_ajax) {
+    krugle.conf.last_ajax.abort();
+  }
+
+  krugle.conf.last_ajax = $.ajax({
+    url: krugle.conf.urls.PROJECTS_ACTIVITY,
+    data: {
+      project: project_uid_arr
+    },
+    dataType: 'json',
+    type: 'GET',
+    traditional: true,
+    success: function(data) {
+      var status = data.status;
+
+      if (status == 401) {
+        window.location.href = krugle.conf.urls.REDIRECT_URL;
+      } else if (status == 200) {
+        var projects_activity_chart_data = data.results;
+
+        generate_project_list_charts(projects_activity_chart_data);
+      }
+    }
+  });
+};
+
+//User story #821
+//show progress bar when downloading the search results
+var get_csv_file_progress_id = (csv_url = null);
+var identity = null;
+var failed_times = 0;
+//init the progress bar
+bind_file_download = function() {
+  if (get_csv_file_progress_id) {
+    clearInterval(get_csv_file_progress_id);
+  }
+  $('#download_csv').click(function() {
+    csv_url = $(this).attr('url');
+    get_search_result(csv_url);
+    $('#download_csv').hide();
+    $('#progress_bar').progressbar({ disabled: false, max: 100 });
+    $('#progress_num').html('0%');
+    get_csv_file_progress_id = setInterval('get_csv_file_progress()', 1000);
+  });
+};
+
+//tear down
+var restore_csv_result = function(a, b) {
+  $('#progress_bar').progressbar('destroy');
+  $('#progress_num').empty();
+  $('#download_csv').show();
+  failed_times = 0;
+  clearInterval(get_csv_file_progress_id);
+  get_csv_file_progress_id = null;
+};
+
+//mark this downloading with an identity
+var get_search_result = function(download_url) {
+  identity = Math.random();
+  download_url = download_url + '&identity=' + identity;
+  $.fileDownload(download_url)
+    .done(function() {
+      krugle.conf.download_status = 'downloaded';
+      restore_csv_result(1, 1);
+    })
+    .fail(function() {
+      $.colorbox({
+        inline: true,
+        width: '400px',
+        height: '150px',
+        opacity: 0.7,
+        href: '#download_fail',
+        closeButton: false,
+        onComplete: function() {
+          $('#download_fail').show();
+        },
+        onClosed: function() {
+          $('#download_fail').hide();
+          restore_csv_result(1, 1);
+        }
+      });
+    });
+  if ($.browser.msie) {
+    //this is a special case when we using IE, cause only IE will trigger onbeforeunload event when invoke javascript:void(0)
+    //if we don't delay reassigning it, IE will popup the warning box after clicking the link of "Download Results".
+    setTimeout("krugle.conf.download_status = 'preparing';", 100);
+  } else {
+    krugle.conf.download_status = 'preparing';
+  }
+};
+
+//look up the progress of this downloading according to identity
+var get_csv_file_progress = function() {
+  var MAX_FAILED = 10; //when the request failed MAX_FAILED times, tear down the progress bar
+  $.ajax({
+    url: krugle.conf.urls.DOWNLOAD_PROGRESS,
+    type: 'GET',
+    data: { identity: identity },
+    traditional: true,
+    success: function(data) {
+      try {
+        var progress = Math.round((data.results.csv_progress || 0) * 100);
+        if (progress > 100) {
+          throw 'More than 100';
+        }
+        if (krugle.conf.download_status != 'downloaded') {
+          $('#progress_bar').progressbar({ value: progress }); //show the progress
+          $('#progress_num').html(progress + '%');
+        }
+        _;
+      } catch (e) {
+        if (failed_times++ > MAX_FAILED) {
+          restore_csv_result(1, 1);
+        }
+      }
+    },
+    error: function(error) {
+      if (failed_times++ > MAX_FAILED) {
+        restore_csv_result(1, 1);
+      }
+    }
+  });
+};

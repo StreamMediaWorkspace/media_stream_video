@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>skyZIP&trade; Proxy Options</title>
+    <style>
+      body {
+        padding: 0 20px;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        font-size: 1em;
+        color: #333;
+      }
+
+      #status {
+        display: none;
+        color: #0c0;
+      }
+
+      .section {
+        margin-top: 1.5em;
+      }
+
+      .section > div {
+        margin-left: 10px;
+      }
+
+      .section > h3 {
+        margin-bottom: 0.5em;
+      }
+
+      .header {
+        background: url(resources/icon48.png) no-repeat;
+        min-height: 55px;
+      }
+
+      .header h2 {
+        padding-left: 60px;
+        padding-top: 15px;
+      }
+    </style>
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src="util.js"></script>
+    <script src="options.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h2 i18n="head_options">skyZIP&trade; Proxy Options</h2>
+    </div>
+    <form style="margin-left: 15px;">
+      <div class="section">
+        <h3 i18n="head_general">General:</h3>
+
+        <div>
+          <p>
+            <label for="mode" i18n="label_mode">Mode:</label><br>
+            <select id="mode"></select>
+          </p>
+
+        </div>
+      </div>
+      <div class="section">
+        <h3 i18n="head_authentication">Authentication:</h3>
+
+        <div>
+          <p>
+            <label for="username" i18n="label_username">Username:</label><br>
+            <input type="text" id="username"/>
+          </p>
+
+          <p>
+            <label for="password" i18n="label_password">Password:</label><br>
+            <input type="password" id="password"/>
+          </p>
+        </div>
+      </div>
+      <div class="section">
+        <h3 i18n="head_advanced_settings">Advanced Settings:</h3>
+
+        <div>
+          <p>
+            <label for="bypassRules"><span i18n="label_bypass_rules">Bypass rules</span> (<a
+                href="https://developer.chrome.com/extensions/proxy#bypass_list" target="_blank"><span
+                i18n="label_format">Format</span></a>):</label><br>
+            <textarea rows="8" cols="50" id="bypassRules"></textarea>
+          </p>
+
+          <p class="debug">
+            <label for="httpServer" i18n="label_http_server">Http Server:</label><br>
+            <select id="httpServer"></select>
+          </p>
+          <p class="debug">
+            <label for="httpsServer" i18n="label_https_server">Https Server:</label><br>
+            <select id="httpsServer"></select>
+          </p>
+
+        </div>
+      </div>
+      <p><input type="button" id="save" value="Save" i18n_value="label_save"/><span id="status">Saved!</span></p>
+    </form>
+    <div class="section" id="adblockinfo" style="display: none;">
+      <h3 i18n="head_tipps">Tipps:</h3>
+
+      <div>
+        <span i18n="text_adblockinfo">
+          To increase your Website loading speed even further we recommend you to
+          <a target="blank"
+             href="https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb">
+            Install Adblock Plus</a>
+        </span>
+      </div>
+    </div>
+  </body>
+</html>

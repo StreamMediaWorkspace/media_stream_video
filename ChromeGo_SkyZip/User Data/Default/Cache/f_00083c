@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>为nodejs写Ｃ++拓展（二）</title>
+<meta name="keywords" content="rs,cp,on" />
+<meta name="description" content=" 上一章节 我们知道了怎么通过js调用 的函数 但是 有时候我们需要调用 的类 以实现复杂的逻辑操作 在写代码前 我们需要知道点nodejs的一些机制 下图是我查了不少文章后 总结出来的 关于js操作 类的一点理论 其实 图已经比较清晰明了地道出了意思 js调用 类 要继承node ObjectWrap 的时候 会自动new一个类对象 而这个类对象是会被 的时候回收掉的 我先上项目结构 cPerson实体类 主程序 binding gy" />
+<link href="/css/style.css?10" rel="stylesheet" type="text/css" />
+<link href="/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="usernav text-right">
+		<div class="container">
+		
+			<div><a href="/login">登录</a></div>
+			<div><a href="/register">注册</a></div>
+		
+		</div>
+	</div>
+	<div class="header">
+		<div class="container">
+			<a class="brand float-left" href="/" title="node.js学习社区" >
+				<span>node.js</span>
+				<span class="text-green">学习社区</span>
+    <img class="logo" src="/img/logo.jpg" alt="node.js学习社区" />
+			</a>
+			<ul class="navbar float-right">
+				<li class="ch-tut "><a href="/document">文 档</a></li>
+				<li class="ch-blog active"><a href="/blog">博 客</a></li>
+				<li class="ch-qna "><a href="/question">问 答</a></li>
+				<li class="ch-doc "><a href="/job">招 聘</a></li>
+    </ul>
+  </div>
+	</div>
+	<link rel="stylesheet" href="/js/kindeditor417/themes/default/default.css" />
+<script charset="utf-8" src="/js/kindeditor417/kindeditor.js"></script>
+<link rel="stylesheet" href="/js/kindeditor417/plugins/code/prettify.css?1" />
+<script charset="utf-8" src="/js/kindeditor417/plugins/code/prettify.js"></script>
+<script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[id="comment_content"]', {
+			uploadJson:'/kindeditor/upload',
+			newlineTag : 'p',
+			pasteType : 1,
+			resizeType :1,
+			items:['bold','italic', 'underline','link','unlink','|','insertorderedlist', 'insertunorderedlist','|','image','media','code','|','undo', 'redo'],
+			filterMode : true,
+			allowMediaUpload:false,
+			htmlTags:{
+				        font : ['color', 'size', 'face', '.background-color'],
+				        span : [
+				                '.color', '.background-color', '.font-size', '.font-family', '.background',
+				                '.font-weight', '.font-style', '.text-decoration', '.vertical-align', '.line-height'
+				        ],
+				        div : [
+				                'align', '.border', '.margin', '.padding', '.text-align', '.color',
+				                '.background-color', '.font-size', '.font-family', '.font-weight', '.background',
+				                '.font-style', '.text-decoration', '.vertical-align', '.margin-left'
+				        ],
+				        table: [
+				                'border', 'cellspacing', 'cellpadding', 'width', 'height', 'align', 'bordercolor',
+				                '.padding', '.margin', '.border', 'bgcolor', '.text-align', '.color', '.background-color',
+				                '.font-size', '.font-family', '.font-weight', '.font-style', '.text-decoration', '.background',
+				                '.width', '.height', '.border-collapse'
+				        ],
+				        'td,th': [
+				                'align', 'valign', 'width', 'height', 'colspan', 'rowspan', 'bgcolor',
+				                '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.font-weight',
+				                '.font-style', '.text-decoration', '.vertical-align', '.background', '.border'
+				        ],
+				        a : ['href', 'target', 'name'],
+				        embed : ['src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
+				        img : ['src', 'width', 'height', 'border', 'alt', 'title', 'align', '.width', '.height', '.border'],
+				        'p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6' : [
+				                'align', '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.background',
+				                '.font-weight', '.font-style', '.text-decoration', '.vertical-align', '.text-indent', '.margin-left'
+				        ],
+				        pre : ['class'],
+						code : ['class'],
+				        hr : ['class', '.page-break-after'],
+				        'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del' : []
+				}
+		});
+	});
+	function delete_article(aid){
+		if(confirm("确定删除？")){
+				window.location.href='/delete/'+aid;
+		}
+	}
+</script>
+
+
+<div class="colorstrip ch-blog"></div>
+<div class="main">
+	<div class="container">
+		<div class="mainbar float-left">
+			<div class="mcommon itemsingle">
+				<div class="title">
+					为nodejs写Ｃ++拓展（二）
+					
+				</div>
+				
+				<div class="avtinfo">
+					<img title="真马克" src="/avatars/2015/04/17/190220_534_center.bmp" class="avatar avatar-30">
+					<p class="user"><a href="/users/15343">真马克</a></p>
+					<p class="time text-ltgray">2015-02-14 18:05</p>
+				</div>
+				
+				<div class="content">
+				 		<p>
+	&nbsp; &nbsp;上一章节，我们知道了怎么通过js调用Ｃ++的函数。但是,有时候我们需要调用Ｃ++的类，以实现复杂的逻辑操作。
+</p>
+<p>
+	&nbsp; &nbsp; 在写代码前，我们需要知道点nodejs的一些机制。。
+</p>
+<p>
+	&nbsp; &nbsp; 下图是我查了不少文章后，总结出来的，关于js操作Ｃ++类的一点理论。。
+</p>
+<p>
+	<img src="/images/2015/02/14/175418_534.bmp" alt /> 
+</p>
+<p>
+	其实，图已经比较清晰明了地道出了意思。js调用Ｃ++类（要继承node::ObjectWrap）的时候，会自动new一个类对象，而这个类对象是会被Ｖ８ＧＣ的时候回收掉的。
+</p>
+<p>
+	<br />
+</p>
+<p>
+	我先上项目结构:
+</p>
+<p>
+	<img src="/images/2015/02/14/175534_534.bmp" alt /> 
+</p>
+cPerson实体类:
+<p>
+	<br />
+</p>
+<p>
+	<img src="/images/2015/02/14/175559_534.bmp" alt /> 
+</p>
+<p>
+	主程序:
+</p>
+<p>
+	<img src="/images/2015/02/14/175619_534.bmp" alt /> 
+</p>
+<p>
+	binding.gyp
+</p>
+<p>
+	<img src="/images/2015/02/14/175639_534.bmp" alt /> 
+</p>
+<p>
+	//#########################################
+</p>
+<p>
+	下面对代码进行一点分析：
+</p>
+<p>
+	<img src="/images/2015/02/14/180000_534.bmp" alt /> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	这个New函数大概的意思是：当js端new PERSON()时，在Ｃ++端new一个cPerson类对象。
+</p>
+<p>
+	而这个Ｎew函数是给fInit()函数使用的。
+</p>
+<p>
+	<img src="/images/2015/02/14/180112_534.bmp" alt /> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	而fInit()函数主要的作用是：将Ｃ++类函数（类对象函数）暴露给js端调用。代码31行到代码39行，都是为了js端调用Ｃ++类函数（类对象函数）。
+</p>
+<p>
+	<br />
+</p>
+<p>
+	fSetName()，　fSetHeight()，　fSetWeight()都是类的静态函数。为类对象的名字，身高，体重一一赋值。
+</p>
+<p>
+	<img src="/images/2015/02/14/180157_534.bmp" alt /> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	运行结果如下：
+</p>
+<p>
+	<span><img src="/images/2015/02/14/180225_534.bmp" alt /></span> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+最后附上源代码：
+<p>
+	<br />
+</p>
+<p>
+	binding.gyp
+</p>
+<p>
+	<br />
+</p>
+<pre class="prettyprint"><code>{
+  'targets': [
+    {
+      'target_name': 'myObjTest_binding',
+      'sources': [ 'myObjTest.cc' ]
+    }
+  ]
+} </code></pre>
+<p>
+	cPerson.h
+</p>
+<p>
+	<br />
+</p>
+<pre class="prettyprint lang-cpp"><code>#ifndef  MYOBJECT_H
+#define  MYOBJECT_H
+
+#include &lt;node.h&gt;
+#include &lt;node_object_wrap.h&gt;
+
+#include &lt;iostream&gt;
+
+using namespace v8;
+using namespace std;
+
+//实体类  
+class cPerson: public node::ObjectWrap
+{
+  private:
+	string vName_;
+	string vHeight_;
+	string vWeight_;
+
+	explicit cPerson();
+	~cPerson();
+
+	static v8::Persistent&lt;v8::Function&gt; constructor;
+	static v8::Handle&lt;v8::Value&gt; New(const v8::Arguments&amp; args);
+
+    static v8::Handle&lt;v8::Value&gt; fSetName( const v8::Arguments&amp; args );
+    static v8::Handle&lt;v8::Value&gt; fSetHeight( const v8::Arguments&amp; args );
+    static v8::Handle&lt;v8::Value&gt; fSetWeight( const v8::Arguments&amp; args );
+
+	static v8::Handle&lt;v8::Value&gt; fShowAttribute( const v8::Arguments&amp; args );
+
+  public:
+    static void fInit(v8::Handle&lt;v8::Object&gt; exports);
+
+
+};
+
+#endif</code></pre>
+myObjTest.cc
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<pre class="prettyprint lang-cpp"><code>#include &lt;node.h&gt;
+#include &lt;v8.h&gt;
+
+#include "cPerson.h"
+
+#include &lt;iostream&gt;
+ #include &lt;string&gt;
+
+using namespace v8;
+using namespace std;
+
+Persistent&lt;Function&gt; cPerson::constructor;
+
+//类外声明
+cPerson::cPerson(){};
+
+cPerson::~cPerson()
+{
+	cout&lt;&lt;"Structural analysis run!!"&lt;&lt;endl;
+};
+
+void cPerson::fInit( Handle&lt;Object&gt; exports )
+{
+	Local&lt;FunctionTemplate&gt; vFuncTmp = FunctionTemplate::New( New );
+
+	vFuncTmp-&gt;SetClassName( String::NewSymbol("cPerson") );
+	//设置类对象的指针数量？？？
+	vFuncTmp-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
+
+	//将类的函数（或类对象函数）一一暴露给js.让其调用支配
+	vFuncTmp-&gt;PrototypeTemplate()-&gt;Set( String::NewSymbol("setName"),
+		FunctionTemplate::New( fSetName )-&gt;GetFunction() );
+	vFuncTmp-&gt;PrototypeTemplate()-&gt;Set( String::NewSymbol("setHeight"),
+		FunctionTemplate::New( fSetHeight )-&gt;GetFunction() );
+	vFuncTmp-&gt;PrototypeTemplate()-&gt;Set( String::NewSymbol("setWeight"),
+		FunctionTemplate::New( fSetWeight )-&gt;GetFunction() );
+
+	vFuncTmp-&gt;PrototypeTemplate()-&gt;Set( String::NewSymbol("showAttribute"),
+		FunctionTemplate::New( fShowAttribute )-&gt;GetFunction() );
+
+	constructor = Persistent&lt;Function&gt;::New( vFuncTmp-&gt;GetFunction() );
+	
+	// PERSON是暴露在nodejs那边，让nodejs调用的
+	exports-&gt;Set( String::NewSymbol("PERSON"), constructor );
+}
+
+//js那边new一个Ｃ++对象
+Handle&lt;Value&gt; cPerson::New( const Arguments&amp; args )
+{
+	HandleScope scope;
+	if ( args.IsConstructCall() )
+	{
+		// js端：　var Sam = new binding.PERSON();
+		if ( args.Length() &lt; 1)
+		{
+			cPerson *vPersonObj = new cPerson();
+			vPersonObj-&gt;Wrap( args.This() );
+
+			return args.This();
+		}else
+		{
+			cout&lt;&lt;"New Object False"&lt;&lt;endl;
+			return scope.Close( Undefined() );
+		}
+	} 
+	else
+	{
+		cout&lt;&lt;"New Object False..."&lt;&lt;endl;
+		return scope.Close( Undefined() );
+	}
+
+}
+
+Handle&lt;Value&gt; cPerson::fSetName( const Arguments&amp; args)
+{
+	HandleScope scope;  
+
+	//从nodejs那里传过来
+	String::Utf8Value vName( args[0] );
+
+	char *vName_char = *vName;
+
+	cPerson* vObj = ObjectWrap::Unwrap&lt;cPerson&gt;( args.This() );
+	vObj-&gt;vName_ = vName_char;
+
+	//return 1还是 reutrn 0。在实战的时候可以自己的需要修改。。demo的话，我就随意了
+	return scope.Close( v8::Number::New(1) );
+}
+
+Handle&lt;Value&gt; cPerson::fSetHeight( const Arguments&amp; args)
+{
+	HandleScope scope;
+
+	v8::String::Utf8Value vHeight( args[0] );
+
+	char *vHeight_char = *vHeight;
+
+	cPerson* vObj = ObjectWrap::Unwrap&lt;cPerson&gt;( args.This() );
+	vObj-&gt;vHeight_ = vHeight_char;
+
+	return scope.Close( v8::Number::New(1) );
+}
+
+Handle&lt;Value&gt; cPerson::fSetWeight( const Arguments&amp; args)
+{
+	HandleScope scope;
+
+	v8::String::Utf8Value vWeight( args[0] );
+
+	char *vWeight_char = *vWeight;
+
+	cPerson* vObj = ObjectWrap::Unwrap&lt;cPerson&gt;( args.This() );
+	vObj-&gt;vWeight_ = vWeight_char;
+
+	return scope.Close( v8::Number::New(1) );
+}
+
+
+//打印cPerson类对象的属性
+Handle&lt;Value&gt; cPerson::fShowAttribute( const v8::Arguments&amp; args )
+{
+	HandleScope scope;
+
+	cPerson* vObj = ObjectWrap::Unwrap&lt;cPerson&gt;( args.This() );
+	cout&lt;&lt;"Name is "&lt;&lt; vObj-&gt;vName_&lt;&lt;endl;
+	cout&lt;&lt;"Height is "&lt;&lt; vObj-&gt;vHeight_&lt;&lt;endl;
+	cout&lt;&lt;"Weight is  "&lt;&lt; vObj-&gt;vWeight_&lt;&lt;endl;
+
+	return scope.Close( v8::Number::New(1) );
+}
+
+
+//进行绑定
+void fInitALL( Handle&lt;Object&gt; exports )
+{
+    cPerson::fInit( exports );
+}
+
+NODE_MODULE(myObjTest_binding, fInitALL); </code></pre>
+<p>
+	<br />
+</p>
+<span></span> 
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+						
+				</div>
+				<div class="votebar">
+					<div class="collect active">
+						<a href="javascript:void(0)" title="收藏" onclick="collect_article(this)">
+							<i class="fa fa-star-o"></i>
+						</a>
+					</div>
+					<div class="like active">
+						<p>1</p>
+						<a href="javascript:void(0)" title="赞" onclick="up_article(this,15343)">
+							<i class="fa fa-thumbs-o-up"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="pagetitle clearfix">
+				<h3 class="float-left">回复 · 0</h3>
+				<div id="share2" style="float:right;margin-top:10px;">
+					<div class="jiathis_style_24x24">
+						<a class="jiathis_button_tsina"></a>
+						<a class="jiathis_button_weixin"></a> 
+						<a class="jiathis_button_tqq"></a>
+						<a class="jiathis_button_qzone"></a>
+						<a class="jiathis_button_douban"></a>
+					</div>
+					<script async type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+				</div>
+			</div>
+			<ul class="mcommon cmtlist" id="comment_list">
+
+			</ul>
+<script>
+function go_to_backtop(){
+	$("html, body").animate({ scrollTop:0 },200);
+}
+function reply_comment(obj,comment_id){
+	var height_comment=$("#comment").offset().top;
+	$("html, body").animate({ scrollTop: height_comment }, 200); 
+	document.getElementById('parent_id').value=comment_id;
+	var username=obj.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
+    	editor.html('<p>@'+username+'&nbsp;</p>'); 
+}
+function collect_article(obj){
+	obj.onclick=function(){ return false;}
+	$.post("/article/collect", {article_id:'29989'} ,function(data){
+		if(data.result=='success'){ 
+			  obj.getElementsByTagName('i')[0].className='fa fa-star';
+		}else if(data.result=='login'){
+			 obj.onclick=function(){ collect_article(obj);}
+			 alert("先登录再收藏");
+		}
+	});
+}
+function up_article(obj,owner){
+	obj.onclick=function(){ return false;}
+	$.post("/article/up", {owner:owner,article_id:'29989'} ,function(data){
+		if(data.result=='success'){
+ 					obj.getElementsByTagName('i')[0].className='fa fa-thumbs-up';
+					var countobj=obj.parentNode.getElementsByTagName('p')[0];
+					var num=countobj.innerHTML;
+					countobj.innerHTML=parseInt(num,10)+1;
+		}
+	});
+}
+function up_comment(obj,cid,owner){
+	obj.onclick=function(){ return false;}
+	$.post("/comment/up", {owner:owner,article_id:'29989',cid:cid} ,function(data){
+		if(data.result=='success'){ 
+ 					obj.getElementsByTagName('i')[0].className='fa fa-thumbs-up';
+					var countobj=obj.parentNode.getElementsByTagName('p')[0];
+					var num=countobj.innerHTML;
+					countobj.innerHTML=parseInt(num,10)+1;
+		}
+	});
+}
+function add_comment(){
+	var content=editor.html();
+	if( content.replace(/<[^>].*?>/g,"").replace(/(^\s+)|(\s+$)/g,"").replace(/&nbsp;/ig,"")=="" ){
+		 	alert('内容不能为空');
+			return false;
+	}
+	var parent_id=document.getElementById('parent_id').value;
+	var obj=document.getElementById('comment_btn');
+	obj.onclick=function(){ return false;}
+	$.post("/comment/add", { html_content: content,article_id:'29989',parent_id:parent_id} ,function(data){
+		if(data.result=='success'){
+			 	obj.onclick=function(){  add_comment(); }
+			
+		}else if(data.result=='status'){
+			 obj.onclick=function(){  add_comment(); }
+			 alert('账号未激活');
+		}else if(data.result=='blank'){
+			 obj.onclick=function(){  add_comment(); }
+			 alert('内容为空');
+		}else if(data.result=='login'){
+			 obj.onclick=function(){  add_comment(); }
+			 alert('先登录再回复');
+		}else{
+			obj.onclick=function(){ add_comment();} 
+		}
+	});
+}
+
+function delete_comment(obj,comment_id){
+	if(confirm('确定删除？')){
+		obj.onclick=function(){ return false;}
+		var outobj=obj.parentNode.parentNode.parentNode;
+		$(outobj).fadeOut(500);
+		$.post("/comment/delete", {article_id:'29989',comment_id:comment_id} ,function(data){
+			if(data.result=='success'){ 
+				
+			}
+		});
+	}
+}
+</script>
+			<div class="pagetitle clearfix" id="comment">
+				<h3 class="float-left">发表回复</h3><span style="float:right;color:#bbb;font-size:12px;margin-top:15px;">你可以在回复中 @ 其他人</span>
+			</div>
+			<div class="mcommon cmtpost">
+				<input type="hidden" id="parent_id" value="0" />
+				<textarea id="comment_content" style="width:99.7%;height:200px;"></textarea>
+				<p class="text-right"><a id="comment_btn" class="btn btn-large btn-solid" href="javascript:void(0)" onclick="add_comment()" >发 表</a></p>
+			</div>
+		</div>
+<script>
+prettyPrint();
+</script>
+
+
+		<div class="sidebar float-right">
+			
+			<div class="sidewidget action">
+				<div class="wgtbody">
+					<a href="/blog/add"  class="btn btn-large btn-solid btn-block">发表博客</a>
+				</div>
+			</div>
+			
+			<div class="sidewidget search">
+				<div class="wgttitle">搜索</div>
+				<div class="wgtbody">
+					<div class="searchform">
+						<input class="input" type="text" id="search_input" />
+						<a href="javascript:void(0)" class="submit" id="search_button" ><i class="fa fa-search"></i></a>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="sidewidget">
+				<div class="wgttitle">相关博客</div>
+				<div class="wgtbody">
+					<ul class="queslist">
+						
+						<li>
+							<p class="title">
+								<a href="/articles/93465">Mongoose学习参考文档——基础篇</a>
+							</p>
+							<p class="title">
+								<span class="text-small text-ltgray"><i class="fa fa-clock-o"></i>2014-12-09 15:07</span>
+							</p>
+						</li>
+				 	   
+						<li>
+							<p class="title">
+								<a href="/articles/13526">socket.io入门整理</a>
+							</p>
+							<p class="title">
+								<span class="text-small text-ltgray"><i class="fa fa-clock-o"></i>2014-12-03 12:55</span>
+							</p>
+						</li>
+				 	   
+						<li>
+							<p class="title">
+								<a href="/articles/56363">nodejs-post文件上传原理详解</a>
+							</p>
+							<p class="title">
+								<span class="text-small text-ltgray"><i class="fa fa-clock-o"></i>2014-12-17 14:10</span>
+							</p>
+						</li>
+				 	   
+						<li>
+							<p class="title">
+								<a href="/articles/110370">Node.js缓冲模块Buffer</a>
+							</p>
+							<p class="title">
+								<span class="text-small text-ltgray"><i class="fa fa-clock-o"></i>2015-03-09 12:54</span>
+							</p>
+						</li>
+				 	   
+						<li>
+							<p class="title">
+								<a href="/articles/310605">为nodejs写Ｃ++拓展（三）</a>
+							</p>
+							<p class="title">
+								<span class="text-small text-ltgray"><i class="fa fa-clock-o"></i>2015-03-21 11:17</span>
+							</p>
+						</li>
+				 	   
+					</ul>
+				</div>
+			</div>
+			
+
+
+		</div>
+	</div>
+</div>
+
+	<div class="footer">
+		<div class="container">
+			<p>
+				<a href="/document">文档 Document</a>
+				<a href="/blog">博客 Blog</a>
+				<a href="/question">问答 Question</a>
+				<a href="/suggest">意见反馈 Suggest</a>
+			</p>
+			<p>
+					Copyright © 2015 nodeclass.com
+			</p>
+		</div>
+	</div>
+<script type="text/javascript" src="/js/site.js?8"></script> 
+</body>
+</html>

@@ -1,0 +1,1933 @@
+/* extend date to return date after or before a duration - start */
+Date.prototype.add_date = function(str_interval, number_of_days) {
+	var date_temp = this;
+	switch (str_interval) {
+		case 's':
+			return new Date(Date.parse(date_temp) + (1000 * number_of_days));
+		case 'n':
+			return new Date(Date.parse(date_temp) + (60000 * number_of_days));
+		case 'h':
+			return new Date(Date.parse(date_temp) + (3600000 * number_of_days));
+		case 'd':
+			return new Date(Date.parse(date_temp) + (86400000 * number_of_days));
+		case 'w':
+			return new Date(Date.parse(date_temp) + ((86400000 * 7) * number_of_days));
+		case 'q':
+			return new Date(date_temp.getFullYear(), (date_temp.getMonth()) + number_of_days * 3, date_temp.getDate(), date_temp.getHours(), date_temp.getMinutes(), date_temp.getSeconds());
+		case 'm':
+			return new Date(date_temp.getFullYear(), (date_temp.getMonth()) + number_of_days, date_temp.getDate(), date_temp.getHours(), date_temp.getMinutes(), date_temp.getSeconds());
+		case 'y':
+			return new Date((date_temp.getFullYear() + number_of_days), date_temp.getMonth(), date_temp.getDate(), date_temp.getHours(), date_temp.getMinutes(), date_temp.getSeconds());
+	}
+}
+/* extend date to return date after or before a duration - end */
+
+/*
+ Function to format date string
+ d: show day as number without 0, eg: 1
+ dd: show day as number with 0, eg: 01
+ ddd: show day with short name, eg: Sun
+ dddd: show day with full name, eg: Sunday
+ M: show month as number without 0, eg: 1
+ MM: show month as number with 0, eg: 01
+ MMM: show month with short name,eg: Jan
+ MMMM: show month with full name, eg: January
+ yy: show year with two figures
+ yyyy: show year with four figures
+ h: show hours using 12 Hour format without 0
+ hh: show hours using 12 Hour format with 0
+ H: show hours using 24 Hour format without 0
+ HH: show hours using 24 Hour format with 0
+ m: show minutes without 0
+ mm: show minutes with 0
+ s: show seconds without 0
+ ss: show seconds with 0
+ l: show milliseconds without 0
+ ll: show milliseconds with 0
+ tt: show am/pm
+ TT: show AM/PM
+ Return formated date
+ */
+Date.prototype.format = function(formatStr) {
+	var date = this;
+
+	// add '0'
+	var zeroize = function(value, length) {
+		if(!length) {
+			length = 2;
+		}
+		value = new String(value);
+		for(var i = 0, zeros = ''; i < (length - value.length); i++) {
+			zeros += '0';
+		}
+		return zeros + value;
+	};
+	return formatStr.replace(/"[^"]*"|'[^']*'|\b(?:d{1,4}|M{1,4}|yy(?:yy)?|([hHmstT])\1?|[lLZ])\b/g, function($0) {
+		switch ($0) {
+			case 'd':
+				return date.getDate();
+			case 'dd':
+				return zeroize(date.getDate());
+			case 'ddd':
+				return ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'][date.getDay()];
+			case 'dddd':
+				return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
+			case 'M':
+				return date.getMonth() + 1;
+			case 'MM':
+				return zeroize(date.getMonth() + 1);
+			case 'MMM':
+				return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()];
+			case 'MMMM':
+				return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][date.getMonth()];
+			case 'yy':
+				return new String(date.getFullYear()).substr(2);
+			case 'yyyy':
+				return date.getFullYear();
+			case 'h':
+				return date.getHours() % 12 || 12;
+			case 'hh':
+				return zeroize(date.getHours() % 12 || 12);
+			case 'H':
+				return date.getHours();
+			case 'HH':
+				return zeroize(date.getHours());
+			case 'm':
+				return date.getMinutes();
+			case 'mm':
+				return zeroize(date.getMinutes());
+			case 's':
+				return date.getSeconds();
+			case 'ss':
+				return zeroize(date.getSeconds());
+			case 'l':
+				return date.getMilliseconds();
+			case 'll':
+				return zeroize(date.getMilliseconds());
+			case 'tt':
+				return date.getHours() < 12 ? 'am' : 'pm';
+			case 'TT':
+				return date.getHours() < 12 ? 'AM' : 'PM';
+		}
+	});
+}
+
+/* round checked facets number */
+round_facets = function(num) {
+	return (Math.floor((num - 1) / krugle.conf.FACETS_SHOWN) + 1) * krugle.conf.FACETS_SHOWN;;
+}
+
+/* extend javascript String to escape special characters - start */
+String.prototype.escape = function() {
+	return this.replace(/([.*+?^${}()|[\]\/\\])/g, '\\$&');
+}
+/* extend javascript String to escape special characters - end */
+
+/* Escapes a string for insertion into HTML, replacing &, <, >, ", ', / and sapce characters. */
+escape_characters = function(str) {
+	return _.escape(str).replace(/ /ig, '&nbsp;');
+}
+
+/* encode uri components except / */
+encode_uris = function(uri) {
+	var uri_arr = uri.split('/');
+
+	for (var i = 0; i < uri_arr.length; i++) {
+		uri_arr[i] = encodeURIComponent(uri_arr[i]);
+	}
+
+	return uri_arr.join('/');
+}
+
+escape_sequence = function(str) {
+	return str.replace(/\\/ig, '\\\\');
+}
+
+/* change date to UTC date */
+covert_to_UTC = function(params) {
+	for (var facet in params) {
+		if (facet == 'date_start' || facet == 'date_end' || facet == 'project_crawed' || facet == 'project_updated') {
+			var date_str = params[facet];
+			var date_arr = date_str.split('-');
+			var new_date = new Date(date_arr[0], date_arr[1] -1, date_arr[2]);
+			var fmt_date = new_date.format('MMM dd, yyyy');
+			var time_str = facet == 'date_start' ? ' 00:00:00' : ' 23:59:59';
+
+			if (facet == 'date_start' || facet == 'date_end') {
+				params[facet] = new Date(fmt_date + time_str).getTime();
+			}
+			else {
+				params[facet] = new Date(fmt_date).getTime();
+			}
+		}
+	}
+
+	return params;
+}
+
+/* Validate Date */
+validate_date = function(date) {
+	var pattern = /^\d{4}\-\d\d?\-\d\d?$/;
+	// date status
+	var GOOD_DATE       = 0;
+	var BAD_DATE_FORMAT = 1;
+	var BAD_DATE        = 2;
+	var NULL_DATE       = -1;
+
+	if (date) {
+		if (!pattern.test(date)) {
+			return BAD_DATE_FORMAT;
+		}
+		else {
+			var ar = date.replace(/\-0/g, "-").split("-");
+			ar = new Array(parseInt(ar[0]), parseInt(ar[1]) - 1, parseInt(ar[2]));
+			var d = new Date(ar[0], ar[1], ar[2]);
+
+			var isRight = d.getFullYear() == ar[0] && d.getMonth() == ar[1] && d.getDate() == ar[2];
+			return isRight ? GOOD_DATE : BAD_DATE;
+		}
+	}
+	else {
+		return NULL_DATE;
+	}
+}
+
+/* make sure "from time" is less than "to time" and query for search is not null */
+validate_data = function(type, content_type, is_clear_filters) {
+	var query_cache = $('#query_cache').val();
+	var searchType = $("#searchType").val();
+	if (!searchType)
+		searchType = 'basic';
+	if(is_clear_filters){
+		var url_origin       = window.location.protocol + '//' + window.location.host;
+		var url_pathname     = content_type == 'comment' ? krugle.conf.urls.COMMENT_SEARCH_INIT : krugle.conf.urls.DOCUMENT_SEARCH_INIT;
+		if("" == query_cache){
+			window.location  = url_origin + url_pathname;
+		}else{
+			window.location  = url_origin + url_pathname + '#query=' + encodeURIComponent(query_cache);
+			if (content_type == 'document')
+				window.location += '&qtype=' + encodeURIComponent(searchType);
+		}
+		return;
+	}
+
+	var query      = '';
+	var cached     = '';
+	var error_msg  = '';
+	var date_start = $('#date_start').val();
+	var date_end   = $('#date_end').val();
+
+	if (type == 'init' || type == 'sidebar') {
+		cached = (type == 'init') ? '' : '_cache';
+		query  = $.trim($('#query' + cached).val());
+
+		if (query == '' && type == 'init') {
+			error_msg = 'Please enter your search query.';
+			// display error msg
+			display_error_msg(error_msg);
+		}
+		else {
+			var params = add_facet_params('', '', content_type);
+			params.query = query;
+			params.page = 0;
+
+			if (content_type == 'document') {
+				params.qtype = searchType;
+			} else {
+				delete params.qtype;
+			}
+			var url_hash = get_hash(params);
+			var url_origin       = window.location.protocol + '//' + window.location.host;
+			var url_pathname     = content_type == 'comment' ? krugle.conf.urls.COMMENT_SEARCH_INIT : krugle.conf.urls.DOCUMENT_SEARCH_INIT;
+			var url_hash_current = jQuery.param.fragment();
+
+			if (type != 'sidebar' && (url_hash_current == url_hash)) {
+				// reload current page, when searching same keyword
+				window.location.reload();
+				window.location.href=decodeURIComponent(window.location.href)	//if cancle the reload ,the url will be encoded
+			}
+			else {
+				if (url_hash) {
+					window.location  = url_origin + url_pathname + '#' + url_hash;
+				}
+				else {
+					window.location  = url_origin + url_pathname;
+				}
+			}
+		}
+	}
+	else {
+		var date_today = get_specified_date('-', 'd', 0);
+		if (date_start == '' && date_end == '') {
+			alert('Please specify the date.');
+		}
+		else {
+			var date_start_status = validate_date(date_start);
+			var date_end_status   = validate_date(date_end);
+
+			if (date_start_status == 0 && date_end_status == 0) {
+				if (date_start && date_end && date_start > date_end) {
+					alert('Start date should not be larger than end date.');
+					// clear invalid date
+					clear_invalid_date('both');
+				}
+				else if (date_start > date_today) {
+					alert('Start date should not be larger than today.');
+					// clear invalid date
+					clear_invalid_date('start');
+				}
+				else {
+					if (content_type == 'advanced_search') {
+						do_advanced_search();
+					}
+					else {
+						// remove page parameter and do faceted search
+						delete krugle.conf.facet_params.page;
+						do_faceted_search('', '', content_type);
+					}
+				}
+			}
+			else if (date_start_status == 1 || date_end_status == 1) {
+				if (date_start_status == 1 && date_end_status == 1) {
+					alert('Bad date format of start date and end date.');
+					// clear invalid date
+					clear_invalid_date('both');
+				}
+				else if (date_start_status == 1) {
+					alert('Bad date format of start date.');
+					// clear invalid date
+					clear_invalid_date('start');
+				}
+				else {
+					alert('Bad date format of end date.');
+					// clear invalid date
+					clear_invalid_date('end');
+				}
+			}
+			else if (date_start_status == 2 || date_end_status == 2) {
+				if (date_start_status == 2 && date_end_status == 2) {
+					alert('Start and end date are bad date.');
+					// clear invalid date
+					clear_invalid_date('both');
+				}
+				else if (date_start_status == 2) {
+					alert('Start date is a bad date.');
+					// clear invalid date
+					clear_invalid_date('start');
+				}
+				else {
+					alert('End date is a bad date.');
+					// clear invalid date
+					clear_invalid_date('end');
+				}
+			}
+			else if ((date_start_status == -1 && date_end_status == 0) || (date_start_status == 0 && date_end_status == -1)) {
+				if (content_type == 'advanced_search') {
+					do_advanced_search();
+				}
+				else {
+					do_faceted_search('', '', content_type);
+				}
+			}
+		}
+	}
+}
+
+// validate advanced search fileds
+validate_advanced_search_fields = function() {
+	var advance_search_tip = $('.advance_search_tip');
+	var query             = $('#query');
+	var snippet           = $('#snippet_code');
+	var snippet_language  = $('#language_snippet');
+	var search_type       = '';
+	var is_query_empty = ($.trim(query.val()) == '') ? true : false;
+	var is_snippet_empty  = ($.trim(snippet.val()) == '') ? true : false;
+	var is_snippet_search = query.attr('disabled') ? true : false;
+	var is_lang_empty = ($.trim(snippet_language.val()) == '') ? true : false;
+
+	if (is_snippet_search) {
+		// reset the standard search validations for snippet search
+		query.removeClass('missing');
+
+		if (is_snippet_empty || is_lang_empty) {
+			// show error message
+			advance_search_tip.addClass('error_msg');
+			advance_search_tip.show();
+
+			// highlight missing field
+			if (is_snippet_empty) {
+				snippet.addClass('missing');
+			}
+			if (is_lang_empty) {
+				snippet_language.addClass('missing');
+			}
+		} else {
+			// hide error message
+			advance_search_tip.removeClass('error_msg');
+			advance_search_tip.hide();
+
+			snippet.removeClass('missing');
+			snippet_language.removeClass('missing');
+			do_advanced_search();
+		}
+	} else {
+		// reset the snippet search validations for standard search
+		snippet.removeClass('missing');
+		snippet_language.removeClass('missing');
+
+		if (is_query_empty) {
+			// show error message
+			advance_search_tip.addClass('error_msg');
+			advance_search_tip.show();
+			query.addClass('missing');
+		} else {
+			// hide error message
+			advance_search_tip.removeClass('error_msg');
+			advance_search_tip.hide();
+			query.removeClass('missing');
+
+			if ($('#date_start').val() || $('#date_end').val()) {
+				validate_data('date', 'advanced_search');
+			} else {
+				do_advanced_search();
+			}
+		}
+	}
+}
+
+/* return today with specified format */
+get_specified_date = function(format, str_interval, number_of_days) {
+	var date_today = "";
+	var current = new Date();
+	var another_date = current.add_date(str_interval, number_of_days);
+
+	if (format != "") {
+		var year = another_date.getFullYear();
+		var month = another_date.getMonth() + 1;
+		if (month < 10) {
+			month = "0" + month;
+		}
+		var day = another_date.getDate();
+		if (day < 10) {
+			day = "0" + day;
+		}
+		date_today = year + format + month + format + day;
+	}
+
+	return date_today;
+}
+
+/* return date with specified format, eg: 'yyyy-MM-dd' */
+get_formatted_date = function(date_str, format, use_client) {
+	var client_date = new Date(parseInt(date_str));
+
+	// handle UTC date for project activity page
+	if (!use_client) {
+		client_date_utc_str = client_date.toUTCString();
+		time_zone_index     = client_date_utc_str.lastIndexOf(' ');
+		client_date_utc_str = client_date_utc_str.slice(0, time_zone_index);
+
+		client_date = new Date(client_date_utc_str);
+	}
+
+	return client_date.format(format);
+}
+
+/* This function tries various methods to grab the mouse selected highlighted text, if any. */
+get_selection = function()
+{
+	var user_selection = '';
+
+	if (window.getSelection) {
+		// for all browsers, including IE 9
+		user_selection = window.getSelection().toString();
+	}
+	else if (document.getSelection) {
+		user_selection = document.getSelection();
+	}
+	else if (document.selection) {
+		// for IE browsers lower than 9
+		user_selection = document.selection.createRange().text;
+	}
+
+	return user_selection;
+}
+
+/* highlight search query */
+highlight_item = function(query, str) {
+	if (query) {
+		var pattern = new RegExp(query.escape(), 'ig');
+		str = str.replace(pattern, "<strong>$&</strong>");
+	}
+	return str;
+}
+
+/* bind events for search box */
+bind_search_box_events = function(content_type) {
+	var search_input       = $("#query");
+	var type_ahead_data    = []; // type ahead default source data
+	var search_input_field = $(".tsearch_panel_fields");
+
+	if (search_input.val()) {
+		search_input_field.find("label").hide();
+	}
+
+	// bind events for search box
+	search_input_field.click(function() {
+		$(this).find("label").hide();
+		$(this).find("input").focus();
+	});
+	search_input_field.focusout(function() {
+		var field_input = $(this).find("input");
+		var field_label = $(this).find("label");
+		if (field_input.val() == "") {
+			field_label.show();
+		}
+		else {
+			field_label.hide();
+		}
+	});
+
+	search_input_field.keydown(function(){
+		$(this).find("label").hide();
+	})
+
+	search_input.focusout(function() {
+		$(".error").hide("slow");
+	});
+	search_input.bind("keyup", function(event) {
+		// if error message shown and user enters another query, hide the message
+		var search_query = $.trim($(this).val());
+		if (search_query != "") {
+			$(".error").hide("slow");
+		}
+	});
+
+	// input text change event
+	search_input.autocomplete({
+		source: type_ahead_data,
+		delay: 500,
+		open: function(event, ui) {
+			$("body > ul li a").each(function() {
+				/* format dropdown list - start */
+				var query_term    = $("#query").val();
+				var current_val   = $(this).html();
+				var minus_index   = current_val.lastIndexOf("-");
+				var current_term  = $.trim(current_val.substring(0, minus_index));
+				var current_field = $.trim(current_val.substring(minus_index + 1));
+
+				// regular expression to format items in dropdown list
+				var pattern_field = new RegExp(current_field, 'g');
+				var pattern_term  = new RegExp(query_term, 'g');
+
+				// format items in dropdown list
+				current_field     = current_field.replace(pattern_field, "<span style='font-style: italic;'>$&</span>");
+				current_term      = current_term.replace(pattern_term, "<strong>$&</strong>");
+				current_val       = current_term + " - " + current_field;
+				/* format dropdown list - end */
+
+				$(this).html(current_val);
+			})
+		},
+		focus: function() {
+			return false;
+		},
+		select: function(event, ui) {
+			var input_query = "";
+			var minus_index = ui.item.value.lastIndexOf("-");
+			var input_field = $.trim(ui.item.value.substring(minus_index + 1));
+			var input_value = $.trim(ui.item.value.substring(0, minus_index));
+			if (input_field != "") {
+				input_query = input_field + ":" + input_value;
+			}
+			else {
+				input_query = input_value;
+			}
+			$("#query").val(input_query);
+
+			// store type ahead selected item
+			krugle.conf.type_ahead_selected_item = ui.item.value;
+
+			return false;
+		}
+	});
+	// search_input.bind("textchange", function(event, previous_text) {
+		// query_ahead = $(this).val();
+		// var type_ahead_type = $(this).attr("id");
+//
+		// type_ahead(query_ahead, type_ahead_type, content_type);
+	// });
+}
+
+/* bind events for side bar */
+bind_side_bar_events = function() {
+	// bind events for side bar click function
+	$('.sidebar .list h2 span:even').click(function() {
+		var side_facet    = $(this).parent().parent();
+		var current_style = $(this).attr('class');
+
+		if (current_style == 'open') {
+			$(this).removeClass('open').addClass('close');
+
+			// hide facet items
+			side_facet.find('.list_detail').slideUp("slow");
+		}
+		else {
+			$(this).removeClass('close').addClass('open');
+
+			// show facet items
+			side_facet.find('.list_detail').slideDown("slow");
+		}
+	});
+}
+
+bind_side_bar_filter_events = function(search_type, content_type) {
+	var search_filter = $('.facet_filter');
+	var search_input  = $('.facet_filter input')
+
+	// bind events for search box
+	search_filter.click(function() {
+		$(this).find('label').hide();
+		$(this).find('input').focus();
+	});
+	search_filter.focusout(function() {
+		var field_input = $(this).find('input');
+		var field_label = $(this).find('label');
+		if (field_input.val()) {
+			field_label.hide();
+		}
+		else {
+			field_label.show();
+		}
+	});
+
+	// setup facet filter
+	search_input.each(function() {
+		var facet_type       = $(this).attr('id');
+		var facet_origin_arr = krugle.conf.filters[facet_type];
+		var facet_container  = $('#' + facet_type + 's_list');
+
+		$(this).bind('textchange', function(event, previous_text) {
+			var filter_val = $(this).val();
+			var type       = facet_type.slice(0, 1);
+			var facet_arr  = _.filter(facet_origin_arr, function(item) {
+				var facet_val_lower  = item[0].toLowerCase();
+				var filter_val_lower = filter_val.toLowerCase();
+
+				return facet_val_lower.indexOf(filter_val_lower) != -1;
+			});
+
+			// hide 'show more' function
+			if (_.isEmpty(facet_arr)) {
+				$('#more_' + facet_type + 's').hide();
+			}
+
+			generate_facet_html(facet_container, facet_arr, type, search_type, content_type);
+		});
+	})
+}
+
+bind_side_bar_show_more_events = function(container, list, type, search_type, content_type, show_more) {
+	var more_obj        = container.parent().find('.more');
+	var facet_count_obj = container.parent().parent().find('.value');
+
+	// unbind click events if click event already exists
+	more_obj.unbind('click');
+
+	more_obj.click(function() {
+		generate_facet_html(container, list, type, search_type, content_type, show_more);
+
+		// check if expanded all facets, if so modify the click event
+		var total_num  = facet_count_obj.text();
+		var facets_len = '(' + container.find('li').length + ')';
+
+		if (total_num == facets_len) {
+			more_obj.html('Show less');
+
+			// change click event
+			more_obj.unbind('click');
+			more_obj.click(function() {
+				generate_facet_html(container, list, type, search_type, content_type);
+			});
+		}
+	});
+}
+
+/* bind events for project filter */
+bind_type_ahead_events = function(content_type) {
+	/* project search filters - start */
+	var query_ahead                       = "";
+	var type_ahead_license                = $("#license");
+	var type_ahead_language               = $("#language");
+	var type_ahead_project_name           = $("#project_name");
+	var type_ahead_project_names          = [];
+	var type_ahead_project_snippet        = $("#project_snippet");
+	var type_ahead_project_updated_by     = $("#project_updated_by");
+	var type_ahead_projects_updated_by    = [];
+	var type_ahead_project_snippet_hidden = $("#project_snippet_hidden");
+	var is_search_page                    = type_ahead_language.parent().parent().hasClass('facet_filter');
+	/* project search filters - end */
+
+	// type ahead in advanced search page
+	if (type_ahead_language.length > 0 && !is_search_page) {
+		type_ahead_language.autocomplete({
+			source: krugle.conf.language_list,
+			focus: function() {
+				return false;
+			},
+			select: function(event, ui) {
+				type_ahead_language.val(ui.item.label);
+
+				return false;
+			}
+		});
+	}
+	// type ahead in advanced search page
+	if (type_ahead_license.length > 0) {
+		type_ahead_license.autocomplete({
+			source: krugle.conf.licence_list,
+			focus: function() {
+				return false;
+			},
+			select: function(event, ui) {
+				type_ahead_license.val(ui.item.label);
+
+				return false;
+			}
+		});
+	}
+	if (type_ahead_project_name.length > 0) {
+		type_ahead_project_names = (krugle.conf.project_list.length > 0) ? krugle.conf.project_list : [];
+
+		type_ahead_project_name.autocomplete({
+			source: type_ahead_project_names,
+			focus: function() {
+				return false;
+			},
+			close: function() {
+				if (content_type == "project") {
+					do_project_search("", "", content_type);
+				}
+			}
+		});
+	}
+	if (type_ahead_project_updated_by.length > 0) {
+		type_ahead_project_updated_by.autocomplete({
+			source: type_ahead_projects_updated_by,
+			focus: function() {
+				return false;
+			},
+			close: function() {
+				if (content_type == "project") {
+					do_project_search("", "", content_type);
+				}
+			}
+		});
+	}
+	if (type_ahead_project_snippet.length > 0) {
+		type_ahead_project_snippet.autocomplete({
+			source: type_ahead_project_names,
+			focus: function() {
+				return false;
+			},
+			select: function(event, ui) {
+				type_ahead_project_snippet.val(ui.item.label);
+				type_ahead_project_snippet_hidden.val(ui.item.value);
+
+				return false;
+			}
+		});
+	}
+
+	$("#project_name, #project_snippet, #project_updated_by, #language, #license").bind("textchange", function(event, previous_text) {
+		if (!is_search_page) {
+			query_ahead = $(this).val();
+			var type_ahead_type = $(this).attr("id");
+
+			// set hidden project snippet
+			if (type_ahead_type == "project_snippet") {
+				type_ahead_project_snippet_hidden.val(query_ahead);
+			}
+
+			type_ahead(query_ahead, type_ahead_type, content_type);
+		}
+	});
+
+	$('#project_name, #project_updated_by').bind('keyup', function(event) {
+		var key_code = event.keyCode;
+
+		if (key_code == krugle.conf.KEY_ENTER) {
+			$(this).blur();
+
+			do_project_search('', '', content_type);
+		}
+	})
+
+	$("#project_sort_by").change(function() {
+		do_project_search("", "", content_type);
+	});
+
+	$("#project_crawed, #project_updated").bind("keyup", function(event) {
+		var date_str = $(this).val();
+		var key_code = event.keyCode;
+		var date_status = validate_date(date_str);
+		var is_ctrlxz = event.ctrlKey && (key_code == 88 || key_code == 90);
+
+		if (key_code == krugle.conf.KEY_BACKSPACE || key_code == krugle.conf.KEY_DELETE || is_ctrlxz) {
+			if (date_status == 0 || date_status == -1) {
+				$(this).blur();
+				$("#ui-datepicker-div").hide();
+				do_project_search("", "", content_type);
+			}
+		}
+	});
+
+	$("#project_crawed, #project_updated").change(function() {
+		var date_str = $(this).val();
+
+		if (date_str != "") {
+			do_project_search("", "", content_type);
+		}
+	});
+
+	$("#project_crawed, #project_updated").bind("textchange", function(event, previous_text) {
+		var date_str = $(this).val();
+
+		if (date_str != "" && previous_text != "") {
+			var date_status = validate_date(date_str);
+			if (date_status == 0) {
+				do_project_search("", "", content_type);
+			}
+		}
+	});
+}
+
+/* bind events for url hash */
+bind_hash_change_events = function(content_type) {
+	var is_page_has_file_tree = $("#file_tree").length > 0 ? true : false;
+
+	$(window).bind("hashchange", function(event) {
+		var params = {};
+
+		var hash_str = event.fragment;
+		if (hash_str) {
+			var search_type = content_type;
+			// parse hash and set values in template
+			setup_hash(content_type);
+			params = add_facet_params('', '', search_type);
+
+			if (!is_page_has_file_tree) {
+				generate_faceted_search(params, '', '', content_type, search_type);
+			}
+		}
+	});
+}
+
+/* bind events for chart info button */
+bind_chart_info_events = function() {
+	var is_report_page = $(".similarity_reports").length > 0 ? true : false;
+	if (is_report_page) {
+		$("body").click(function(event) {
+			/* chart info events params - start */
+			var help_btn = event.target;
+			var help_btn_alt = help_btn.alt;
+			var chart_info = "";
+			/* chart info events params - end */
+
+			if ($(help_btn).is('img') && help_btn_alt == "help") {
+				chart_info = $(help_btn).parent().parent().find(".chart_info");
+				chart_info.toggle('fast');
+			}
+			else {
+				chart_info = $(".chart_info");
+				chart_info.hide('fast');
+			}
+		});
+	}
+}
+
+/* bind events for each line to open file with line number */
+bind_snippet_view_file_event = function(snippet_fragment, index) {
+	var current_line = "tr:eq(" + index + ")";
+
+	snippet_fragment.find(current_line).live("click", function() {
+		var file_url           = snippet_fragment.parent().find(".hit_title a").attr("href");
+		var line_number        = $(this).find(".line_numbers").html();
+		var line_number_anchor = '';
+
+		if (line_number) {
+			line_number_anchor = "#" + line_number;
+		}
+
+		var	file_url_with_query = add_extra_query(file_url);
+
+		window.location.href = file_url_with_query + line_number_anchor;
+	})
+}
+
+/* bind events for jira tfs attachment sorter */
+bind_attachments_sorter_event = function() {
+	$(function() {
+		// add parser to parse file name
+		$.tablesorter.addParser({
+			id: 'file_name',
+			is: function(s) {
+				// return false so this parser is not auto detected
+				return false;
+			},
+			// format size data
+			format: function(s) {
+				return $(s).last().html().toLowerCase();
+			},
+			// set type, either numeric or text
+			type: 'text'
+		})
+
+		// add parser to parse attachments size
+		$.tablesorter.addParser({
+			id: 'attachment_size',
+			is: function(s) {
+				// return false so this parser is not auto detected
+				return false;
+			},
+			// format size data
+			format: function(s) {
+				/* attachment size unit setup - start */
+				var units      = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+				var unit_base  = 1024;
+				var unit_index = 0;
+				var cell_value = $.trim(s).replace(/,/ig, '');
+				var unit       = cell_value.match(/[KMGTPEZY]B$/);
+				/* attachment size unit setup - end */
+
+				if (!cell_value || unit == null) {
+					return 0;
+				}
+				else {
+					unit = unit[0];
+					unit_index = $.inArray(unit, units);
+
+					if (unit_index != -1) {
+						return parseInt(cell_value) * Math.pow(unit_base, unit_index);
+					}
+					else {
+						return 0;
+					}
+				}
+			},
+			// set type, either numeric or text
+			type: 'text'
+		});
+
+		$('#attachments_table').tablesorter({
+			headers: {
+				0: {
+					sorter: 'file_name'
+				},
+				2: {
+					sorter: 'attachment_size'
+				}
+			}
+		});
+	})
+}
+
+/* if there are multiple SCM links, bind events for select list */
+bind_select_list_events = function() {
+	var raw_link = $('#fe_text');
+	var select_list = $(".select_list");
+
+	// when item is clicked, hide whole list
+	select_list.find("a").each(function(i) {
+		$(this).click(function() {
+			raw_link.val($(this).html());
+			select_list.hide();
+		});
+	});
+
+	// when mouse not over, hide list
+	select_list.hover(function() {
+	}, function() {
+		select_list.hide();
+	});
+
+	// when mouse leave comment link area, hide list
+	$(".scm_link").hover(function() {
+	}, function() {
+		select_list.hide();
+	});
+};
+
+show_hide_snippet_search = function (use_snippet) {
+	if (!_.isEmpty($('#query').val()) || !_.isEmpty($('#medfunctioncall').val()) || !_.isEmpty($('#classfunctiondef').val())) {
+		use_snippet.val('');
+		use_snippet.attr('disabled', true);
+		$('#precision').hide();
+	} else {
+		use_snippet.attr('disabled', false);
+		$('#precision').show();
+	}
+};
+
+goto_ads = function() {
+	try {
+		localStorage.removeItem('ad_lang');
+		localStorage.removeItem('ad_content');
+		window.location.href = '/document/advanced_search/';
+	} catch (e) { // support browser which doesn't support HTML 5
+	}
+}
+
+bind_advanced_search_events = function() {
+	var use_snippet        = $('#snippet_code');
+	var search_terms       = ['#query', '#medfunctioncall', '#classfunctiondef'];
+	var not_snippet        = $('#query, #medfunctioncall, #classfunctiondef, #author, #path, #select, #date_start, #date_end');
+	var snippet_code       = $('#snippet_code');
+	var snippet_content    = snippet_code.text();
+	var advance_search_tip = $('.advance_search_tip');
+	var snippet_language = $('#language_snippet');
+	var query = $('#query');
+
+	$('#query').bind('input porpertychange', function () {
+		show_hide_snippet_search(use_snippet);
+	});
+
+	$('#medfunctioncall').bind('input porpertychange', function () {
+		show_hide_snippet_search(use_snippet);
+	});
+
+	$('#classfunctiondef').bind('input porpertychange', function () {
+		show_hide_snippet_search(use_snippet);
+	});
+	snippet_language.bind('change', function() {
+		// hide snippet search error message
+		advance_search_tip.hide();
+		advance_search_tip.removeClass('error_msg');
+		snippet_code.removeClass('missing');
+		snippet_language.removeClass('missing');
+		query.removeClass('missing');
+	});
+	query.bind('input', function () {
+		// hide snippet search error message
+		advance_search_tip.hide();
+		advance_search_tip.removeClass('error_msg');
+		snippet_code.removeClass('missing');
+		snippet_language.removeClass('missing');
+		query.removeClass('missing');
+	});
+	use_snippet.bind('input porpertychange', function() {
+		// clear filled info
+		$('.input input').each(function() {
+			$(this).val('');
+		});
+
+		// hide snippet search error message
+		advance_search_tip.hide();
+		advance_search_tip.removeClass('error_msg');
+		snippet_code.removeClass('missing');
+		snippet_language.removeClass('missing');
+		query.removeClass('missing');
+		// switch between code search & snippet search
+		if (null != use_snippet.val() && use_snippet.val().length > 0) {
+			// set language dropdown list
+			$('#language').hide();
+			$('#language').attr('disabled', true);
+			$('#language_snippet').attr('disabled', false);
+			$('#language_snippet').show();
+
+			not_snippet.attr('disabled', true);
+			// set input disabled style
+			not_snippet.css('background-color', '#ebebeb');
+
+			// display precision parts & code snippets description
+			$('#seprator_line, #precision, .max_length').show();
+			$('#slop_slider').slider('value', krugle.conf.default_precision);
+			$('#slop_slider').parent().find('input').val(krugle.conf.default_precision);
+		}
+		else {
+			// hide language dropdown list
+			$('#language').show();
+			$('#language').attr('disabled', false);
+			$('#language_snippet').attr('disabled', true);
+			$('#language_snippet').hide();
+
+			not_snippet.attr('disabled', false);
+			// remove input disabled style
+			not_snippet.css('background-color', '');
+
+			// hide precision parts & code snippets description
+			$('#seprator_line, .max_length').hide();
+		}
+
+		// setup autocomplete and bind events for project filter
+		bind_type_ahead_events('advanced_search');
+	});
+
+	if (null != use_snippet.val() && use_snippet.val().length > 0) {
+		use_snippet.trigger('porpertychange');
+	}
+	// init as snippet search
+	if (snippet_content) {
+		use_snippet.trigger('porpertychange');
+	}
+
+	// init precision sliderbar
+	$('#slop_slider').slider({
+		animate: true,
+		min: krugle.conf.precision_min,
+		max: krugle.conf.precision_max,
+		step: krugle.conf.precision_step,
+		value: krugle.conf.default_precision,
+		stop: function(event, ui) {
+			$(this).parent().find('input').val(ui.value);
+		}
+	});
+
+	// setup datepicker
+	var params = {
+		dateFormat: 'yy-mm-dd'
+	};
+	$('#date_start, #date_end').datepicker(params);
+
+	// setup autocomplete and bind events for project filter
+	bind_type_ahead_events('advanced_search');
+
+	// select events
+	var date_area = $('#date_start_div, #date_end_div');
+	$('#select').change(function() {
+		var select_val = $(this).val();
+
+		if (select_val == '') {
+			date_area.slideUp('slow');
+		}
+		else {
+			date_area.slideDown('slow');
+		}
+	});
+	set_date_select();
+};
+
+/* set position of main content area and file tree */
+set_position = function() {
+	var file_tree              = $('#file_tree');
+	var main_content           = $('.col-sub, .col-extra, .col-main');
+	var height_window          = $(window).height();
+	var height_header          = $('#header').outerHeight();
+	var height_footer          = $('#footer').outerHeight();
+	var height_tsearch         = $('#tsearch').outerHeight();
+	var height_heading_message = $('.heading_message').outerHeight();
+
+	// set main content area position
+	main_content.css('top', height_header + height_tsearch + height_heading_message);
+    // main_content.height(height_window - height_header - height_tsearch - height_heading_message - height_footer);
+
+	// detect if browser is IE6
+	var browser_ie6 = ($.browser.msie && ($.browser.version == '6.0') && !$.support.style);
+
+	// set height for file tree
+	if (!browser_ie6 && file_tree.length > 0) {
+		var sidebar_container      = $('.col-sub');
+		var height_vertical_bar    = $('.col-extra').height();
+		var height_file_tree_title = $('.sidebar h2').outerHeight();
+
+		sidebar_container.css('overflow', 'hidden');
+		file_tree.height(height_vertical_bar - height_file_tree_title);
+	}
+}
+
+/* bind window resize function */
+bind_window_resize_func = function(search_type) {
+	$(window).resize(function() {
+		/* set position of main content area and file tree */
+		set_position();
+
+		// detect if browser is IE6
+		var browser_ie6 = ($.browser.msie && ($.browser.version == "6.0") && !$.support.style);
+
+		// if browser is NOT IE6, set style for pages
+		if (!browser_ie6) {
+			/* heights of five basic parts of pages - start */
+			var height_window          = $(window).height();
+			var height_header          = $('#header').outerHeight(true);
+			var height_tsearch         = $('#tsearch').outerHeight(true);
+			var height_heading_message = $('.heading_message').outerHeight(true);
+			var height_footer          = $('#footer').outerHeight(true);
+			/* basic height of five part in pages - end */
+
+			var tiny_pixel                = 0; // some page may need to reduce tiny pixel to fit the page
+			var result_filter             = $('.result_box');
+			var content_container         = "";
+			var height_content_title      = 0;
+			var result_filter_visable     = result_filter.is(':visible');
+			var height_content_container  = 0;
+			var height_content_result_box = 0;
+
+			switch(search_type) {
+				case "document":
+				case "comment":
+					content_container         = $('.content_result_body');
+					height_content_title      = $('.content_result_header').outerHeight(true);
+					height_content_result_box = result_filter.outerHeight(true);
+
+					if (result_filter_visable) {
+						// caused by result filters
+						tiny_pixel = parseInt(content_container.css('marginTop')) + parseInt(content_container.css('borderTopWidth'));
+					}
+
+					// main content height
+					height_content_container = height_window - height_header - height_tsearch - height_content_result_box - height_content_title - height_footer - tiny_pixel;
+
+					break;
+				case "document_file":
+					tiny_pixel           = 3;
+					content_container    = $('.file_detail');
+					height_content_title = $('.title_sub').outerHeight(true) + $('.overview_action').outerHeight(true) + $('.meta').outerHeight(true);
+
+					// main content height
+					height_content_container = height_window - height_header - height_tsearch - height_heading_message - height_content_title - height_footer - tiny_pixel;
+
+					break;
+				case "project_tabs":
+					content_container    = $('.tab_content');
+					height_content_title = $(".tab_title .current").outerHeight(true);
+
+					// main content height
+					height_content_container = height_window - height_header - height_tsearch - height_heading_message - height_content_title - height_footer;
+
+					break;
+				case "project_list":
+					content_container    = $('#project_list_container');
+					height_content_title = $('.sort_by').outerHeight(true);
+
+					// main content height
+					height_content_container = height_window - height_header - height_tsearch - height_heading_message - height_content_title - height_footer;
+
+					break;
+				default:
+					break;
+			}
+
+			// style for main content area
+			if (content_container) {
+				content_container.css({
+					'overflow': 'auto',
+					'height': height_content_container
+				});
+			}
+		}
+	});
+
+	$(window).resize();
+}
+
+resize_internal_message = function() {
+	// init iframe height
+	var internal_message = $('#internal_message');
+
+	if (internal_message.length > 0) {
+		var message_height = $('#internal_message').contents().find(".message_board").outerHeight();
+
+		internal_message.attr('height', message_height);
+	}
+}
+
+/* init click to clipboard */
+init_clipboard = function() {
+	var clip = null;
+	var raw_link = $('#fe_text');
+
+	// click input to show/hide select list
+	$(".sp").click(function() {
+		$(".select_list").toggle();
+	});
+
+	// bind select list events
+	bind_select_list_events();
+
+	// click to clipboar events
+	if (raw_link.length > 0) {
+		var copied = "copied!";
+		var copy_to_clipboard = "copy to clipboard";
+		clip = new ZeroClipboard.Client();
+		clip.setHandCursor(true);
+		clip.addEventListener('mouseOver', function(client) {
+			// update the text on mouse over
+			clip.setText(raw_link.val());
+			// show copy tip
+			$(".tipsy_inner").html(copy_to_clipboard);
+			$(".tipsy").show();
+		});
+		clip.addEventListener('mouseOut', function(client) {
+			// hide clippy tip, when mouse not in the copy area
+			$(".tipsy").hide();
+		});
+		clip.addEventListener('complete', function(client, text) {
+			$(".tipsy_inner").html(copied);
+			$(".tipsy").show();
+		});
+		clip.glue('d_clip_button', 'd_clip_container');
+	}
+}
+
+/* initialize date picker */
+init_date_picker = function(content_type) {
+	// date picker format
+	var params = {
+		dateFormat: 'yy-mm-dd'
+	};
+
+	// init date pick for different types
+	if (content_type == "document" || content_type == "comment") {
+		var date_start = $('#date_start');
+		var date_end   = $('#date_end');
+
+		if (date_start.length > 0 && date_end.length > 0) {
+			date_start.datepicker(params);
+			date_end.datepicker(params);
+		}
+	}
+	else if (content_type == "project_list") {
+		/* date picker container - start */
+		var date_project_crawed = $("#project_crawed");
+		var date_project_updated = $("#project_updated");
+		/* date picker container - end */
+
+		if (date_project_crawed.length > 0 && date_project_updated.length > 0) {
+			date_project_crawed.datepicker(params);
+			date_project_updated.datepicker(params);
+		}
+	}
+}
+
+/* init tree view for file or project */
+init_tree_view = function(show_in_directory) {
+	// file tree placeholder
+	var file_tree = $("#file_tree");
+
+	if (file_tree.length > 0) {
+		var project_uid = $("#project_uid").val() + "/";
+
+		if (project_uid.indexOf("pa-") == 0) {
+			project_uid = project_uid.substring(3);
+		}
+		var url = krugle.conf.urls.FILE_TREE;
+
+		// init file tree
+		file_tree.fileTree({root: project_uid, script: url}
+			// ,function(file){
+			// url = get_url_through_filename(file);
+			// window.location.href = url;}
+		);
+	}
+
+	// bind events to toggle tree view
+	$(".switch_bar").unbind("click").click(function() {
+		$("#content").toggleClass("expanded");
+	});
+
+	// show file tree
+	if (show_in_directory) {
+		$("#content").removeClass("expanded");
+	}
+};
+
+// file tree selector
+var tree_obj = "#file_tree .jqueryFileTree > li > a";
+
+/* show specified file for file content page */
+show_specified_file = function(file_uri) {
+	// get file name
+	var file_name_index = file_uri.lastIndexOf("/");
+	var file_name = file_uri.substring(file_name_index + 1);
+
+	// show specified file
+	$(tree_obj).each(function() {
+		/* setup folder params - start */
+		var folder_name         = $(this).text();
+		var folder_length       = folder_name.length;
+		var is_parent_folder    = $(this).parent().hasClass("directory");
+		var folder_name_index   = file_uri.indexOf(folder_name + "/");
+		var is_parent_collapsed = $(this).parent().hasClass("collapsed");
+		/* setup folder params - end */
+		if (folder_name_index == 0 && is_parent_collapsed) {
+			$(this).click();
+			// hit folder, then reduce folder part
+			file_uri = file_uri.substring(folder_name_index + folder_length);
+			// modify selector to its' children
+			tree_obj = tree_obj.slice(0, -1) + ".jqueryFileTree > li > a";
+			return false;
+		}
+		else if(folder_name == file_name && !is_parent_folder) {
+			/* setup file tree params - start */
+			var file_tree_folder = "";
+			var file_tree_uri    = $("#file_uri").val();
+			var file_tree_obj    = $(this).parent().parent().parent();
+			var file_tree_obj_id = file_tree_obj.attr("id");
+			/* setup file tree params - end */
+
+			// set file tree folder
+			if (file_tree_obj_id == "file_tree") {
+				file_tree_folder = $(this).attr("rel");
+			}
+			else {
+				file_tree_folder = $(this).parent().parent().parent().find("a").attr("rel");
+			}
+
+			if (file_tree_uri.indexOf(file_tree_folder) != -1) {
+				// highlight file shown in current page
+				$(this).css("background-color", "#BBDDFF");
+
+				// set highlighted file's position
+				var file = $(this);
+				var file_tree_obj = $("#file_tree");
+				var file_tree = $("#file_tree > .jqueryFileTree");
+
+				/* position params setup - start */
+				var file_top = file.offset().top;
+				var file_left = file.offset().left;
+
+				var file_tree_top = file_tree.offset().top;
+				var file_tree_left = file_tree.offset().left;
+
+				var file_tree_obj_width = file_tree_obj.width();
+				var file_tree_obj_height = file_tree_obj.height();
+
+				var file_offset_top = file_top - file_tree_top;
+				var file_offset_left = file_left - file_tree_left;
+				/* position params setup - end */
+
+				// delay operation 500 ms to wait file tree shown completely
+				if (file_offset_top > file_tree_obj_height / 2) {
+					// set highlighted file to the center(about center) of height
+					setTimeout(function() {
+						file_tree_obj.scrollTop(file_offset_top - file_tree_obj_height / 2);
+					}, 500);
+				}
+				if (file_offset_left > file_tree_obj_width / 3) {
+					// set highlighted file to the 1/3(about 1/3) of width
+					setTimeout(function() {
+						file_tree_obj.scrollLeft(file_offset_left - file_tree_obj_width / 3);
+					}, 500);
+				}
+
+				// reset tree obj selector
+				tree_obj = "#file_tree .jqueryFileTree > li > a";
+
+				return false;
+			}
+		}
+	});
+}
+
+/* bind date select events */
+set_date_select = function() {
+	// select options
+	var select_text_default = '';
+	var select_text_1_day   = '1d';
+	var select_text_3_day   = '3d';
+	var select_text_1_week  = '1w';
+	var select_text_1_month = '1m';
+	var select_text_1_year  = '1y';
+
+	// select option change event
+	$('#select').change(function() {
+		var format = '-';
+		var duration = 0;
+		var str_interval = 'd';
+		var select_text_current = $(this).val();
+		var date_today = get_specified_date(format, str_interval, 0);
+		var date_start = get_specified_date(format, str_interval, duration);
+
+		switch (select_text_current) {
+			case select_text_default:
+				date_start = '';
+				date_today = '';
+				break;
+			case select_text_1_day:
+				duration     = -1;
+				str_interval = 'd';
+				date_start   = get_specified_date(format, str_interval, duration);
+				break;
+			case select_text_3_day:
+				duration     = -3;
+				str_interval = 'd';
+				date_start   = get_specified_date(format, str_interval, duration);
+				break;
+			case select_text_1_week:
+				duration     = -1;
+				str_interval = 'w';
+				date_start   = get_specified_date(format, str_interval, duration);
+				break;
+			case select_text_1_month:
+				duration     = -1;
+				str_interval = 'm';
+				date_start   = get_specified_date(format, str_interval, duration);
+				break;
+			case select_text_1_year:
+				duration     = -1;
+				str_interval = 'y';
+				date_start   = get_specified_date(format, str_interval, duration);
+				break;
+			default:
+				break;
+		}
+
+		$('#date_start').val(date_start);
+		$('#date_end').val(date_today);
+		$('#date_start_cache').val(date_start);
+		$('#date_end_cache').val(date_today);
+	});
+
+	// set select to custom when date range changed
+	$('#date_start, #date_end').bind('textchange change', function() {
+		$('#select').val('custom');
+	});
+
+}
+
+/* display error message for search box */
+display_error_msg = function(error_msg) {
+	// set error msg
+	$(".error p").html(error_msg);
+	// show error msg
+	$(".error").show("slow");
+}
+
+/* clear invalid date */
+clear_invalid_date = function(indicator) {
+	var indicator_type = ["start", "end", "both"];
+
+	switch (indicator) {
+		case indicator_type[0]:
+			$("#date_start").val("");
+			break;
+		case indicator_type[1]:
+			$("#date_end").val("");
+			break;
+		case indicator_type[2]:
+			$("#date_start").val("");
+			$("#date_end").val("");
+			break;
+		default:
+			break;
+	}
+}
+
+/* search with type ahead */
+type_ahead = function(query_ahead, type_ahead_type, content_type) {
+	var params = {};
+	var type_ahead_url = "";
+	var type_ahead_obj = "";
+
+	if (query_ahead) {
+		type_ahead_obj = "#" + type_ahead_type;
+		if (type_ahead_type == "query") {
+			params.suggest_query = query_ahead;
+			params.suggest_type = content_type;
+
+			if (krugle.conf.last_ajax) {
+				krugle.conf.last_ajax.abort();
+			}
+			krugle.conf.last_ajax = $.ajax({
+				url: krugle.conf.urls.AUTO_SUGGESTION,
+				data: params,
+				dataType: 'json',
+				type: 'POST',
+				traditional: true,
+				success: function(data) {
+					var status = data.status;
+
+					if (status == 401) {
+						window.location.href = krugle.conf.urls.REDIRECT_URL;
+					}
+					else {
+						var is_data_null = data.length == 0 ? true : false;
+						if (!is_data_null) {
+							// format data source
+							var type_ahead_data = [];
+
+							if (data.type_ahead_data != undefined) {
+								var data_detail = data.type_ahead_data;
+								for (var i = 0; i < data_detail.length; i++) {
+									type_ahead_data.push(data_detail[i].term + " - " + data_detail[i].field);
+								}
+							}
+
+							$(type_ahead_obj).autocomplete({
+								source: type_ahead_data
+							});
+						}
+					}
+				}
+			});
+		}
+		else {
+			// generating autocomplete source
+			var type_ahead_data = [];
+
+			if (content_type == 'advanced_search') {
+				switch (type_ahead_type) {
+					case 'project_name' :
+						type_ahead_data = generate_type_ahead_data(krugle.conf.project_list, query_ahead);
+
+						break;
+					case 'language' :
+						type_ahead_data = generate_type_ahead_data(krugle.conf.language_list, query_ahead);
+
+						break;
+					// case 'license' :
+					// 	type_ahead_data = generate_type_ahead_data(krugle.conf.licence_list, query_ahead);
+
+						// break;
+					default:
+						break;
+				}
+			}
+			else {
+				var filter_type = '';
+
+				// filters in projects list page
+				switch (type_ahead_type) {
+					case 'project_name' :
+						filter_type = 'name';
+						break;
+					case 'project_updated_by' :
+						filter_type = 'last_commit_author';
+						break;
+					default:
+						break;
+				}
+
+				type_ahead_data = generate_type_ahead_data(krugle.conf.project_list, query_ahead, filter_type);
+			}
+
+			if (krugle.conf.type_ahead_selected_item != query_ahead) {
+				var is_data_null = type_ahead_data.length == 0 ? true : false;
+
+				if (!is_data_null) {
+					$(type_ahead_obj).autocomplete({
+						source: type_ahead_data,
+						close: function() {
+							if (type_ahead_type != "query" && type_ahead_type != "project_snippet" && content_type != "advanced_search") {
+								do_project_search("", "", content_type);
+							}
+						}
+					});
+				}
+				else {
+					if (content_type != "advanced_search") {
+						do_project_search("", "", content_type);
+					}
+				}
+			}
+			else {
+				if (type_ahead_type != "project_snippet" && content_type != "advanced_search") {
+					do_project_search("", "", content_type);
+				}
+			}
+		}
+	}
+	else {
+		if (type_ahead_type != "query" && type_ahead_type != "project_snippet" && content_type != "advanced_search") {
+			do_project_search("", "", content_type);
+		}
+	}
+}
+
+/* load jira or tfs description - start */
+load_description = function() {
+	var description = $("#ifr_description");
+	var description_val;
+	var description_body;
+
+	if (description.length > 0) {
+		description_val  = $("#description_val").html();
+		description_body = description.contents().find('body');
+
+		// fill iframe with content in html
+		description_body.html($.trim(description_val));
+
+		// set iframe body font style
+		description_body.css('font-family', 'Arial,Helvetica,sans-serif');
+		description_body.css('font-size', '12px');
+
+		// set iframe height
+		setInterval(function() {
+			description.height(description.contents().height());
+		}, 500);
+
+		// make links open in new tab
+		description.contents().find('a').attr('target', '_blank');
+	}
+}
+/* load jira or tfs description - end */
+
+generate_type_ahead_data = function(data, query, type) {
+	var type_ahead_data = [];
+
+	for (var i = 0; i < data.length; i++) {
+		if (data[i]) {
+			// if (data[i] == 'Plain' || data[i] == 'Issue') continue;
+			var item        = type ? data[i][type] : data[i];
+			var item_lower  = item.toLowerCase();
+			var query_lower = query.toLowerCase();
+
+			if (item && item_lower.indexOf(query_lower) != -1) {
+				type_ahead_data.push(item);
+
+				// remove duplicated items
+				type_ahead_data = _.uniq(type_ahead_data);
+			}
+		}
+
+		if (type_ahead_data.length == krugle.conf.max_hits) {
+			break;
+		}
+	}
+
+	return type_ahead_data;
+}
+
+/* highlight the query item */
+highlight_code = function(query, str) {
+	if (query) {
+		var pattern = new RegExp(query.escape(), 'ig');
+		str = str.replace(pattern, "<span class='np'>$&</span>");
+	}
+	return str;
+}
+
+/* bind n,p keys to the code document. */
+bind_highlightable = function() {
+	var location = "out";
+	var indexTerm = -1;
+	var hightOffset = 20;
+	var rightOffset = 50;
+	var speed = 300;
+	var interval = 500;
+	var last = 0;
+
+	initialize_highlightItems = function() {
+		highlightedItems = new Array();
+		// initialize next/previous buffer
+		var spans = $(".highlighttable span");
+		if (spans) {
+			var span;
+			for (var i = 0; i < spans.length; i++) {
+				span = spans[i];
+				if (span.className.indexOf("kh-") == 0
+						|| span.className.indexOf("khs-") == 0) {
+					highlightedItems.push(span);
+				}
+			}
+		}
+		maxHighlight = (highlightedItems) ? highlightedItems.length : 0;
+		// have highlight items
+		return maxHighlight;
+	};
+
+	fix_miss_highlight = function() {
+		for (var i = maxHighlight - 1; i >= 0; i--) {
+			jqueyhighlightedItem = $(highlightedItems[i])
+			if (jqueyhighlightedItem.text() == "") {
+				var realKH = jqueyhighlightedItem.parent().next();
+				jqueyhighlightedItem.text(realKH.text()); // replace the content
+				realKH.text(""); // clear the original content
+				realKH.append(jqueyhighlightedItem);
+			};
+		};
+	}
+
+	is_combo_key = function(event){
+		return( event.ctrlKey || event.altKey || event.metaKey);
+	}
+
+	highlight_next = function() {
+		if (indexTerm == -1) {
+			indexTerm++;
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("kh", "khs");
+		} else {
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("khs", "kh");
+			indexTerm = (indexTerm + 1) % maxHighlight;
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("kh", "khs");
+		};
+	}
+
+	highlight_previews = function() {
+		if (indexTerm == -1) {
+			indexTerm = maxHighlight - 1;
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("kh", "khs");
+		} else {
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("khs", "kh");
+			indexTerm = (indexTerm - 1) >= 0 ? indexTerm - 1 : maxHighlight - 1;
+			highlightedItems[indexTerm].className = highlightedItems[indexTerm].className
+					.replace("kh", "khs");
+		};
+	}
+
+	//scroll to the right palce with animation
+	toggle_highlight_item = function(event) {
+		var hoffset = highlightedItems[indexTerm].offsetTop - hightOffset
+		var loffset = 0
+		if ($(".file_detail")[0].clientWidth < highlightedItems[indexTerm].offsetLeft) {
+			loffset = highlightedItems[indexTerm].offsetLeft
+					- $(".file_detail")[0].clientWidth
+					+ $(".linenos")[0].offsetWidth + rightOffset
+		};
+		if (event.timeStamp-last<interval) {
+			$(".file_detail").scrollTop(hoffset);
+			$(".file_detail").scrollLeft(loffset);
+			$(".file_detail").stop();
+		} else{
+			$(".file_detail").animate({
+				scrollTop: hoffset},
+				speed);
+			$(".file_detail").animate({
+				scrollLeft: loffset},
+				speed);
+		};
+		last = event.timeStamp;
+	}
+
+	if (initialize_highlightItems()) {
+    	fix_miss_highlight();
+
+    	$("body").keydown(function(event) {
+    				if ($(".highlighttable").length) {
+    					if (location == "out" && !is_combo_key(event)) {
+    						var key = event.which
+    						if (key == 110 || key == 78 || key == 106 || key == 74) {
+    							highlight_next();
+    						}
+    						if (key == 112 || key == 80 || key == 107 || key == 75) {
+    							highlight_previews();
+    						}
+    						toggle_highlight_item(event);
+    					}
+    				}
+    			})
+
+    	$("input").focus(function() { // only if press key "N,P" in input box
+    				// won't triggle event keydown
+    				location = "in";
+    			})
+
+    	$("input").blur(function() {
+    				location = "out";
+    			})
+    	};
+}
+
+//bind all a-tag an event of clicking
+bind_a_event = function() {
+	$(document).delegate("a", "click", function() {
+				var pattern = new RegExp(krugle.conf.urls.DOCUMENT_VIEW_FILE,
+						'');		//if this url will redirect to the viewing file page
+				var href = $(this).attr("href");
+				if (pattern.test(href)) {
+					$(this).attr("href", add_extra_query(href));	//then add the params of query
+				};
+			});
+}
+
+get_query_whatever = function() {
+	var query;
+	if (krugle.conf.query) {
+		query = krugle.conf.query;
+	} else {
+		if ($("#query").val()) {
+			query = $("#query").val();
+		} else {
+			if ($("query_cache").val()) {
+				query = $("#query_cache").val();
+			} else {
+				query = '';
+			};
+
+		};
+	};
+
+	return query;
+}
+
+//add the field of query to the url
+add_extra_query = function(href) {
+	var query = get_query_whatever();
+	var extra_query = 'query=' + encodeURIComponent(query);
+	var searchType = $("#searchType").val();
+	if (!searchType)
+		searchType = 'basic';
+	extra_query += '&qtype=' + encodeURIComponent(searchType);
+
+	if (href.indexOf('?') >= 0) {			//if the url has some params
+		url = href.split('?', 2)[0];
+		params = href.split('?', 2)[1];
+
+		if (params.indexOf(extra_query) < 0) {			//if the url has the field of query
+			params = params + '&' + extra_query;
+		};
+	} else {
+		url = href;
+		params = extra_query;
+	}
+	return url + '?' + params;
+}
+
+get_url_through_filename = function(file) {
+	var url_origin = window.location.origin;
+	var url_view_file = krugle.conf.urls.DOCUMENT_VIEW_FILE;
+	var url_pathname = encodeURIComponent(file);
+
+	var url = url_origin + url_view_file + url_pathname;
+	return add_extra_query(url);
+}
+
+// scm link for single file
+show_pop_link = function(obj) {
+	$('#scmlink-hover').css('display', 'none');
+	if ($('#show_scm_link').css('display') == 'block') {
+		$('#show_scm_link').css('display', 'none')
+	} else {
+		$("#link_file_name").html($(obj).data('filename'));
+		$('#link_file_name').attr('href', $(obj).data('filelink'));
+		$('#fe_text').val($(obj).data('scmlink'));
+		$('#scmlink_list').text($(obj).data('scmlink'));
+		var x = $(obj).offset().left - 235 + 'px';
+		var y = $(obj).offset().top - 92 + 'px';
+		$('#show_scm_link').css({'left':x,'top':y});
+		$('#show_scm_link').show();
+		init_clipboard();
+	}
+}
+var timer;
+scmlink_hover = function(obj) {
+	timer = setTimeout(function(){
+		if ($('#show_scm_link').css('display') == 'none') {
+			var x = $(obj).offset().left - 46 + 'px';
+			var y = $(obj).offset().top - 30 + 'px';
+			$('#scmlink-hover').css({'left':x,'top':y});
+			$("#scmlink-hover").show();
+		}
+	}, 500);
+}
+scmlink_mouseout = function() {
+	clearTimeout(timer);
+	if ($('#scmlink-hover').css('display') == 'block') {
+		$('#scmlink-hover').css('display', 'none');
+	}
+}
+show_scmlink_list = function(){
+	if ($('.select_list').css('display') == 'block') {
+		$('.select_list').hide();
+	} else {
+		$('.select_list').show();
+	}
+}
+disable_snippet_search = function () {
+        $.colorbox({width:"300px", height:"160px",top:"100px",close: "OK",html: "<p style='font-size:14px'>This feature is currently unavailable, <br/>but will be available in a future release.</p>"});
+};

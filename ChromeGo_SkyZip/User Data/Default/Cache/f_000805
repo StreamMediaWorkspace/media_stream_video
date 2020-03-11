@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html class="borderbox">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="nodejs, node, deadhorse, blog">
+  <meta name="description" content="死马的个人博客，记录学习过程。nodejs, c++, and more"></meta>
+  <meta name="baidu_union_verify" content="bda5c371352ad3dba4062551dc317034">
+  
+    <title>Node.js C++ addon编写实战（二）之对象转换 - dead_horse</title>
+  
+  <link rel="stylesheet" href="/styles/typo.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/styles/color.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/styles/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/styles/print.css" media="print" />
+  <link rel="stylesheet" type="text/css" href="/styles/github.css" />
+  <script type="text/javascript">
+  (function() {
+  	var c = document.createElement('script'); c.type = 'text/javascript'; c.async = true;
+	c.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.clicki.cn/boot/44873';
+	var h = document.getElementsByTagName('head')[0]; h.appendChild(c);
+  })();
+  </script>
+  <script src="/scripts/jquery-1.6.2.min.js"></script>
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body class="bg-">
+  <header>
+    <h1>Dead Horse's Blog</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="/" class="selected">Home</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/project.html">Project</a></li>
+      <li><a href="/slide.html">Talk</a></li>
+      <li><a href="/extract.html">Extract</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </nav>
+  <div id="content">
+        <article class="articlecontent">
+          <div class='post'>
+  <h1><a href='/nodejs/2012/10/09/c_addon_in_nodejs_object.html'>Node.js C++ addon编写实战（二）之对象转换</a></h1>
+  <span class='date'>2012-10-09</span>
+  <div class='body'><p>这是一个三篇的系列文章，记录Node.js C++扩展开发中的一些经验与坑。<br>
+<a href="/nodejs/2012/10/08/c_addon_in_nodejs_node_gyp.html">Node.js C++ addon编写实战（一）之node-gyp</a><br>
+<a href="/nodejs/2012/10/09/c_addon_in_nodejs_object.html">Node.js C++ addon编写实战（二）之对象转换 </a><br>
+<a href="/nodejs/2012/10/10/c_addon_in_nodejs_buffer.html">Node.js C++ addon编写实战（三）之Buffer</a>   </p>
+
+<p>补上第四篇：<a href="/nodejs/2013/11/10/c_addon_in_nodejs_11.html">Node.js C++ addon编写实战(四)之兼容v0.11+与nan模块</a>  </p>
+
+<p>正式进入编写Node.js C++模块中编码部分的介绍了。在此之前先罗列一些这方面的资料供参考入门。   </p>
+
+<ul>
+<li>v8数据结构的手册： <a href="http://izs.me/v8-docs/annotated.html">V8 Data Structures</a><br></li>
+<li>node C++模块入门: <a href="https://github.com/kkaefer/node-cpp-modules">node-cpp-module g</a><br></li>
+<li>从C++的角度了解node: <a href="http://cnodejs.org/topic/4f16442ccae1f4aa270010c5">Javascript里有个C</a><br></li>
+</ul>
+
+<p>这些资料可以引导我们写出一个完整的Node.js的C++扩展了。但是也许下面的内容能够让你写的过程中更轻松。   </p>
+
+<h3>函数参数</h3>
+
+<p>C++模块中可以被node调用的方法，都是如下形式的：   </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">Handle</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">Method</span><span class="p">(</span><span class="k">const</span> <span class="n">Arguments</span><span class="o">&amp;</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//code here</span>
+<span class="p">}</span></code></pre></div>
+
+<p>传入的参数<em>args</em>对象有两个常用的操作：   </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">Local</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c1">//[]操作符，获取到一个Local&lt;Value&gt;的对象</span>
+<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">args</span><span class="p">.</span><span class="n">Length</span><span class="p">();</span>  <span class="c1">//Length方法，获取参数长度</span></code></pre></div>
+
+<p>在上述代码中出现了<em>Local<Value></em>,v8中的继承关系如下：<br>
+<img src="/images/v8_handle.jpg" alt="v8 handle"><br>
+<em>Handle<Class T></em>是v8维护的一个对象引用，v8会负责对象的回收，可以看作是v8中的智能指针。<em>Local<Class T></em>是继承自它的一个轻量级的对象引用，<a href="http://izs.me/v8-docs/classv8_1_1Local.html#_details">more</a>。   </p>
+
+<h3>数据类型转换</h3>
+
+<p>v8中整体的数据结构关系图如下：<br>
+<img src="/images/v8_data_structure.jpg" alt="v8 data structure">   </p>
+
+<p>可以看到，所有的<em>String, Number, Boolean, Object, Array</em>等对象都是从<em>Value</em>继承而来。因此从<em>Arguments</em>中获取的<em>Local<Value></em>对象可以轻松的判断其js中的具体类型，并进行转换。   </p>
+
+<h4>类型判断：</h4>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">Local</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kt">bool</span> <span class="n">isArray</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">IsArray</span><span class="p">();</span>
+<span class="kt">bool</span> <span class="n">isBoolean</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">IsBoolean</span><span class="p">();</span>
+<span class="kt">bool</span> <span class="n">isNumber</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">IsNumber</span><span class="p">();</span>
+<span class="kt">bool</span> <span class="n">isInt32</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">IsInt32</span><span class="p">();</span>
+<span class="c1">// more</span></code></pre></div>
+
+<p>v8提供了一系列的接口用来做类型判断，可以在其<a href="http://izs.me/v8-docs/classv8_1_1Value.html">文档</a>内找到所有的判断接口。   </p>
+
+<h4>类型转换：</h4>
+
+<p>在经过类型判断之后，就可以根据结果进行类型的转换了：   </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">Local</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">Local</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">ToObject</span><span class="p">();</span>
+<span class="n">Local</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">ToBoolean</span><span class="p">();</span>
+<span class="n">Local</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">ToNumber</span><span class="p">();</span>
+<span class="n">Local</span><span class="o">&lt;</span><span class="n">Int32</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">ToInt32</span> <span class="p">();</span>
+<span class="c1">// more</span></code></pre></div>
+
+<p>同样的，v8提供了一系列的接口用来做类型转换，可以在其<a href="http://izs.me/v8-docs/classv8_1_1Value.html">文档</a>内找到所有的转换接口。<br>
+注意，v8并没有提供直接的从<em>Value</em>到<em>Array</em>的转换，但是我们发现，<em>Array</em>是继承自<em>Object</em>的，而其实<em>Array</em>对象并没有提供比<em>Object</em>更多的接口。联系到js中，会发现，js中的<em>Array</em>和<em>Object</em>操作也是一样的相似。因此尽管v8没有提供从<em>Value</em>到<em>Array</em>的转换，但是转换成<em>Object</em>就已经足够了,因为完全可以把Array当作一个Object来操作。   </p>
+
+<p>而所有的v8中的Boolean/Number/Int32等对象都有方法转换成C++原生的bool/double/int等类型。当然，同样有反过来转换的接口。因此从javascript与C++跨语言的数据类型转换就完全不是问题了。   </p>
+
+<h3>Object与Array</h3>
+
+<p>基础类型相对来说比较简单，而Object和Array相对来说需要更多的接口方法来进行设置和内容的获取。   </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="c1">//设置Object</span>
+<span class="n">Handle</span><span class="o">&lt;</span><span class="n">v8</span><span class="o">::</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">v8Obj</span> <span class="o">=</span> <span class="n">v8</span><span class="o">::</span><span class="n">Object</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+<span class="n">v8Obj</span><span class="o">-&gt;</span><span class="n">Set</span><span class="p">(</span><span class="n">v8</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">NewSymbol</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">),</span> <span class="n">v8</span><span class="o">::</span><span class="n">Integer</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+<span class="c1">//查询是否有这个key,并获取对应的value</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">v8Obj</span><span class="o">-&gt;</span><span class="n">Has</span><span class="p">(</span><span class="n">v8</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">)))</span> <span class="p">{</span>
+  <span class="n">Handle</span><span class="o">&lt;</span><span class="n">v8</span><span class="o">::</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">value</span> <span class="o">=</span> <span class="n">v8Obj</span><span class="o">-&gt;</span><span class="n">Get</span><span class="p">(</span><span class="n">v8</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="c1">//获取所有的key</span>
+<span class="n">Handle</span><span class="o">&lt;</span><span class="n">Array</span><span class="o">&gt;</span> <span class="n">keys</span> <span class="o">=</span> <span class="n">v8Obj</span><span class="o">-&gt;</span><span class="n">GetOwnPropertyNames</span><span class="p">();</span>
+
+<span class="c1">//获取object内元素的个数</span>
+<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">keys</span><span class="o">-&gt;</span><span class="n">Length</span><span class="p">();</span>
+
+<span class="c1">//删除object内的元素</span>
+<span class="n">v8Obj</span><span class="o">-&gt;</span><span class="n">Delete</span><span class="p">(</span><span class="n">v8</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">));</span></code></pre></div>
+
+<p>是不是觉得上面的代码十分眼熟？   </p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">))</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+<span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span></code></pre></div>
+
+<p>可以看到，js的代码完整的映射到了C++代码之上。   </p>
+
+<p>而Array也是一样的，先用一张图描述Array和Object的关系：<br>
+<img src="/images/v8_object_and_array.jpg" alt="object_and_array">    </p>
+
+<p>在V8中，Array的接口基本就只是多了一个<em>Length</em>方法，获取数组的长度，而其他的方法都是继承自Object，所以Array的操作和Object非常类似。   </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">Handle</span><span class="o">&lt;</span><span class="n">v8</span><span class="o">::</span><span class="n">Array</span><span class="o">&gt;</span> <span class="n">v8Arr</span> <span class="o">=</span> <span class="n">v8</span><span class="o">::</span><span class="n">Array</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="n">length</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">length</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">v8Arr</span><span class="o">-&gt;</span><span class="n">Set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v8</span><span class="o">::</span><span class="n">Integer</span><span class="o">::</span><span class="n">New</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="n">Handle</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&gt;</span> <span class="n">item</span> <span class="o">=</span> <span class="n">v8Arr</span><span class="o">-&gt;</span><span class="n">Get</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span></code></pre></div>
+
+<p>至此，js中的数据结构对应到v8中的部分基本已经罗列完毕，js与c++的数据交换也完全不是问题了，此时用c++写Node.js扩展基本已经没有问题了。:)   </p>
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var disqus_url = "http://deadhorse.me/nodejs/2012/10/09/c_addon_in_nodejs_object.html";
+  var disqus_developer = 1;
+</script>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dh-me'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </article>
+  </div>
+  <aside>
+    <section>
+    <iframe src="http://githubbadge.appspot.com/badge/dead-horse?a=0" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder=0></iframe>
+    </section>
+    <section>
+      <h3>Categories</h3>
+      <ul>
+        
+        <li><a href="/cpp.html">cpp (1)</a></li>
+        
+        <li><a href="/nodejs.html">nodejs (15)</a></li>
+        
+        <li><a href="/reading_note.html">reading_note (2)</a></li>
+        
+      </ul>
+    </section>
+
+    <section>
+      <header>
+        <h3>Recent Posts</h5>
+      <header>
+      <ul>
+      
+      <li>
+        <a href="/nodejs/2014/04/27/semver-in-nodejs.html" title="node.js 中的版本管理">node.js 中的版本管理</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2014/04/03/isNan-vs-Number.isNaN.html" title="global.isNaN vs Number.isNaN">global.isNaN vs Number.isNaN</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2014/01/18/node_dependences_version.html" title="Node.js 项目的依赖管理">Node.js 项目的依赖管理</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2013/11/10/c_addon_in_nodejs_11.html" title="Node.js C++ addon编写实战（四）之兼容v0.11+与nan模块">Node.js C++ addon编写实战（四）之兼容v0.11+与nan模块</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2013/04/13/exception_and_domain.html" title="Node.js 异步异常的处理与domain模块解析">Node.js 异步异常的处理与domain模块解析</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/10/10/c_addon_in_nodejs_buffer.html" title="Node.js C++ addon编写实战（三）之Buffer">Node.js C++ addon编写实战（三）之Buffer</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/10/09/c_addon_in_nodejs_object.html" title="Node.js C++ addon编写实战（二）之对象转换">Node.js C++ addon编写实战（二）之对象转换</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/10/08/c_addon_in_nodejs_node_gyp.html" title="Node.js C++ addon编写实战（一）之node-gyp">Node.js C++ addon编写实战（一）之node-gyp</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/09/20/xss_in_cnode.html" title="XSS等web安全漏洞的防范">XSS等web安全漏洞的防范</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/08/26/code_in_net.html" title="Node.js net 模块阅读笔记">Node.js net 模块阅读笔记</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/08/11/list_in_node.html" title="如何在node / javascript中实现链表？">如何在node / javascript中实现链表？</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2012/08/01/timer_in_node.html" title="浅析nodejs中的setTimeout">浅析nodejs中的setTimeout</a>
+      </li>
+      
+      <li>
+        <a href="/reading_note/2012/02/19/High_performance_web_site_server_side_1.html" title="构建高性能web站点（服务器并发能力）">构建高性能web站点（服务器并发能力）</a>
+      </li>
+      
+      <li>
+        <a href="/reading_note/2012/01/24/High_performance_web_sites.html" title="高性能网站的14条前端规则">高性能网站的14条前端规则</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2011/12/29/socket.io_induction.html" title="socket.io使用入门">socket.io使用入门</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2011/12/18/nodejs%E4%B8%ADchild_process%E6%A8%A1%E5%9D%97%E7%9A%84exec%E6%96%B9%E6%B3%95%E5%92%8Cspawn%E6%96%B9%E6%B3%95.html" title="exec与spawn方法的区别与陷阱">exec与spawn方法的区别与陷阱</a>
+      </li>
+      
+      <li>
+        <a href="/nodejs/2011/11/26/nodejs_connect_analysis_1.html" title="nodejs模块connect分析(一)">nodejs模块connect分析(一)</a>
+      </li>
+      
+      <li>
+        <a href="/cpp/2011/09/22/g_plus_plus_induction.html" title="g++基础知识">g++基础知识</a>
+      </li>
+      
+      </ul>
+    </section>
+    <section>
+<!-- Feedsky FEED发布代码开始 -->
+<!-- FEED自动发现标记开始 -->
+<link title="RSS 2.0" type="application/rss+xml" href="http://feed.feedsky.com/deadhorse" rel="alternate" />
+<!-- FEED自动发现标记结束 -->
+<a href="http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_sub_c1s15.gif" alt="feedsky" vspace="2"  style="margin-bottom:3px" ></a><br />
+<a href="http://www.zhuaxia.com/add_channel.php?url=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_zhuaxia.gif" alt="&#25235;&#34430;" vspace="2" style="margin-bottom:3px" ></a><br />
+<a href="http://fusion.google.com/add?feedurl=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_google.gif" alt="google reader" vspace="2" style="margin-bottom:3px" ></a><br />
+<a href="http://www.netvibes.com/subscribe.php?url=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_netvibes.gif" alt="netvibes" vspace="2" style="margin-bottom:3px" ></a><br />
+<a href="http://www.xianguo.com/subscribe.php?url=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_xianguo.gif" alt="&#40092;&#26524;" vspace="2" style="margin-bottom:3px" ></a><br />
+<a href="http://reader.youdao.com/b.do?keyfrom=feedsky&url=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_youdao.gif" alt="&#26377;&#36947;" vspace="2" style="margin-bottom:3px" ></a><br />
+<a href="http://mail.qq.com/cgi-bin/feed?u=http://feed.feedsky.com/deadhorse"><img border="0" src="http://img.feedsky.com/images/icon_subshot01_qq.gif" alt="QQ&#37038;&#31665;" vspace="2" style="margin-bottom:3px" ></a><br />
+<!-- Feedsky FEED发布代码结束 -->
+    </section>
+    <section id="tuiguang">
+      <ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-8797832128539033"
+     data-ad-slot="7642380109"></ins>
+    </section>
+  </aside>
+
+  <footer>
+    <br />
+    <p>&copy; 2012 <a href="/" title="dead_horse">Dead Horse</a> | Powerd by <a href="https://github.com/mojombo/jekyll" title="jekyll">jekyll</a> | Hosted by <a href="https://pages.github.com/" title="github page">github page</p>
+  </footer>
+<!-- Free template created by http://freehtml5templates.com -->
+<div id="clicki_widget_4831" ></div>
+<a href="https://github.com/dead-horse" id="fork"></a>
+<script src="/scripts/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+$('a').addClass('grow-rotate');
+$('a').click(function () {
+  var redirect = $(this).attr('href');
+  if (redirect.indexOf('http') === 0) {
+    window.open(redirect);
+    return false;
+  }
+  return true;
+});
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- personal website -->
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+</html>

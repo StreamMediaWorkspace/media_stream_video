@@ -1,0 +1,1127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例 - 海阔天空 张翼飞翔 - 博客生活
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" /><meta name="rtmp 协议" content="rtmp 协议 C++ 代码 学习 流媒体"/><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.cnweblog.com/Skins/AnotherEon001/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnweblog.com/fly2700/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="280641.html" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=hCqqcDq62xC48aLO1-oizzph91mftTcpBQYAMmX9y1_MEKckib0uai68YudFFqahbIRj8ZaZB19FpMr30&amp;t=635588906575142005" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=-BecoVNwDVCZ4TW3gB_ZzPWfgjCQ_C64O4hNc3pweA4UGq0B-lWFnUMMAtqURN0AZF_f7fxk9s5U1gsq0foUhwHdXezBbn_OgCN5EL300MOu7Jb-c7WU_a2OCK01&amp;t=634979442364873750" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=4npu1eCN6HUVuTPPO5YDuuBNC2hrBvTsGEVYQhhAo9CX_hfoT2Mz1UGnoo5C32pPXZvBizBLMnY0_szRgrGRkyv7-BsG0CvEejE8Vl3Xt8nd-D_58kXSDmaBFOFFj7w3EMKivQ2&amp;t=634979442364873750" type="text/javascript"></script>
+        C++ rtmp ZeroC ICE
+<table width="100%" class="Framework" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnweblog.com/fly2700/">海阔天空 张翼飞翔</a></h1>
+<div id="subtitle">我的学习日记</div>
+</div>
+<div id="sub">
+<div class="BlogStats">随笔 - 77, 文章 - 2, 评论 - 126, 引用 - 0</div>
+</div>
+
+
+</td>
+	</tr>
+</table>
+<table width="100%" class="Framework" cellspacing="0" cellpadding="0">
+	<tr>
+		<td rowspan="2" class="LeftCell" >
+			<div id="leftmenu">
+				数据加载中……
+			</div>
+		</td>
+		<td class="MainCell">
+			<div id="main">
+				
+					
+	<div class="post">
+		<h2>
+			<a id="viewpost1_TitleUrl" href="http://www.cnweblog.com/fly2700/archive/2008/04/02/280641.html">RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例</a>
+		</h2>
+		<div class="postbody">
+		<font size="3">
+				<p>
+						<strong style="color: #0000ff;">(原创)</strong>
+						<br />关键词：C++ RTMP协议 发送 H264 AAC&nbsp; 具体实现&nbsp; 发布直播&nbsp; 支持red5 fms &nbsp;flash直播<br />我用C++实现了rtmp协议,实现了flash的publish的功能,支持red5 fms3等流媒体服务器。<br />1,采用x264压缩视频成H264格式，采用faac压缩音频成AAC格式。<br />2,音视频数据封装成RTMP包,并向FMS3发送直播流。<br />3,可录制，保存为MP4格式的文件存放在服务端, 可用来点播。<br />4,使用FlashPlayer可观看直播内容,或点播录制内容。<br /><br /><strong>使用方法:</strong><br />1,服务器使用FMS3.5以上。<br />2,将你的FlashPlayer版本升级到9.0.115以上。<br />3,在程序界面的Fms3 Url中将"<font size="3">rtmp://127.0.0.1/live/stream"</font>修改成你实际FMS3地址。我这里Url格式是rtmp://[ServerIP]/[Application]/[StreamName]。<br />4.选择视频设备，如果您的计算机没有摄像头，可选择Screen，那么将捕捉您的计算机屏幕当做视频源。<br />5,选择音频设备，我这里选择的是 "Realtek HD Audio Input"。<br />4.点Encoder开始编码压缩，并开始发送直播流。如果发送成功则Encode按钮会变灰。<br />5.点Play可进行直播，如果成功会看到如下图像。<br />6.或者用其他flash播放器从fms上直播，播放用的url是rtmp://127.0.0.1/live/ ，流名是stream。<br /><br /></p>
+		</font>
+		<font size="3">
+				<strong>程序界面：<br /></strong>
+		</font>
+		<font size="3">
+				<img border="0" alt="" src="/images/cnweblog_com/fly2700/Encoder.jpg" width="894" height="510" twffan="done" />&nbsp;<br /></font>
+		<font size="3">
+				<br />
+				<br />程序下载&nbsp;<a href="/Files/fly2700/FlashMediaEncoder130813.23.rar"><font size="3">&nbsp;FlashMediaEncoder</font></a><br />协议分析请参考<a href="/fly2700/archive/2008/04/09/281431.html">http://www.cnweblog.com/fly2700/archive/2008/04/09/281431.html</a></font>
+		<font size="3">
+				<br />
+		</font>
+		<br />
+		</div>
+		<p class="postfoot">
+			posted on 2008-04-02 23:57 <a href='http://www.cnweblog.com/fly2700/'>ZhangEF</a> 阅读(23530) <a href='#Post'>评论(44)</a> &nbsp;<a href="http://www.cnweblog.com/fly2700/admin/EditPosts.aspx?postid=280641">编辑</a> &nbsp;<a href="http://www.cnweblog.com/fly2700/AddToFavorite.aspx?id=280641">收藏</a>  所属分类: <a href='http://www.cnweblog.com/fly2700/category/17076.html'>rtmp</a> 
+		</p>
+	</div>
+	<img src ="http://www.cnweblog.com/fly2700/aggbug/280641.html?webview=1" width = "1" height = "1" />
+	
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.cnweblog.com/fly2700/archive/2008/04/02/280641.html"
+dc:identifier="http://www.cnweblog.com/fly2700/archive/2008/04/02/280641.html"
+dc:title="RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例"
+trackback:ping="http://www.cnweblog.com/fly2700/services/trackbacks/280641.aspx" />
+</rdf:RDF>
+-->
+
+	<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    <a name="pagedcomment"></a>
+<a name = "评论" />
+<div id="comments">
+<h3>评论</h3>
+	
+	
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议的实现 C++代码" href="/fly2700/archive/2008/04/02/280641.html#280844">#</a>&nbsp;<a name="280844"></a>re: RTMP协议的实现 C++代码&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;spring&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=spring" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl00_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl00_EditLink"></a>
+				</h2>
+				能实现j2me的吗？如果能，小弟急需，谢谢
+				<div class="postfoot">
+					2008-04-04 14:15 | <a id="AjaxHolder_Comments_CommentList_ctl00_NameLink" target="_blank">spring</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议的实现 C++代码" href="/fly2700/archive/2008/04/02/280641.html#281291">#</a>&nbsp;<a name="281291"></a>re: RTMP协议的实现 C++代码&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></a>
+				</h2>
+				&#64;spring<br>我有j2se版本的，相信改成j2me也很容易。
+				<div class="postfoot">
+					2008-04-08 09:22 | <a id="AjaxHolder_Comments_CommentList_ctl01_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实现 C++代码" href="/fly2700/archive/2008/04/02/280641.html#287728">#</a>&nbsp;<a name="287728"></a>re: RTMP协议实现 C++代码&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Luis Pater&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=Luis+Pater" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></a>
+				</h2>
+				哥们，有j2se的source么？能发给我一份么？<br>luispater#gmail.com<br>谢谢了哈！
+				<div class="postfoot">
+					2008-06-01 17:18 | <a id="AjaxHolder_Comments_CommentList_ctl02_NameLink" target="_blank">Luis Pater</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实现 C++代码" href="/fly2700/archive/2008/04/02/280641.html#287824">#</a>&nbsp;<a name="287824"></a>re: RTMP协议实现 C++代码&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Fan&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=Fan" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl03_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl03$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_EditLink"></a>
+				</h2>
+				做的很好呀，能不能有深入合作呢？我的QQ 2104406.急盼联系
+				<div class="postfoot">
+					2008-06-02 17:26 | <a id="AjaxHolder_Comments_CommentList_ctl03_NameLink" target="_blank">Fan</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#298741">#</a>&nbsp;<a name="298741"></a>re: RTMP协议 C++实现FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;小龙&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%b0%8f%e9%be%99" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl04_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl04$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_EditLink"></a>
+				</h2>
+				大哥，能不能发我源码啊，，，我非常的感谢ziwei55&#64;163.com
+				<div class="postfoot">
+					2009-02-25 15:15 | <a id="AjaxHolder_Comments_CommentList_ctl04_NameLink" target="_blank">小龙</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#298921">#</a>&nbsp;<a name="298921"></a>re: RTMP协议 C++实现FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;我&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e6%88%91" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl05_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl05$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_EditLink"></a>
+				</h2>
+				能开放一下源码吗？
+				<div class="postfoot">
+					2009-03-02 10:50 | <a id="AjaxHolder_Comments_CommentList_ctl05_NameLink" target="_blank">我</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#299622">#</a>&nbsp;<a name="299622"></a>re: RTMP协议 C++实现FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl06_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl06$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_EditLink"></a>
+				</h2>
+				开放源代码公司不允许的,欢迎视频合作.
+				<div class="postfoot">
+					2009-03-18 20:40 | <a id="AjaxHolder_Comments_CommentList_ctl06_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#305056">#</a>&nbsp;<a name="305056"></a>re: RTMP协议 C++实现FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;joe&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=joe" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl07_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl07$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_EditLink"></a>
+				</h2>
+				正是我需要的，希望能够深入合作，请联系我QQ：46613869 夏雨雪<br>也可发我QQ邮箱。
+				<div class="postfoot">
+					2009-08-18 12:46 | <a id="AjaxHolder_Comments_CommentList_ctl07_NameLink" target="_blank">joe</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#306338">#</a>&nbsp;<a name="306338"></a>re: RTMP协议 C++实现FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;彭铿&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%bd%ad%e9%93%bf" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl08_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl08$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_EditLink"></a>
+				</h2>
+				我们公司需要你这SDK，可以深入合作吗？具体请联系QQ：273186014
+				<div class="postfoot">
+					2009-09-28 12:32 | <a id="AjaxHolder_Comments_CommentList_ctl08_NameLink" target="_blank">彭铿</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议 C++实现FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#306806">#</a>&nbsp;<a name="306806"></a>re: RTMP协议 C++实现FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;kenny&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=kenny" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl09_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl09$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl09_EditLink"></a>
+				</h2>
+				可以给份源码吗？ guohongshenggx&#64;tom.com qq:724415266  不胜感谢！
+				<div class="postfoot">
+					2009-10-21 12:02 | <a id="AjaxHolder_Comments_CommentList_ctl09_NameLink" target="_blank">kenny</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#309070">#</a>&nbsp;<a name="309070"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;孙毅&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%ad%99%e6%af%85" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl10_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl10$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl10_EditLink"></a>
+				</h2>
+				公司很需要这个，可以深入合作吗？请联系Email：yi.sun&#64;ema.com.cn<br>QQ：56023707
+				<div class="postfoot">
+					2010-01-20 11:51 | <a id="AjaxHolder_Comments_CommentList_ctl10_NameLink" target="_blank">孙毅</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#310102">#</a>&nbsp;<a name="310102"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;lf&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=lf" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl11_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl11$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl11_EditLink"></a>
+				</h2>
+				怎么使用……没有介绍么……
+				<div class="postfoot">
+					2010-03-03 11:12 | <a id="AjaxHolder_Comments_CommentList_ctl11_NameLink" target="_blank">lf</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#311373">#</a>&nbsp;<a name="311373"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl12_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl12$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl12_EditLink"></a>
+				</h2>
+				使用说明已经写上去了。
+				<div class="postfoot">
+					2010-05-11 10:17 | <a id="AjaxHolder_Comments_CommentList_ctl12_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#311374">#</a>&nbsp;<a name="311374"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ladeng&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ladeng" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl13_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl13$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl13_EditLink"></a>
+				</h2>
+				请问博主，我怎么下载不下来，还请明示！最近做arm的rtmp传输，学习你的经验！我的邮箱ghasddyx&#64;163.com
+				<div class="postfoot">
+					2010-05-11 10:50 | <a id="AjaxHolder_Comments_CommentList_ctl13_NameLink" href="http://hi.baidu.com/sddghaladeng" target="_blank">ladeng</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#312084">#</a>&nbsp;<a name="312084"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;shelley&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=shelley" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl14_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl14$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl14_EditLink"></a>
+				</h2>
+				为什么videoDevice下拉框是空白的，也不能输入Screan呢？在别的客户端也可以用rtmp观看实时的视频流么？如rtmp://192.168.8.3/live/stream
+				<div class="postfoot">
+					2010-06-21 14:26 | <a id="AjaxHolder_Comments_CommentList_ctl14_NameLink" target="_blank">shelley</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#312171">#</a>&nbsp;<a name="312171"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;xiaoran&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=xiaoran" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl15_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl15$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl15_EditLink"></a>
+				</h2>
+				最近在做FLASH实时播放，想了解相关的技术，跟牛人学习。希望深入合作QQ:58485808
+				<div class="postfoot">
+					2010-06-24 11:23 | <a id="AjaxHolder_Comments_CommentList_ctl15_NameLink" target="_blank">xiaoran</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#312177">#</a>&nbsp;<a name="312177"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl16_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl16$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl16_EditLink"></a>
+				</h2>
+				TO:shelley <br>为什么videoDevice下拉框是空白的. <br>如果你的计算机没有摄像头，下拉框就是白的，但不影响使用，别的客户端可以看到你发布的直播流的。
+				<div class="postfoot">
+					2010-06-24 22:57 | <a id="AjaxHolder_Comments_CommentList_ctl16_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#313078">#</a>&nbsp;<a name="313078"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;周小武&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%91%a8%e5%b0%8f%e6%ad%a6" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl17_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl17$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl17_EditLink"></a>
+				</h2>
+				H264/AAC只能是封装到MP4文件中吗？这文件看得头大。FLV1不能直接封装H264/AAC流吗？这问题我弄了很久...
+				<div class="postfoot">
+					2010-08-11 16:04 | <a id="AjaxHolder_Comments_CommentList_ctl17_NameLink" target="_blank">周小武</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#313079">#</a>&nbsp;<a name="313079"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;周小武&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%91%a8%e5%b0%8f%e6%ad%a6" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl18_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl18$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl18_EditLink"></a>
+				</h2>
+				QQ23520813 希望高人能指点下。MP4的文件格式看一次 头疼一次。<br>不知道实时流数据如何封装以及如何提取出来。
+				<div class="postfoot">
+					2010-08-11 16:14 | <a id="AjaxHolder_Comments_CommentList_ctl18_NameLink" target="_blank">周小武</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#313273">#</a>&nbsp;<a name="313273"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;anoymouse&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=anoymouse" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl19_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl19$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl19_EditLink"></a>
+				</h2>
+				看界面就知道有问题，没有输入streamname的地方。
+				<div class="postfoot">
+					2010-08-23 21:02 | <a id="AjaxHolder_Comments_CommentList_ctl19_NameLink" target="_blank">anoymouse</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#313285">#</a>&nbsp;<a name="313285"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl20_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl20$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl20_EditLink"></a>
+				</h2>
+				To：楼上anoymouse <br>  “看界面就知道有问题，没有输入streamname的地方。 ”<br>你一定不知道flex里面有种url是这样写的:<br>rtmp://[server]/[app]/[streamname]<br>这种写法服务器地址和流名写在一行，简洁明了，所以我也采用此写法。我在使用方法第6条有格式说明。<br>我在我自己博客里面发表点东西，也没有必要骗你。<br>
+				<div class="postfoot">
+					2010-08-24 11:01 | <a id="AjaxHolder_Comments_CommentList_ctl20_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#315188">#</a>&nbsp;<a name="315188"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;游客&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e6%b8%b8%e5%ae%a2" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl21_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl21$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl21_EditLink"></a>
+				</h2>
+				您好：<br>     我用你的Flash Media Encoder程序发rtmp流，FMS Url ： rtmp://127.0.0.1/live/stream，然后我用Adobe Flash Player独立播放器播放这个Url，但是无法播放，用您的Flash Media Encoder程序可以，是不我输入Adobe Flash Player的Url有问题？
+				<div class="postfoot">
+					2011-01-19 22:36 | <a id="AjaxHolder_Comments_CommentList_ctl21_NameLink" target="_blank">游客</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: 请问如何在对话框中用Flashplayer播放rtmp实时流？" href="/fly2700/archive/2008/04/02/280641.html#315230">#</a>&nbsp;<a name="315230"></a>请问如何在对话框中用Flashplayer播放rtmp实时流？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;flasher&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=flasher" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl22_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl22$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl22_EditLink"></a>
+				</h2>
+				请问如何在对话框中用Flashplayer播放rtmp实时流？<br><br>是用CShockwaveFlash控件来实现的吗？<br><br>m_pFlashPlayer是一个成功创建的CShockwaveFlash控件，我用如下代码播放rtmp流不成功：<br><br>m_pFlashPlayer-&gt;LoadMovie(0, strPlayUrl);//设置flash动画路径<br>m_pFlashPlayer-&gt;put_BackgroundColor(-1);//无背景色<br>m_pFlashPlayer-&gt;Rewind();//从头开始播放<br>m_pFlashPlayer-&gt;Play();//播放<br><br>如果strPlayUrl 是一个本地的swf文件是可以播放的，但如果是rtmp://127.0.0.1/live/stream这样的内容，就不能播放了。<br><br>盼答复！<br><br>谢谢！
+				<div class="postfoot">
+					2011-01-25 21:46 | <a id="AjaxHolder_Comments_CommentList_ctl22_NameLink" target="_blank">flasher</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#315344">#</a>&nbsp;<a name="315344"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl23_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl23$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl23_EditLink"></a>
+				</h2>
+				&#64;游客<br>用独立的flashplayer播放不了，可能是因为你的url填错了。<br>如果你发布的是 rtmp://127.0.0.1/live/stream<br>那么你在AS语言中对应的代码是这样写：<br><br>nc.connect(&quot;rtmp://127.0.0.1/live&quot;);<br>ns.play(&quot;stream&quot;);
+				<div class="postfoot">
+					2011-02-16 11:29 | <a id="AjaxHolder_Comments_CommentList_ctl23_NameLink" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#315345">#</a>&nbsp;<a name="315345"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl24_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl24$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl24_EditLink"></a>
+				</h2>
+				&#64;flasher<br><br>你是说本地的swf文件不能放rtmp://127.0.0.1/live/stream这样的内容吧，Demo程序里我把url和stream连在一起写了，和as语言有点不同。<br><br>用其他flash播放器从fms上直播，播放用的url是rtmp://127.0.0.1/live/ ，流名是stream。
+				<div class="postfoot">
+					2011-02-16 11:35 | <a id="AjaxHolder_Comments_CommentList_ctl24_NameLink" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#315354">#</a>&nbsp;<a name="315354"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;flasher&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=flasher" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl25_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl25$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl25_EditLink"></a>
+				</h2>
+				&#64;ZhangEF<br><br>我想实现一个MFC程序中通过CShockwaveFlash控件来播放rtmp实时流。<br><br>和你这个程序类似，用户输入RMTP url或者本地swf文件，通过CShockwaveFlash控件来播放。<br><br>比如m_pFlashPlayer是一个成功创建的CShockwaveFlash控件，我用如下代码来播放：<br><br>m_pFlashPlayer-&gt;LoadMovie(0, strPlayUrl);//设置flash动画路径 <br>m_pFlashPlayer-&gt;put_BackgroundColor(-1);//无背景色 <br>m_pFlashPlayer-&gt;Rewind();//从头开始播放 <br>m_pFlashPlayer-&gt;Play();//播放 <br><br>如果strPlayUrl 是一个本地的swf文件（如d:\\test.swf)是可以播放的，但如果是strPlayUrl = rtmp://127.0.0.1/live/stream，就不能播放了。 <br><br>你有提到用as脚本，我在一个VC程序里面如何调用as脚本？<br><br>是通过调用CShockwaveFlash控件的SetVariable方法或者CallFunction方法吗？<br><br>请给点参考。<br><br>谢谢。
+				<div class="postfoot">
+					2011-02-17 16:31 | <a id="AjaxHolder_Comments_CommentList_ctl25_NameLink" target="_blank">flasher</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#315394">#</a>&nbsp;<a name="315394"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;YH&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=YH" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl26_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl26$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl26_EditLink"></a>
+				</h2>
+				您好，请问您是使用什么进行捕捉摄像头数据的，directshow？
+				<div class="postfoot">
+					2011-02-21 17:52 | <a id="AjaxHolder_Comments_CommentList_ctl26_NameLink" target="_blank">YH</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]" href="/fly2700/archive/2008/04/02/280641.html#315523">#</a>&nbsp;<a name="315523"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl27_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl27$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl27_EditLink"></a>
+				</h2>
+				&#64;YH<br>我的确是采用DirectShow采集音视频的 :-）
+				<div class="postfoot">
+					2011-03-09 13:29 | <a id="AjaxHolder_Comments_CommentList_ctl27_NameLink" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#315534">#</a>&nbsp;<a name="315534"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;aojingbo&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=aojingbo" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl28_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl28$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl28_EditLink"></a>
+				</h2>
+				项目合作，有意联系我QQ：304045172 
+				<div class="postfoot">
+					2011-03-10 16:27 | <a id="AjaxHolder_Comments_CommentList_ctl28_NameLink" target="_blank">aojingbo</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议实例 C++实现的FlashMediaEncoder" href="/fly2700/archive/2008/04/02/280641.html#317413">#</a>&nbsp;<a name="317413"></a>re: RTMP协议实例 C++实现的FlashMediaEncoder&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;zxy&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=zxy" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl29_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl29$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl29_EditLink"></a>
+				</h2>
+				公司很需要这个，可以深入合作吗？请联系Email：zxy5241&#64;hotmail.com<br>QQ：5209049
+				<div class="postfoot">
+					2011-08-17 10:50 | <a id="AjaxHolder_Comments_CommentList_ctl29_NameLink" target="_blank">zxy</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#318217">#</a>&nbsp;<a name="318217"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;chivas&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=chivas" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl30_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl30$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl30_EditLink"></a>
+				</h2>
+				你好，请问RTMP包发送应该采用什么机制？我现在是把rtmp包放入到queue里面，线程在不停地取queue中的rtmp包，然后发出去。但是发包速度很慢，queue总是堆积很厉害。希望更给点建议，谢谢！
+				<div class="postfoot">
+					2011-10-19 16:03 | <a id="AjaxHolder_Comments_CommentList_ctl30_NameLink" target="_blank">chivas</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#318468">#</a>&nbsp;<a name="318468"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;net5you&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=net5you" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl31_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl31$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl31_EditLink"></a>
+				</h2>
+				正是我一直在找的，测试很有效，看来程序不在大小，高手写的就是不一样，不到1M结果比那些几十兆的都管用。<br>有机会合作。
+				<div class="postfoot">
+					2011-11-11 00:55 | <a id="AjaxHolder_Comments_CommentList_ctl31_NameLink" target="_blank">net5you</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#319811">#</a>&nbsp;<a name="319811"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;clyde&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=clyde" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl32_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl32$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl32_EditLink"></a>
+				</h2>
+				请问fms有没有提供api可以在c++中调用，完成握手，连接等等，是不是都要自己按照rtmp协议的格式去封装一个个packet,然后利用套接字去与服务器打交道，完成握手，连接以及数据的发送，急救！！！！！！！！！！！
+				<div class="postfoot">
+					2012-02-29 10:28 | <a id="AjaxHolder_Comments_CommentList_ctl32_NameLink" target="_blank">clyde</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#320110">#</a>&nbsp;<a name="320110"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;RTMP&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=RTMP" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl33_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl33$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl33_EditLink"></a>
+				</h2>
+				会有版权问题的。看看RTMP协义的发布时间就知道了。
+				<div class="postfoot">
+					2012-03-24 16:25 | <a id="AjaxHolder_Comments_CommentList_ctl33_NameLink" target="_blank">RTMP</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#322674">#</a>&nbsp;<a name="322674"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;周先生&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e5%91%a8%e5%85%88%e7%94%9f" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl34_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl34$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl34_EditLink"></a>
+				</h2>
+				本人也是做了近10年的视频编解码开发,可以考虑合作.QQ:1049568282.擅长FFMPEG,SDL,DIRECTSHOW开发.
+				<div class="postfoot">
+					2013-02-20 16:08 | <a id="AjaxHolder_Comments_CommentList_ctl34_NameLink" href="http://%e5%8f%af%e4%bb%a5%e5%90%88%e4%bd%9c" target="_blank">周先生</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#323594">#</a>&nbsp;<a name="323594"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;玫玫&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e7%8e%ab%e7%8e%ab" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl35_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl35$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl35_EditLink"></a>
+				</h2>
+				高手，谢谢分享！
+				<div class="postfoot">
+					2013-11-20 15:38 | <a id="AjaxHolder_Comments_CommentList_ctl35_NameLink" target="_blank">玫玫</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#323667">#</a>&nbsp;<a name="323667"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;韩先生&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e9%9f%a9%e5%85%88%e7%94%9f" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl36_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl36$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl36_EditLink"></a>
+				</h2>
+				您好！我现在也在做这方面的东西，就是把视频流发布到FMS上去，想请教一下，内部的协议时怎样的，就是在开始建立连接的时候，客户端发什么命令给服务器，服务器又发什么回来给客户端，最后才能建立连接成功。建立连接的时候，流名称和url是要写在一起吗，还是分开写，非常感谢！
+				<div class="postfoot">
+					2014-01-02 17:49 | <a id="AjaxHolder_Comments_CommentList_ctl36_NameLink" target="_blank">韩先生</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#324009">#</a>&nbsp;<a name="324009"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;一生何求&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e4%b8%80%e7%94%9f%e4%bd%95%e6%b1%82" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl37_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl37$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl37_EditLink"></a>
+				</h2>
+				最近用RTMP协议发送h.264码流到FMS,可是接收的数据flash media player无法解码,我单独把数据(去掉多余的FLV格式)保存下来,可以用其他播放器播放的.<br>不知道是不是时间戳打得不正确.<br>因为只是单独发送视频流,我给时间戳写了	m_pRtmpPacket-&gt;m_nTimeStamp =  40;   // 40ms
+				<div class="postfoot">
+					2014-07-14 18:17 | <a id="AjaxHolder_Comments_CommentList_ctl37_NameLink" target="_blank">一生何求</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#324014">#</a>&nbsp;<a name="324014"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;一生何求&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e4%b8%80%e7%94%9f%e4%bd%95%e6%b1%82" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl38_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl38$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl38_EditLink"></a>
+				</h2>
+				找得到原因了,原来是发送pps 时少了一个字节的pps数量
+				<div class="postfoot">
+					2014-07-16 15:56 | <a id="AjaxHolder_Comments_CommentList_ctl38_NameLink" target="_blank">一生何求</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#324156">#</a>&nbsp;<a name="324156"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;星宇信息&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e6%98%9f%e5%ae%87%e4%bf%a1%e6%81%af" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl39_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl39$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl39_EditLink"></a>
+				</h2>
+				QQ:114539454  期待合作<br>Email：lclc88&#64;163.com
+				<div class="postfoot">
+					2014-10-12 18:18 | <a id="AjaxHolder_Comments_CommentList_ctl39_NameLink" target="_blank">星宇信息</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#324526">#</a>&nbsp;<a name="324526"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;陈先生&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e9%99%88%e5%85%88%e7%94%9f" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl40_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl40$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl40_EditLink"></a>
+				</h2>
+				单独使用可以，但是，在VC代码里调用，点击编码时就中断，怎么回事？
+				<div class="postfoot">
+					2015-06-25 10:10 | <a id="AjaxHolder_Comments_CommentList_ctl40_NameLink" target="_blank">陈先生</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#324732">#</a>&nbsp;<a name="324732"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;购买这套源码,请发邮件给我&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=%e8%b4%ad%e4%b9%b0%e8%bf%99%e5%a5%97%e6%ba%90%e7%a0%81%2c%e8%af%b7%e5%8f%91%e9%82%ae%e4%bb%b6%e7%bb%99%e6%88%91" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl41_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl41$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl41_EditLink"></a>
+				</h2>
+				购买这套源码,请发邮件给我<br>godphp&#64;qq.com
+				<div class="postfoot">
+					2016-01-19 21:07 | <a id="AjaxHolder_Comments_CommentList_ctl41_NameLink" target="_blank">购买这套源码,请发邮件给我</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例[未登录]" href="/fly2700/archive/2008/04/02/280641.html#324841">#</a>&nbsp;<a name="324841"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例[未登录]&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jack&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=jack" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl42_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl42$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl42_EditLink"></a>
+				</h2>
+				&#64;ZhangEF請問使用域名怎麼說服務器連接不了（rtmp://域名/hls/test）像這樣的
+				<div class="postfoot">
+					2016-06-15 08:24 | <a id="AjaxHolder_Comments_CommentList_ctl42_NameLink" target="_blank">jack</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a title="permalink: re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例" href="/fly2700/archive/2008/04/02/280641.html#325180">#</a>&nbsp;<a name="325180"></a>re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例<a name="Post"></a>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZhangEF&quot;)" href="/fly2700/archive/2008/04/02/280641.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnweblog.com/comment?author=ZhangEF" target="_blank">更多评论</a>
+					<a id="AjaxHolder_Comments_CommentList_ctl43_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl43$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl43_EditLink"></a>
+				</h2>
+				这都9年前的坟贴了，别挖了。 我这个程序的RTMP协议栈2010年后就没维护了。 2010年后有开源项目librtmp可以用了。免费开源的。
+				<div class="postfoot">
+					2017-05-09 17:17 | <a id="AjaxHolder_Comments_CommentList_ctl43_NameLink" href="http://www.cnweblog.com/fly2700/" target="_blank">ZhangEF</a>
+				</div>
+			</div>
+		
+</div>
+
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		
+		<tr><td colSpan="3">只有注册用户<a href='http://www.cnweblog.com/login.aspx?ReturnUrl=/fly2700/archive/2008/04/02/280641.html'>登录</a>后才能发表评论。</td></tr>
+		<TR>
+			<TD colSpan="3" style="display:none">该文被作者在 2019-09-07 19:36 编辑过</TD>
+		</TR>
+		<!--
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		-->
+		<TR>
+			<TD colSpan="3"></TD>
+		</TR>
+		<tr>			
+		<td colspan="3">
+		
+		</td>
+		</tr>
+		<TR>
+			<TD colSpan="3" height="5">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com" title="程序员的网上家园">博客园</a>&nbsp;&nbsp;
+			<a href="https://news.cnblogs.com">IT新闻</a>&nbsp;&nbsp;
+			<a href="http://kb.cnblogs.com">知识库</a>&nbsp;&nbsp;
+			<a href="http://www.blogjava.net">Java博客</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="https://q.cnblogs.com">博问</a>
+			<br/>
+			<a href="/fly2700/archive/2008/04/02/280641.html?opt=admin">管理</a>
+			</div></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;">
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl01_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2015/08/24/324605.html">基于flashplayer的视频播放优化</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl02_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/22/319072.html">FMS4.5  HTML5 直播流（HLS）的发布和iPad直播</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl03_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/06/318916.html">花了5天时间，终于解决了一个bug，心情非常愉快，憋了这么久，不吐不快</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl04_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/11/25/318784.html">0.9.1版本的Red5  安装和部署</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl05_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/10/19/318218.html">关于 RTMP RTMPT RTMPS  RTMPE  RTMPTE RTMFP AMF 简介</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl06_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2009/02/06/297957.html">关于rtmp中数据类型为0x16的封包</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl07_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/06/20/289170.html">采用lua编写wireshark插件</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl08_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/14/281952.html">Wowza Media Server 播放实时H264流 采用Wirecast</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl09_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/11/281632.html">Wowza Media Server服务器播 点播H264流</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl10_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/09/281432.html">RTMP协议分析 二、AMF数据</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>	
+		<TR>
+			<TD colSpan="3">
+				</TD>
+		</TR>		
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+</div>
+
+</div>
+
+				
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="FooterCell">
+			
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a id="Footer1_Hyperlink3" NAME="Hyperlink1" href="http://www.cnweblog.com/" style="font-family:Verdana;font-size:12px;">博客生活</a>
+	<br />
+	Copyright &copy; ZhangEF
+</p><script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-476124-2";
+urchinTracker();
+</script>
+		</td>
+	</tr>
+</table>
+<div id="lefttemp" style="display:none">
+
+					
+<h3>导航</h3>
+<ul>
+	<li>
+		
+	<li>
+		
+	<li>
+		<a id="MyLinks1_NewPostLink" href="http://www.cnweblog.com/fly2700/admin/EditPosts.aspx?opt=1">新随笔</a>
+	<li>
+		<a id="MyLinks1_ContactLink" accesskey="9" href="http://www.cnweblog.com/fly2700/contact.aspx?id=1">联系</a>
+	<li>
+		<a id="MyLinks1_XMLLink" href="http://www.cnweblog.com/fly2700/rss"><img src="http://www.cnweblog.com/images/xml.gif" alt="RSS 2.0 Feed" style="border-width:0px;" /></a><a id="MyLinks1_Syndication" href="http://www.cnweblog.com/fly2700/rss">聚合</a>
+	<li>
+		<a id="MyLinks1_Admin" href="http://www.cnweblog.com/fly2700/admin/EditPosts.aspx">管理</a></li>
+
+</ul>
+
+					<table id="Calendar1_entryCal" class="Cal" cellspacing="0" cellpadding="0" title="日历" border="0" style="border-width:1px;border-style:solid;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:Silver;"><table class="CalTitle" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+		<tr><td class="CalNextPrev" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V2982')" style="color:Black" title="转到上一个月">&lt;</a></td><td align="center" style="width:70%;">2008年4月</td><td class="CalNextPrev" align="right" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3043')" style="color:Black" title="转到下一个月">&gt;</a></td></tr>
+	</table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">31</td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/01.html"><u>1</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/02.html"><u>2</u></a></td><td align="center" style="width:14%;">3</td><td align="center" style="width:14%;">4</td><td class="CalWeekendDay" align="center" style="width:14%;">5</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">6</td><td align="center" style="width:14%;">7</td><td align="center" style="width:14%;">8</td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/09.html"><u>9</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/10.html"><u>10</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/11.html"><u>11</u></a></td><td class="CalWeekendDay" align="center" style="width:14%;">12</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">13</td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/14.html"><u>14</u></a></td><td align="center" style="width:14%;">15</td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/16.html"><u>16</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/17.html"><u>17</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/18.html"><u>18</u></a></td><td class="CalWeekendDay" align="center" style="width:14%;">19</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">20</td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/21.html"><u>21</u></a></td><td align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/22.html"><u>22</u></a></td><td align="center" style="width:14%;">23</td><td align="center" style="width:14%;">24</td><td align="center" style="width:14%;">25</td><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.cnweblog.com/fly2700/archive/2008/04/26.html"><u>26</u></a></td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;">29</td><td align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">1</td><td class="CalOtherMonthDay" align="center" style="width:14%;">2</td><td class="CalOtherMonthDay" align="center" style="width:14%;">3</td></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">4</td><td class="CalOtherMonthDay" align="center" style="width:14%;">5</td><td class="CalOtherMonthDay" align="center" style="width:14%;">6</td><td class="CalOtherMonthDay" align="center" style="width:14%;">7</td><td class="CalOtherMonthDay" align="center" style="width:14%;">8</td><td class="CalOtherMonthDay" align="center" style="width:14%;">9</td><td class="CalOtherMonthDay" align="center" style="width:14%;">10</td></tr>
+</table>
+
+					
+					
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.cnweblog.com/fly2700/category/18886.html">Android(5)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to Android(5)" href="http://www.cnweblog.com/fly2700/category/18886.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.cnweblog.com/fly2700/category/17045.html">C/C++(16)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to C/C++(16)" href="http://www.cnweblog.com/fly2700/category/17045.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" href="http://www.cnweblog.com/fly2700/category/18672.html">Code(10)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to Code(10)" href="http://www.cnweblog.com/fly2700/category/18672.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" href="http://www.cnweblog.com/fly2700/category/17154.html">Flex(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to Flex(2)" href="http://www.cnweblog.com/fly2700/category/17154.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" href="http://www.cnweblog.com/fly2700/category/17044.html">GNU编译(6)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to GNU编译(6)" href="http://www.cnweblog.com/fly2700/category/17044.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" href="http://www.cnweblog.com/fly2700/category/18992.html">H5视频直播(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to H5视频直播(1)" href="http://www.cnweblog.com/fly2700/category/18992.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" href="http://www.cnweblog.com/fly2700/category/17046.html">Linux(7)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to Linux(7)" href="http://www.cnweblog.com/fly2700/category/17046.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link" href="http://www.cnweblog.com/fly2700/category/17076.html">rtmp(15)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink" title="Subscribe to rtmp(15)" href="http://www.cnweblog.com/fly2700/category/17076.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link" href="http://www.cnweblog.com/fly2700/category/17199.html">Socket(10)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink" title="Subscribe to Socket(10)" href="http://www.cnweblog.com/fly2700/category/17199.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_Link" href="http://www.cnweblog.com/fly2700/category/18711.html">配置部署(15)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_RssLink" title="Subscribe to 配置部署(15)" href="http://www.cnweblog.com/fly2700/category/18711.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_Link" href="http://www.cnweblog.com/fly2700/category/18624.html">其他(9)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_RssLink" title="Subscribe to 其他(9)" href="http://www.cnweblog.com/fly2700/category/18624.html/rss">(rss)</a></li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://www.cnweblog.com/fly2700/archive/2019/09.html">2019年9月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" href="http://www.cnweblog.com/fly2700/archive/2017/05.html">2017年5月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" href="http://www.cnweblog.com/fly2700/archive/2015/08.html">2015年8月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" href="http://www.cnweblog.com/fly2700/archive/2014/04.html">2014年4月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" href="http://www.cnweblog.com/fly2700/archive/2013/07.html">2013年7月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" href="http://www.cnweblog.com/fly2700/archive/2013/06.html">2013年6月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" href="http://www.cnweblog.com/fly2700/archive/2013/04.html">2013年4月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" href="http://www.cnweblog.com/fly2700/archive/2013/03.html">2013年3月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" href="http://www.cnweblog.com/fly2700/archive/2012/12.html">2012年12月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl10_Link" href="http://www.cnweblog.com/fly2700/archive/2012/11.html">2012年11月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl11_Link" href="http://www.cnweblog.com/fly2700/archive/2012/09.html">2012年9月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl12_Link" href="http://www.cnweblog.com/fly2700/archive/2012/05.html">2012年5月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl13_Link" href="http://www.cnweblog.com/fly2700/archive/2012/04.html">2012年4月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl14_Link" href="http://www.cnweblog.com/fly2700/archive/2012/03.html">2012年3月 (7)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl15_Link" href="http://www.cnweblog.com/fly2700/archive/2012/02.html">2012年2月 (3)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl16_Link" href="http://www.cnweblog.com/fly2700/archive/2011/12.html">2011年12月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl17_Link" href="http://www.cnweblog.com/fly2700/archive/2011/11.html">2011年11月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl18_Link" href="http://www.cnweblog.com/fly2700/archive/2011/10.html">2011年10月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl19_Link" href="http://www.cnweblog.com/fly2700/archive/2011/09.html">2011年9月 (4)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl20_Link" href="http://www.cnweblog.com/fly2700/archive/2011/06.html">2011年6月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl21_Link" href="http://www.cnweblog.com/fly2700/archive/2011/01.html">2011年1月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl22_Link" href="http://www.cnweblog.com/fly2700/archive/2010/07.html">2010年7月 (4)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl23_Link" href="http://www.cnweblog.com/fly2700/archive/2010/05.html">2010年5月 (4)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl24_Link" href="http://www.cnweblog.com/fly2700/archive/2010/04.html">2010年4月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl25_Link" href="http://www.cnweblog.com/fly2700/archive/2009/03.html">2009年3月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl26_Link" href="http://www.cnweblog.com/fly2700/archive/2009/02.html">2009年2月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl27_Link" href="http://www.cnweblog.com/fly2700/archive/2008/09.html">2008年9月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl28_Link" href="http://www.cnweblog.com/fly2700/archive/2008/07.html">2008年7月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl29_Link" href="http://www.cnweblog.com/fly2700/archive/2008/06.html">2008年6月 (3)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl30_Link" href="http://www.cnweblog.com/fly2700/archive/2008/05.html">2008年5月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl31_Link" href="http://www.cnweblog.com/fly2700/archive/2008/04.html">2008年4月 (17)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl32_Link" href="http://www.cnweblog.com/fly2700/archive/2008/03.html">2008年3月 (9)</a></li>
+			
+				</ul>
+			
+	
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<H3>搜索</H3>
+<ul>
+	<li>
+		<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.cnweblog.com/fly2700')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.cnweblog.com/fly2700')" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<H3>积分与排名</H3>
+<ul>
+	<li>
+		积分 -
+		180638
+	<li>
+		排名 -
+		12
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__2817b91_RSSHyperlink1" href="http://www.cnweblog.com/fly2700/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2817b91_CommentList_ctl01_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2017/05/09/280641.html#325180">1. re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例</a>
+			</li>
+			<li style="word-break:break-all">
+				这都9年前的坟贴了，别挖了。 我这个程序的RTMP协议栈2010年后就没维护了。 2010年后有开源项目librtmp可以用了。免费开源的。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--ZhangEF</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2817b91_CommentList_ctl02_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2016/06/15/280641.html#324841">2. re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				@ZhangEF請問使用域名怎麼說服務器連接不了（rtmp://域名/hls/test）像這樣的
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--jack</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2817b91_CommentList_ctl03_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2016/03/24/319718.html#324760">3. re: FU-A分包方式，以及从RTP包里面得到H.264数据和AAC数据的方法[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				有packRTPAAC吗？
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--wang</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2817b91_CommentList_ctl04_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2016/01/19/280641.html#324732">4. re: RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例</a>
+			</li>
+			<li style="word-break:break-all">
+				购买这套源码,请发邮件给我<br>godphp@qq.com
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--购买这套源码,请发邮件给我</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2817b91_CommentList_ctl05_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2015/11/12/324605.html#324683">5. re: 基于flashplayer的视频播放优化[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Eric</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__3094f78_TopList_ctl01_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/02/280641.html">1. RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例(23529)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__3094f78_TopList_ctl02_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/09/281431.html">2. RTMP协议分析 一、RTMP包头(23078)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__3094f78_TopList_ctl03_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/22/319072.html">3. FMS4.5  HTML5 直播流（HLS）的发布和iPad直播(17487)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__3094f78_TopList_ctl04_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/09/281432.html">4. RTMP协议分析 二、AMF数据(13257)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__3094f78_TopList_ctl05_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/06/318916.html">5. 花了5天时间，终于解决了一个bug，心情非常愉快，憋了这么久，不吐不快(12050)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__5017be_TopList_ctl01_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/02/280641.html">1. RTMP协议发送H264 AAC音视频实例 C++实现的RTMP程序实例(44)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__5017be_TopList_ctl02_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2008/04/09/281431.html">2. RTMP协议分析 一、RTMP包头(25)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__5017be_TopList_ctl03_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/06/318916.html">3. 花了5天时间，终于解决了一个bug，心情非常愉快，憋了这么久，不吐不快(13)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__5017be_TopList_ctl04_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2011/12/22/319072.html">4. FMS4.5  HTML5 直播流（HLS）的发布和iPad直播(9)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__5017be_TopList_ctl05_Hyperlink1" href="http://www.cnweblog.com/fly2700/archive/2009/02/06/297957.html">5. 关于rtmp中数据类型为0x16的封包(6)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+
+</div>
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-2");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <title>数字音视频基础 - 程序之家</title>        
+        <meta name="description" content="数字音视频基础  音视频构成：文件名，图像，声音，字幕播放一个视频文件的流程: 三原色由于人类肉眼有三种不同颜色的感光体，因此所见的色彩空间通常可以由三种基本色表达，这三种颜色被称为 三原色叠加型：红色、绿色、蓝色。消减型：品红色、黄色、青......" />
+        <meta name="Keywords" content="音频,编码,素数,H264,RTMP" />
+<meta itemprop="name" content="数字音视频基础  音视频构成：文件名，图像，声音，字幕播放一个视频文件的流程: 三原色由于人类肉眼有三种不同颜色的感光体，因此所见的色彩空间通常可以由三种基本色表达，这三种颜色被称为 三原色叠加型：红色、绿色、蓝色。消减型：品红色、黄色、青......"/>
+<meta itemprop="image" content="http://artimg.xcx1024.com/20190604215521901_ZEKZSG.jpg" />
+        <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />   
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />                
+        <link href="/Styles/Cxzj.css" rel="stylesheet"/>
+
+        <link href="/Styles/Cxzj_R.css" rel="stylesheet"/>
+
+        <script src="/Scripts/jquery-1.11.1.min.js"></script>
+
+        <script src="/Layer/layer.js"></script>
+
+        <script src="/JS/Cxzj.js"></script>
+
+        <script src="/JS/BaiduStatis.js"></script>
+
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                if (IsWechat()) {
+                    var timestamp = parseInt(new Date().getTime() / 1000);//时间戳
+                    var nonceStr = Math.random().toString(36).substr(2, 15);//随机串
+                    var surl = window.location.href.split("#")[0];
+                    $.ajax({
+                        type: "POST",
+                        url: "/WeChat/GetWechatSignature",
+                        data: { NonceStr: nonceStr, Timestamp: timestamp, SUrl: surl },
+                        success: function (data) {
+                            //$("body").html(data);
+                            data = eval("(" + data + ")");
+                            wx.config({
+                                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                appId: data["AppID"], // 必填，公众号的唯一标识
+                                timestamp: timestamp, // 必填，生成签名的时间戳
+                                nonceStr: nonceStr, // 必填，生成签名的随机串
+                                signature: data["Signature"],// 必填，签名，见附录1
+                                jsApiList: ['scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline']
+                                // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                            });
+
+                        },
+                        error: function (a, b, c) {
+                        }
+                    });
+                }
+
+            });
+
+            wx.ready(function () {
+
+                var ShareTitle = "", ShareLink = "", ShareImgUrl = "", ShareDes = "";
+                if ($("#Share_Title")) { ShareTitle = $("#Share_Title").html(); }
+                if ($("#Share_Link")) { ShareLink = $("#Share_Link").html(); }
+                if ($("#Share_ImgUrl")) { ShareImgUrl = $("#Share_ImgUrl").html(); }
+                if ($("#Share_Desc")) { ShareDes = $("#Share_Desc").html(); }
+                if (ShareTitle == "" || ShareTitle == undefined) { ShareTitle = $("title").html(); }
+                if (ShareLink == "" || ShareLink == undefined) { ShareLink = window.location.href; }
+                if (ShareImgUrl == "" || ShareImgUrl == undefined) { ShareImgUrl = "http://www.xcx1024.com/Images/toolImg/Logo_WechatShare.png"; }
+                if (ShareDes == "" || ShareDes == undefined) { ShareDes = "程序之家,开启创意编程时代！"; }
+                ShareLink = ShareLink.replace("http://xcx1024.com", "http://www.xcx1024.com");
+
+                // wx.hideOptionMenu();
+                wx.onMenuShareTimeline({
+                    title: ShareTitle,
+                    link: ShareLink,
+                    imgUrl: ShareImgUrl,
+                    success: function (res) {
+                        // 用户确认分享后执行的回调函数
+                        //alert('分享到朋友圈成功');
+                        var ResStr = JSON.stringify(res);
+
+                        AddShareRecord(window.location.href.split("#")[0], "WeChatTimeLine", ResStr);
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        //alert('你没有分享到朋友圈');
+                    }
+                });
+                wx.onMenuShareAppMessage({
+                    title: ShareTitle,
+                    desc: ShareDes,
+                    link: ShareLink,
+                    imgUrl: ShareImgUrl,
+                    trigger: function (res) {
+                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                    },
+                    success: function (res) {
+                        var ResStr = JSON.stringify(res);
+                        AddShareRecord(window.location.href.split("#")[0], "WeChatMessage", ResStr);
+                    },
+                    cancel: function (res) {
+                        //alert('你没有分享给朋友');
+                    },
+                    fail: function (res) {
+                    }
+                });
+                wx.error(function (res) {
+                    //// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+                });
+            });
+
+
+        </script>
+    </head>
+<body>
+
+    <!--头部-->
+    <div class="c maintonal">
+        <div class="con head">
+            <a title="程序之家" href="http://xcx1024.com" class="logo">
+                <img alt="程序之家Logo" class="pclogo" src="/Images/toolImg/Logo.png" />
+                <img alt="程序之家移动端Logo" class="mobilelogo hide" src="/Images/toolImg/Logo_Mobile.png" />
+            </a>
+
+
+            <div class="nav">
+                <ul>
+                    <li><a   href="http://www.xcx1024.com/">推荐</a></li><li><a   href="http://www.xcx1024.com/Hottech/">热门技术</a></li><li><a   href="http://www.xcx1024.com/Applet/">小程序</a></li><li><a   href="http://www.xcx1024.com/Download/">下载</a></li><li><a   href="http://www.xcx1024.com/InterviewRes/">面试</a></li><li><a   href="http://www.xcx1024.com/Job/">招聘</a></li><li><a   href="http://www.xcx1024.com/PostEdit/">投稿</a></li><li><a   href="http://www.xcx1024.com/UploadRes/">传资源</a></li>
+                    
+                </ul>
+            </div>
+
+            <div class="headuser">                
+                <a target="_blank" href="http://xcx1024.com/Login" class="userimg nologin"></a><a title="登录" target="_blank" href="http://xcx1024.com/Login" class="linka">登录</a><a title="注册" target="_blank" href="http://xcx1024.com/Register" class="linka" >注册</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="body">
+        
+        <section class="content-wrapper main-content clear-fix">
+            <script src="/JS/Art.js"></script>
+
+<script src="/JS/Barrage.js"></script>
+
+
+
+<script type="text/javascript">
+    var _ArtFrom = "FromCSDN";
+</script>
+
+<!--内容-->
+<div class="c top20">
+    <div class="con">
+
+        <div class="detailcontent">
+            <!--图文详情-->
+            <div class="detail">
+                <div class="detailcon">
+                    <a target="_blank" title="Zhou" href="http://www.xcx1024.com/UserArtList/Art/wz+QhQqFWw4=" class="detailuser"><img alt="Zhou" src="http://userimg.xcx1024.com/user20190706_234436_YVVJTF.JPG" /><span><font class="username">Zhou</font><font class="date">06-04 21:55</font></span></a><div class="arttag"><a target="_blank" title="音频" href="http://www.xcx1024.com/Search/All/%E9%9F%B3%E9%A2%91" class="t1">音频</a><a target="_blank" title="编码" href="http://www.xcx1024.com/Search/All/%E7%BC%96%E7%A0%81" class="t2">编码</a><a target="_blank" title="素数" href="http://www.xcx1024.com/Search/All/%E7%B4%A0%E6%95%B0" class="t3">素数</a><a target="_blank" title="H264" href="http://www.xcx1024.com/Search/All/H264" class="t4">H264</a><a target="_blank" title="RTMP" href="http://www.xcx1024.com/Search/All/RTMP" class="t5">RTMP</a></div><div class="detailinfo aligncenter"><h1 class="arttitle">数字音视频基础</h1><p class="top20" ><div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod=popu_307 data-dsm="post">
+              
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-f57960eb32.css" />
+                              <div id="content_views" class="markdown_views prism-atom-one-dark">
+            <!-- flowchart 箭头图标 勿删 -->
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+            </svg>
+            <h1 id="数字音视频基础">数字音视频基础</h1>
+
+<blockquote>
+  <p>音视频构成：文件名，图像，声音，字幕</p>
+</blockquote>
+
+<p>播放一个视频文件的流程: <br>
+<img src="http://artimg.xcx1024.com/20190604215521901_ZEKZSG.jpg" alt="这里写图片描述" title=""></p>
+
+<h3 id="三原色">三原色</h3>
+
+<ul>
+<li>由于人类肉眼有三种不同颜色的感光体，因此所见的色彩空间通常可以由三种基本色表达，这三种颜色被称为 <strong>三原色</strong></li>
+<li>叠加型：红色、绿色、蓝色。</li>
+<li>消减型：品红色、黄色、青色。</li>
+</ul>
+
+<h3 id="色彩空间">色彩空间</h3>
+
+<ul>
+<li>R、G、B（红、绿、蓝）</li>
+<li>Y、U、V （Y为亮色，U、V为色差）</li>
+</ul>
+
+<blockquote>
+  <p>其中 <code>Y</code>表示明亮度(Lumina nce或Luma)，也就是灰阶值； <br>
+  而<code>U</code>和<code>V</code>表示的是色度，作用是描述影响色彩及饱和度，用于指定像素的颜色</p>
+</blockquote>
+
+<p><a href="https://wenku.baidu.com/view/44d969e3336c1eb91b375d4e.html" rel="nofollow">yuv rgb 互转 公式 及算法</a></p>
+
+<h3 id="采样格式yuv分量不同">采样格式（YUV分量不同）</h3>
+
+<p>数字视频的采样格式有： <br>
+- 4:4:4 –色差分量没有下采样 <br>
+- 4:2:2 – 色差分量进行水平下采样没有垂直下采样 <br>
+- 4:1:1 – 色差分量进行了4:1的水平下采样没有垂直下采样 <br>
+- 4:2:0 – 色彩分量分别进行2:1的水平和垂直下采样</p>
+
+<h3 id="视频动画原理">视频动画原理</h3>
+
+<ul>
+<li>帧：视频的一个画面</li>
+<li>帧率：单位时间内，从图像序列中所能获取的完整图片的数量，单位是fps（帧/秒）</li>
+<li>视频分辨率：图像大小（横向zongxiang）</li>
+<li>采样率：将模拟信号转换成数字信号时的采样频率，也就是单位时间内采样的多少点，一个采样点数据有多少个比特。单位Hz</li>
+<li>码率：单位时间内传输的数据位数，通常以kbps或Mbps为单位</li>
+<li>时间戳</li>
+</ul>
+
+<h3 id="视频采集">视频采集</h3>
+
+<ul>
+<li>Windows视频采集技术 <br>
+<ul><li>Directshow</li>
+<li>VFW(Video for Windows)</li></ul></li>
+<li>Directshow <br>
+<ul><li>基于com实现，提供了一系列视频数据操作接口</li>
+<li>重要接口ISampleGrabberCB <br>
+STDMETHODIMP BufferCB(double dbISampleTime,byte *pBuffer,long IBufferSize);</li></ul></li>
+</ul>
+
+<h3 id="视频压缩">视频压缩</h3>
+
+<ul>
+<li>摄像头原始数据 <br>
+YUV,RGB</li>
+<li>按照ITU601的建议，传输1秒钟的PAL制式信号的原始数据量为： <br>
+720*576*16*25/8 = 20736000 byte = 20MB/s <br>
+1GB硬盘存:1GB/20MB = 51s的节目</li>
+<li>结论：要使数字电视信号适合于实际存储和传输，必须压缩数据。</li>
+<li>前提：压缩后图像质量要满足视觉要求；</li>
+</ul>
+
+
+
+<h3 id="视频编码数据">视频编码数据</h3>
+
+<p>将视频像素数据(RGB，YUV等)压缩成为视频码流，从而降低视频的数据量  <br>
+常见视频编码格式:  <br>
+<img src="http://artimg.xcx1024.com/20190604215522346_UROMLA.jpg" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="音频编码数据">音频编码数据</h3>
+
+<p>将音频采样数据(PCM等)压缩成为音频码流，从而降低音频的数据量  <br>
+常见音频编码格式: </p>
+
+<p><img src="http://artimg.xcx1024.com/20190604215522716_SSSNTT.jpg" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="视频像素数据">视频像素数据</h3>
+
+<blockquote>
+  <p>保存了屏幕上每个像素点的像素值。  常见的像素数据格式有RGB24， RGB32， YUV420P，YUV422P， <br>
+  YUV444P等。压缩编码中一般使用的是YUV格式的像素数据，最为常 见的格式为YUV420P。</p>
+</blockquote>
+
+<h3 id="音频采样数据">音频采样数据</h3>
+
+<blockquote>
+  <p>保存了音频中每个采样点的值。  音频采样数据体积很大，一般情况下一首4分钟的PCM格式的  歌曲体积为:  <br>
+  4*60*44100*2*2=42.3MByte  PS:这里假定采样率为44100Hz，采样精度为16bit。</p>
+</blockquote>
+
+<h3 id="视频压缩标准发展史">视频压缩标准发展史</h3>
+
+<p><a href="https://blog.csdn.net/chen_chun_guang/article/details/7229164" rel="nofollow">视频压缩标准发展历史（一）</a> <br>
+<a href="https://wenku.baidu.com/view/f5901bf0f90f76c661371a4d.html" rel="nofollow">国际视频压缩标准</a> <br>
+<a href="https://wenku.baidu.com/view/b726befcfab069dc5022014b.html" rel="nofollow">视频编码与压缩技术发展史</a></p>
+
+<h3 id="封装格式">封装格式</h3>
+
+<p><img src="http://artimg.xcx1024.com/20190604215523059_KRDYBJ.jpg" alt="这里写图片描述" title=""></p>
+
+<ul>
+<li>封装格式 <br>
+TS,AVI,MKV,Mpeg，MOV,M2T等等，不同的封装方式就像是不同的盒子，高清视频要用它装起来才能呈现给观众。 <br>
+<ul><li>录音(PCM)  —&gt; 音频数据压缩(aac) —&gt; 封装(mp4,mkv,flv…)</li>
+<li>录像(YUV420) —&gt; 视频数据压缩(h264) —&gt; 封装(mp4,mkv,flv…)</li></ul></li>
+<li>文件播放 <br>
+<ul><li>本地(网络)视频 —— 解协议(http,rtmp,file) —— 解封装(mp4,mlv,avi,wmv,…) —— 视频解码(h264,h263,h265…) —— 图像数据到显卡</li>
+<li>音频解码(aac,g729,g711…) —— 声音数据至声卡</li></ul></li>
+</ul>
+
+<h3 id="流媒体传输rtprtmp">流媒体传输：rtp，rtmp</h3>
+
+<ul>
+<li>视频采集(YUV420) ——&gt; 视频压缩（H264/H265 NALU） ——&gt; 缓冲区 ——&gt; RTP/RTMP传输(rtp包)  ——&gt; 网络传输(UDP,IP包)   ——&gt; INTERNET ——&gt;UDP,IP解包 ——&gt;RTP解包(NALU)——&gt; 缓冲区 ——&gt; H264/H265视频解码(YUV420) ——&gt; 视频播放(YUV)</li>
+</ul>
+
+<h3 id="常用工具简介">常用工具简介</h3>
+
+<ul>
+<li>音视频相关知识学习博客：<a href="https://blog.csdn.net/leixiaohua1020" rel="nofollow">雷霄华</a></li>
+<li>视频采集：DirectShow(api)</li>
+<li>视频剪辑: 格式工厂，会声会影</li>
+<li>视频播放器: potplayer,vlc,ffplay;</li>
+<li>视频编解码工具: ffpmeg + api</li>
+</ul>          </div>
+          <link href="https://csdnimg.cn/release/phoenix/mdeditor/markdown_views-258a4616f7.css" rel="stylesheet">
+                  </div><p class="pimg"><img alt="官场书屋二维码" src="http://artimg.xcx1024.com/Chengxuzhijia.jpg"></p></p></div><div class="detaillike"><span title="点赞:0"      class="like"         onclick="UserArtOperation('35093','Like','add',this)">0</span><span title="倒赞:0"   class="dislike"   onclick="UserArtOperation('35093','DisLike','add',this)">0</span><span title="收藏:0" class="favorite" onclick="UserArtOperation('35093','Favourite','add',this)">0</span><a href="http://www.xcx1024.com/ArtInfo/35093.html#Comment" title="评论:0" class="reply">0</a></div>
+                    
+
+
+
+                </div>
+            </div>
+
+
+            <!--评论部分-->
+            <div class="comment" id="Comment">
+
+                <!--发表评论-->
+                <div class="recomment">
+                    <textarea id="TBComment" class="colorgray">期待你的评论...</textarea>
+                    <span class="btn right right" onclick="SubmitCommentByArt(35093)">评论</span>
+                </div>
+
+
+                <!--热门评论-->
+                
+                
+
+
+                <!--评论-->
+                
+                
+
+
+                <!--加载更多-->
+                
+
+            </div>
+
+            <!--为你推荐-->
+            
+            <div class="art"><h3 class="reforyou"><font>为您推荐</font></h3><ul class="artlist firstnoborder"><li><h2 class="arttitle"><a target="_blank" title="C++ 中的深拷贝与浅拷贝" href="http://www.xcx1024.com/ArtInfo/2709905.html"">C++ 中的深拷贝与浅拷贝</a></h2><span class="artdes">浅拷贝：又称值拷贝，将源对象的值拷贝到目标对象中去，本质上来说源对象和目标对象共用一份实体，只是所引用的变量名不同，地址其实还是相同的。举个简单的例子，你的小名叫西西，大名叫冬冬，当别人叫你西西或者冬冬的时候你都会答应，这两个名字虽然不相同......</span><div class="arttags"><a target="_blank" title="内存" href="http://www.xcx1024.com/Search/All/%E5%86%85%E5%AD%98" class="t1">内存</a><a target="_blank" title="构造函数" href="http://www.xcx1024.com/Search/All/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0" class="t2">构造函数</a><a target="_blank" title="深拷贝" href="http://www.xcx1024.com/Search/All/%E6%B7%B1%E6%8B%B7%E8%B4%9D" class="t3">深拷贝</a><a target="_blank" title="strcpy" href="http://www.xcx1024.com/Search/All/STRCPY" class="t4">strcpy</a><a target="_blank" title="Opera" href="http://www.xcx1024.com/Search/All/OPERA" class="t5">Opera</a></div><div class="artother"><a  target="_blank" title="创意编程姐" href="http://www.xcx1024.com/UserArtList/Art/IcbYrtcPYNw=" class="artuser"><img alt="创意编程姐" src="http://userimg.xcx1024.com/user20180427045803.jpg" /><span>创意编程姐</span></a><span class="date">10-04 17:17</span><div class="view"></div></div></li><li><h2 class="arttitle"><a target="_blank" title="加解密算法" href="http://www.xcx1024.com/ArtInfo/2709916.html"">加解密算法</a></h2><span class="artdes">加密算法分对称加密（加密与解密密钥相同）：加解密的过程是可逆的。算法主要有DES：以 64 位为 分组对数据 加密，它的 密钥长度 是 56 位，加密解密 用 同一算法。DES 加密算法是对 密钥 进行保密，而 公开算法。3DES：是基于 ......</span><div class="arttags"><a target="_blank" title="md5" href="http://www.xcx1024.com/Search/All/MD5" class="t1">md5</a><a target="_blank" title="加密算法" href="http://www.xcx1024.com/Search/All/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95" class="t2">加密算法</a><a target="_blank" title="安全" href="http://www.xcx1024.com/Search/All/%E5%AE%89%E5%85%A8" class="t3">安全</a><a target="_blank" title="数字签名" href="http://www.xcx1024.com/Search/All/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D" class="t4">数字签名</a><a target="_blank" title="AES" href="http://www.xcx1024.com/Search/All/AES" class="t5">AES</a></div><div class="artother"><a  target="_blank" title="王子攻城狮" href="http://www.xcx1024.com/UserArtList/Art/VGt5dhcIbFE=" class="artuser"><img alt="王子攻城狮" src="http://userimg.xcx1024.com/user20180427044141.jpg" /><span>王子攻城狮</span></a><span class="date">10-04 17:17</span><div class="view"></div></div></li><li><h2 class="arttitle"><a target="_blank" title="C++ 拷贝构造函数和赋值运算符" href="http://www.xcx1024.com/ArtInfo/2709904.html"">C++ 拷贝构造函数和赋值运算符</a></h2><span class="artdes">这篇文章主要介绍拷贝构造函数和赋值运算符的区别，以及在什么时候调用拷贝构造函数，什么情况下调用赋值运算符。　　　　　　拷贝构造函数和赋值运算符　　在默认情况下（用户没有定义，但是也没有显示的删除），编译器会自动隐式生成一个拷贝构造函数和赋值......</span><div class="arttags"><a target="_blank" title="构造函数" href="http://www.xcx1024.com/Search/All/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0" class="t1">构造函数</a><a target="_blank" title="运算符" href="http://www.xcx1024.com/Search/All/%E8%BF%90%E7%AE%97%E7%AC%A6" class="t2">运算符</a><a target="_blank" title="编译器" href="http://www.xcx1024.com/Search/All/%E7%BC%96%E8%AF%91%E5%99%A8" class="t3">编译器</a><a target="_blank" title="iOS" href="http://www.xcx1024.com/Search/All/IOS" class="t4">iOS</a><a target="_blank" title="Stream" href="http://www.xcx1024.com/Search/All/STREAM" class="t5">Stream</a></div><div class="artother"><a  target="_blank" title="IT侠客" href="http://www.xcx1024.com/UserArtList/Art/NhZeh0de4k8=" class="artuser"><img alt="IT侠客" src="http://userimg.xcx1024.com/user20180427041724.jpg" /><span>IT侠客</span></a><span class="date">10-04 17:16</span><div class="view"></div></div></li><li><h2 class="arttitle"><a target="_blank" title="字典树" href="http://www.xcx1024.com/ArtInfo/2709918.html"">字典树</a></h2><span class="artdes">又称为Trie，或Prefix Tree，一个节点的所有子孙都有相同的前缀，根结点一般为空，每个节点一般有26个孩子，对应26个英文字母应用：(1) 自动补全 (2) 拼写检查 (3) IP路由表 在IP路由表中进行路由匹配时, 要按照最长......</span><div class="arttags"><a target="_blank" title="输入法" href="http://www.xcx1024.com/Search/All/%E8%BE%93%E5%85%A5%E6%B3%95" class="t1">输入法</a><a target="_blank" title="游戏" href="http://www.xcx1024.com/Search/All/%E6%B8%B8%E6%88%8F" class="t2">游戏</a><a target="_blank" title="自动匹配" href="http://www.xcx1024.com/Search/All/%E8%87%AA%E5%8A%A8%E5%8C%B9%E9%85%8D" class="t3">自动匹配</a></div><div class="artother"><a  target="_blank" title="富贵稳中求" href="http://www.xcx1024.com/UserArtList/Art/QxuvXibvCxzjms=" class="artuser"><img alt="富贵稳中求" src="http://userimg.xcx1024.com/user20180427043017.jpg" /><span>富贵稳中求</span></a><span class="date">10-04 17:18</span><div class="view"></div></div></li><li><h2 class="arttitle"><a target="_blank" title="Cookie、Session和Token" href="http://www.xcx1024.com/ArtInfo/2709917.html"">Cookie、Session和Token</a></h2><span class="artdes">一、COOKIE：在网站中，http请求是无状态的。也就是说即使第一次和服务器连接后并且登录成功后，第二次请求服务器依然不能知道当前请求是哪个用户。cookie的出现就是为了解决这个问题，第一次登录后服务器返回一些数据（cookie）给浏览......</span><div class="arttags"><a target="_blank" title="cookie" href="http://www.xcx1024.com/Search/All/COOKIE" class="t1">cookie</a><a target="_blank" title="JWT" href="http://www.xcx1024.com/Search/All/JWT" class="t2">JWT</a><a target="_blank" title="Token" href="http://www.xcx1024.com/Search/All/TOKEN" class="t3">Token</a><a target="_blank" title="加密" href="http://www.xcx1024.com/Search/All/%E5%8A%A0%E5%AF%86" class="t4">加密</a><a target="_blank" title="字符串" href="http://www.xcx1024.com/Search/All/%E5%AD%97%E7%AC%A6%E4%B8%B2" class="t5">字符串</a></div><div class="artother"><a  target="_blank" title="Arcadia" href="http://www.xcx1024.com/UserArtList/Art/M7WVvpUnJ2o=" class="artuser"><img alt="Arcadia" src="http://userimg.xcx1024.com/user20180426101248.jpeg" /><span>Arcadia</span></a><span class="date">10-04 17:18</span><div class="view"></div></div></li></ul></div>
+            
+
+        </div>
+
+
+        <!--右侧部分-->
+        <div class="rightarea">
+
+            <!--搜索框-->
+            <div class="rightsearch">
+                <div>
+                    <input id="TBRightKeyword" onkeydown="VkeydownByRight(event)" type="text" placeholder="搜程序之家" />
+                    <span title="点击发起搜索" onclick="SearchByRight()">搜索</span>
+                </div>
+            </div>
+
+            <!--热门标签-->
+            <div class="hottag"><h2>热搜标签<a target="_blank" title="标签库" href="http://www.xcx1024.com/Tag" >更多>></a></h2><a target="_blank" title="程序之家" href="http://www.xcx1024.com/Search/All/%e7%a8%8b%e5%ba%8f%e4%b9%8b%e5%ae%b6" class="t1">程序之家</a><a target="_blank" title="Python" href="http://www.xcx1024.com/Search/All/Python" class="t2">Python</a><a target="_blank" title="Java" href="http://www.xcx1024.com/Search/All/Java" class="t3">Java</a><a target="_blank" title="反向代理" href="http://www.xcx1024.com/Search/All/%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86" class="t4">反向代理</a><a target="_blank" title="JavaScript" href="http://www.xcx1024.com/Search/All/JavaScript" class="t5">JavaScript</a><a target="_blank" title="负载均衡" href="http://www.xcx1024.com/Search/All/%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1" class="t1">负载均衡</a><a target="_blank" title="MYSQL" href="http://www.xcx1024.com/Search/All/MYSQL" class="t2">MYSQL</a><a target="_blank" title="scratch" href="http://www.xcx1024.com/Search/All/scratch" class="t3">scratch</a><a target="_blank" title="Tomcat" href="http://www.xcx1024.com/Search/All/Tomcat" class="t4">Tomcat</a><a target="_blank" title="SpringBoot" href="http://www.xcx1024.com/Search/All/SpringBoot" class="t5">SpringBoot</a><a target="_blank" title="JDK" href="http://www.xcx1024.com/Search/All/JDK" class="t1">JDK</a><a target="_blank" title="多线程" href="http://www.xcx1024.com/Search/All/%e5%a4%9a%e7%ba%bf%e7%a8%8b" class="t2">多线程</a><a target="_blank" title="Redis" href="http://www.xcx1024.com/Search/All/Redis" class="t3">Redis</a><a target="_blank" title="SQL" href="http://www.xcx1024.com/Search/All/SQL" class="t4">SQL</a><a target="_blank" title="创意编程" href="http://www.xcx1024.com/Search/All/%e5%88%9b%e6%84%8f%e7%bc%96%e7%a8%8b" class="t5">创意编程</a><a target="_blank" title="区块链" href="http://www.xcx1024.com/Search/All/%e5%8c%ba%e5%9d%97%e9%93%be" class="t1">区块链</a><a target="_blank" title="微服务架构" href="http://www.xcx1024.com/Search/All/%e5%be%ae%e6%9c%8d%e5%8a%a1%e6%9e%b6%e6%9e%84" class="t2">微服务架构</a><a target="_blank" title="synchronized" href="http://www.xcx1024.com/Search/All/synchronized" class="t3">synchronized</a><a target="_blank" title="少儿编程" href="http://www.xcx1024.com/Search/All/%e5%b0%91%e5%84%bf%e7%bc%96%e7%a8%8b" class="t4">少儿编程</a><a target="_blank" title="人工智能" href="http://www.xcx1024.com/Search/All/%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd" class="t5">人工智能</a><a target="_blank" title="云计算" href="http://www.xcx1024.com/Search/All/%e4%ba%91%e8%ae%a1%e7%ae%97" class="t1">云计算</a><a target="_blank" title="大数据" href="http://www.xcx1024.com/Search/All/%e5%a4%a7%e6%95%b0%e6%8d%ae" class="t2">大数据</a><a target="_blank" title="Linux" href="http://www.xcx1024.com/Search/All/Linux" class="t3">Linux</a><a target="_blank" title="正则表达式" href="http://www.xcx1024.com/Search/All/%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="t4">正则表达式</a><a target="_blank" title="5G" href="http://www.xcx1024.com/Search/All/5G" class="t5">5G</a><a target="_blank" title="分布式" href="http://www.xcx1024.com/Search/All/%e5%88%86%e5%b8%83%e5%bc%8f" class="t1">分布式</a><a target="_blank" title="Nodejs" href="http://www.xcx1024.com/Search/All/Nodejs" class="t2">Nodejs</a><a target="_blank" title="敏捷开发" href="http://www.xcx1024.com/Search/All/%e6%95%8f%e6%8d%b7%e5%bc%80%e5%8f%91" class="t3">敏捷开发</a><a target="_blank" title="Dubbo" href="http://www.xcx1024.com/Search/All/Dubbo" class="t4">Dubbo</a><a target="_blank" title="Lambda表达式" href="http://www.xcx1024.com/Search/All/Lambda%e8%a1%a8%e8%be%be%e5%bc%8f" class="t5">Lambda表达式</a><a target="_blank" title="Flutter" href="http://www.xcx1024.com/Search/All/Flutter" class="t1">Flutter</a><a target="_blank" title="reactnative" href="http://www.xcx1024.com/Search/All/reactnative" class="t2">reactnative</a><a target="_blank" title="异步调用" href="http://www.xcx1024.com/Search/All/%e5%bc%82%e6%ad%a5%e8%b0%83%e7%94%a8" class="t3">异步调用</a><a target="_blank" title="微信小程序" href="http://www.xcx1024.com/Search/All/%e5%be%ae%e4%bf%a1%e5%b0%8f%e7%a8%8b%e5%ba%8f" class="t4">微信小程序</a><a target="_blank" title="线程池" href="http://www.xcx1024.com/Search/All/%e7%ba%bf%e7%a8%8b%e6%b1%a0" class="t5">线程池</a><a target="_blank" title="JVM" href="http://www.xcx1024.com/Search/All/JVM" class="t1">JVM</a><a target="_blank" title="IOS" href="http://www.xcx1024.com/Search/All/IOS" class="t2">IOS</a><a target="_blank" title="Android" href="http://www.xcx1024.com/Search/All/Android" class="t3">Android</a><a target="_blank" title="H5" href="http://www.xcx1024.com/Search/All/H5" class="t4">H5</a><a target="_blank" title="CSS3" href="http://www.xcx1024.com/Search/All/CSS3" class="t5">CSS3</a><a target="_blank" title="VUE" href="http://www.xcx1024.com/Search/All/VUE" class="t1">VUE</a></div>
+            
+
+            <!--热门分类-->
+            <div class="hottype"><h2>热门分类</h2><ul><li><a target="_blank" href="http://www.xcx1024.com/Hottech/1/"><i class="i1"></i><span>移动开发</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/2/"><i class="i2"></i><span>开发技术</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/3/"><i class="i3"></i><span>网络技术</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/4/"><i class="i4"></i><span>操作系统</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/5/"><i class="i5"></i><span>安全技术</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/6/"><i class="i6"></i><span>数据库</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/7/"><i class="i7"></i><span>服务器应用</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/8/"><i class="i8"></i><span>存储</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/9/"><i class="i9"></i><span>云计算</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/10/"><i class="i10"></i><span>大数据</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/11/"><i class="i11"></i><span>区块链</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/12/"><i class="i12"></i><span>人工智能</span></a></li><li><a target="_blank" href="http://www.xcx1024.com/Hottech/13/"><i class="i13"></i><span>游戏开发</span></a></li></ul></div>
+            
+
+            <!--热门用户-->           
+             <div class="hotuser"><h2>博客专家</h2><ul><li><a target="_blank" href="http://www.xcx1024.com/UserArtList/Art/p32rVkTBchengxuzhijiaB8=" title="Jack_WJQ"><img alt="Jack_WJQ" src="http://userimg.xcx1024.com/user20190830_214512_DEVIMM.jpg" /><span><font class="username">Jack_WJQ</font><font class="userdes"></font></span></a></li><li><a target="_blank" href="http://www.xcx1024.com/UserArtList/Art/oQpwoGzehW0=" title="一休"><img alt="一休" src="http://userimg.xcx1024.com/WeChat_20190117182750_7132.jpg" /><span><font class="username">一休</font><font class="userdes"></font></span></a></li><li><a target="_blank" href="http://www.xcx1024.com/UserArtList/Art/wchengxuzhijiaXndLmio1c=" title="周"><img alt="周" src="http://userimg.xcx1024.com/WeChat_20190117180747_2910.jpg" /><span><font class="username">周</font><font class="userdes"></font></span></a></li></ul></div>
+            
+
+            <!--关注我们-->
+            <div class="qrcode">
+                <h2>聊骚我们</h2>
+                <img alt="程序之家微信公众号" src="/Images/toolImg/QRCode.jpg" />
+                <span>程序之家公众号</span>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<!--固定块-->
+<ul class="toolbtn">
+    <li class="toolsubmi"><a title="投稿" ></a></li>
+    <li class="toup hide" title="滑到顶部"></li>
+    <li class="close hide" title="关闭"></li>
+</ul>
+
+<!--弹幕-->
+<div class="barragecon"></div>
+        </section>
+    </div>
+
+    <!--用于微信分享-->
+    <span id="Share_Title" class="hide">数字音视频基础</span>
+    <span id="Share_Desc" class="hide">数字音视频基础  音视频构成：文件名，图像，声音，字幕播放一个视频文件的流程: 三原色由于人类肉眼有三种不同颜色的感光体，因此所见的色彩空间通常可以由三种基本色表达，这三种颜色被称为 三原色叠加型：红色、绿色、蓝色。消减型：品红色、黄色、青......</span>
+    <span id="Share_Link" class="hide">http://www.xcx1024.com/ArtInfo/35093.html</span>
+    <span id="Share_ImgUrl" class="hide">http://artimg.xcx1024.com/20190604215521901_ZEKZSG.jpg</span>
+
+    <!--底部信息-->
+    <div class="c top60">
+        <div class="con bottominfo">
+            <ul class="bottomnav">
+                <li><a target="_blank" href="http://xcx1024.com/Chengxuzhijia/About/">关于我们</a></li>
+                <li><a target="_blank" href="http://xcx1024.com/Chengxuzhijia/ContactUs/">联系我们</a></li>
+                <li><a target="_blank" href="http://xcx1024.com/Chengxuzhijia/Helper/">使用帮助</a></li>
+                <li><a target="_blank" href="http://xcx1024.com/Chengxuzhijia/UserProtocol/">用户协议</a></li>
+                <li><a target="_blank" href="http://xcx1024.com/Chengxuzhijia/Complaint/">投诉建议</a></li>
+            </ul>
+            <div class="firlink">
+                <span>友情链接：</span>
+                <a target="_blank" href="http://www.ishenping.com">神评</a>
+                <a target="_blank" href="http://www.zifengjiaju.com">紫蜂网</a>
+                <a target="_blank" href="http://www.ishiker.com">试客网</a>
+                <a target="_blank" href="https://5stmt.com/">五秒科技</a>
+                <a target="_blank" href="http://15news.cn/">识物网</a>
+                <a target="_blank" href="http://www.zhun.com.cn/">链准准</a>
+            </div>
+            <span class="icp">2019© 程序之家 xcx1024.com｜京ICP备18007952号-2｜北京好看联萌科技有限公司</span>
+            <span class="address">地址：北京市海淀区温泉镇白家疃尚水园｜联系电话：010-82494900｜技术支持：QQ296820658</span>
+        </div>
+    </div>
+
+
+</body>
+</html>

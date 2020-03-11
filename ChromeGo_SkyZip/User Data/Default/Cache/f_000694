@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>  gyp Nodejs 开发</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style>
+    img {max-width: 100%;}
+    .listi {max-height:250px;overflow:hidden}
+    .listi img {width:200px;}
+    </style>
+	  <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/970x90-01-dovov-jy-whjz', [970, 90], 'div-gpt-ad-1556180481284-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/728x90-01-dovov-jy-whjz', [728, 90], 'div-gpt-ad-1556180435386-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/336x280-01-dovov-jy-whjz', [336, 280], 'div-gpt-ad-1556180391372-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/300x250-01-dovov-jy-whjz', [300, 250], 'div-gpt-ad-1556180088247-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/300x600-01-dovov-whjz-jy', [300, 600], 'div-gpt-ad-1558695547999-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/zsy-01-dovov-whjz-jy', ['fluid'], 'div-gpt-ad-1558695632092-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/70071061/whjz-jy/zsy-02-dovov-whjz-jy', ['fluid'], 'div-gpt-ad-1558695785800-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+  </head>
+<body style="padding-top:3.5rem">
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">Nodejs 开发</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" style="">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/excel/excel-vba">Excel VBA</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/excel/python">Python</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/excel/java">Java</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+      </div>
+    </div><div class="jumbotron jumbotron-fluid">
+     <div class="container">
+    <h1 class="display-3">Articles of   gyp</h1>
+     </div>
+</div>
+<div class="container">
+
+<div class="row">
+<div class="col-md-8 order-2 px-0">
+    <div class="card border-0">
+    <div class="list-group list-group-flush">
+       <a href="http://nodejs.dovov.com/gyp-err-angular-4ubuntuconfiguration.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">gyp ERR&#xFF01;  &#x5728;&#x5B89;&#x88C5;angular 4&#x9879;&#x76EE;&#x65F6;&#x5728;ubuntu&#x4E2D;configuration&#x9519;&#x8BEF;</h3>
+    </div>
+    <p>&#x6211;&#x662F;angular4&#x7684;&#x65B0;&#x8702;&#x3002; &#x6211;&#x6B63;&#x5728;&#x4F7F;&#x7528;npm install&#x6765;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;angular4&#x9879;&#x76EE;&#xFF08;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;pipe&#x7406;&#x9762;&#x677F;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x6B63;&#x5728;&#x663E;&#x793A; gyp ERR&#xFF01; configuration&#x9519;&#x8BEF; gyp ERR&#xFF01; &#x5806;&#x6808;&#x9519;&#x8BEF;&#xFF1A;EACCES&#xFF1A;&#x6743;&#x9650;&#x88AB;&#x62D2;&#x7EDD;&#xFF0C; &#x8FD9;&#x662F;&#x53D1;&#x751F;&#x5728;&#x4EFB;&#x4F55;angular4&#x9879;&#x76EE;&#xFF0C;&#x4F46;&#x7B80;&#x5355;&#x7684;angular4&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#x3002;</p>
+  </a>
+   <a href="http://nodejs.dovov.com/windowsnode-gd.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5728;windows&#x4E0A;&#x5B89;&#x88C5;node-gd</h3>
+    </div>
+    <p>&#x5728;&#x8FC7;&#x53BB;&#x7684;&#x51E0;&#x4E2A;&#x5C0F;&#x65F6;&#x91CC;&#xFF0C;&#x6211;&#x8BD5;&#x56FE;&#x5728;windows&#x4E0A;&#x8FD0;&#x884C;node-gd &#x3002; &#x6211;&#x5DF2;&#x7ECF;&#x5C1D;&#x8BD5;&#x4E86;&#x51E0;&#x6B21;&#x56DE;&#x8D2D;&#xFF0C;&#x6700;&#x540E;find&#x4E86;https://github.com/mikesmullin/node-gd &#x3002; &#x5F53;&#x6211;&#x8DD1;&#x6B65; `npm install node-gd` &#x6211;&#x6536;&#x5230;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A; node-gyp rebuild &#8230;node_modules\node-gd&gt;node &quot;C:\Program Files\nodejs\node_modules\npm\ bin\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js&quot; rebuild Building the projects in this solution one at a time. To enable parallel build, please add the &quot;/m&quot; switch. node-gd.cpp ..\cpp\node-gd.cpp(17): fatal error C1083: Cannot open include file: &apos;gd.h&apos;: No such file or directory [&#8230;\node_modules\node-gd\build\node_gd.vcxproj ] &#x6211;&#x4EE5;&#x4E3A;&#x6211;&#x5E94;&#x8BE5;&#x5B89;&#x88C5;gd lib&#xFF0C;&#x4F46;&#x662F;&#x5F53;&#x6211;&#x4F7F;&#x7528;&#x5B83;&#x65F6;&#xFF0C;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x4FE1;&#x606F;&#x90FD;&#x662F;&#x5173;&#x4E8E;php_gd&#x800C;&#x4E0D;&#x662F;lib&#x672C;&#x8EAB;&#x3002; &#x6211;&#x5E94;&#x8BE5;&#x5728;&#x54EA;&#x91CC;&#x653E;gd&#x6587;&#x4EF6;&#xFF1F; [&hellip;]</p>
+  </a>
+   <a href="http://nodejs.dovov.com/npmgrunt-takananode-gypbuild.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">npm&#x5B89;&#x88C5;grunt-takana&#x5728;node-gyp&#x91CD;build&#x5931;&#x8D25;</h3>
+    </div>
+    <p>&#x6211;&#x8BD5;&#x56FE;&#x5B89;&#x88C5;grunt-takana&#x4F46;&#x5B83;&#x662F;Windows&#x7684;&#x5148;&#x51B3;&#x6761;&#x4EF6;&#x4E4B;&#x4E00;&#xFF0C; node-gyp&#x4F3C;&#x4E4E;&#x5F88;&#x6210;&#x95EE;&#x9898;&#x3002; &#x5728;cmd &#xFF0C;&#x5F53;&#x6211;&#x5C1D;&#x8BD5;npm install grunt-takana&#x5728;node-gyp rebuild npm install grunt-takana node-gyp rebuild&#x540E;&#x51FA;&#x73B0;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A; nodefsevents.cc .. \ nodefsevents.cc&#xFF08;11&#xFF09;&#xFF1A;&#x81F4;&#x547D;&#x9519;&#x8BEF;C1083&#xFF1A;&#x65E0;&#x6CD5;&#x6253;&#x5F00;&#x5305;&#x542B;&#x6587;&#x4EF6;&#xFF1A;&apos;pthread.h&apos;&#xFF1A;&#x6CA1;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#xFF08;&#8230;&#xFF09; &#x6700;&#x540E;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#xFF1A; &#x4E8C;&#x8FDB;&#x5236;&#x662F;&#x597D;&#x7684;; &#x9000;&#x51FA; npm ERR&#xFF01; fsevents@0.1.6&#x5B89;&#x88C5;&#xFF1A; node-gyp rebuild gyp node-gyp rebuild npm ERR&#xFF01; &#x9000;&#x51FA;&#x72B6;&#x6001;1 npm ERR&#xFF01; npm ERR&#xFF01; &#x5728;fsevents@0.1.6&#x5B89;&#x88C5;&#x811A;&#x672C;&#x5931;&#x8D25;&#x3002; &#x5F53;&#x6211;&#x5C1D;&#x8BD5;&#x5728;c:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp&#x624B;&#x52A8;&#x6267;&#x884C;node-gyp rebuild &#xFF0C;&#x6211;&#x6536;&#x5230;&#x4E86;&#x4E00;&#x4E9B;&#x66F4;&#x5177;&#x4F53;&#x7684;&#x9519;&#x8BEF;&#xFF1A; gyp&#xFF1A;binding.gyp not found&#xFF08;cwd&#xFF1A;c&#xFF1A;\ Program Files \ nodejs \ node_modules \ npm \ node_m odules \ node-gyp&#xFF09;&#x5C1D;&#x8BD5;&#x52A0;&#x8F7D;binding.gyp [&hellip;]</p>
+  </a>
+   <a href="http://nodejs.dovov.com/node-gypvariables.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5728;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x4F20;&#x9012;&#x65F6;&#xFF0C;node-gypvariables&#x7684;&#x884C;&#x4E3A;&#x6709;&#x6240;&#x4E0D;&#x540C;</h3>
+    </div>
+    <p>&#x6211;&#x5728;&#x6211;&#x7684;gyp&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4EE5;&#x4E0B;variables&#xFF08;&#x671F;&#x671B;BASE_DIR&#x59CB;&#x7EC8;&#x4F5C;&#x4E3A;&#x547D;&#x4EE4;&#x884C;parameter passing&#xFF09;&#xFF1A; &apos;variables&apos;: { &quot;BOOST_DIR&quot;: &quot;&lt;@(BASE_DIR)/../../opt/boost_1_63_0/stage/lib&quot; }, &#x6211;&#x7528;&#x5B83;&#x4F5C;&#x4E3A;msbuild&#x8FDE;&#x63A5;&#x5668;&#x7684;&#x5E93;path&#xFF1A; &quot;VCLinkerTool&quot;: { &#8230; &quot;AdditionalLibraryDirectories&quot;: [ &quot;&lt;@(BOOST_DIR)&quot;, &#8230; ] } &#x53EA;&#x8981;&#x6211;&#x53EA;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x901A;&#x8FC7;BASE_DIR&#xFF0C;&#x8FD9;&#x5DE5;&#x4F5C;&#x5F97;&#x5F88;&#x597D;&#x3002; &#x4F46;&#x662F;&#x5F53;&#x6211;&#x60F3;&#x4F20;&#x9012;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#x7684;BOOST_DIR&#x65F6;&#xFF0C;&#x94FE;&#x63A5;&#x5668;&#x4E0D;&#x518D;find&#x6211;&#x7684;&#x5E93;&#xFF1A; node-gyp rebuild &#8211;BASE_DIR=&#8230; &#8211;BOOST_DIR=C:\different\boost\dir\lib &#x4E3A;&#x4EC0;&#x4E48;&#x5F53;&#x6211;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x4F20;&#x5165;boost directoy&#x65F6;&#x4F1A;&#x5931;&#x8D25;&#xFF1F;</p>
+  </a>
+   <a href="http://nodejs.dovov.com/electronoracledb.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5728;Electron&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x5B89;&#x88C5;oracledb&#x65F6;&#x4F1A;&#x51FA;&#x73B0;&#x8BC1;&#x4E66;&#x9519;&#x8BEF;</h3>
+    </div>
+    <p>&#x6211;&#x6B63;&#x5728;&#x8FD0;&#x884C;Windows 7&#x7684;oracledb v1.10.0&#xFF0C;&#x7535;&#x5B50;&#x9884;&#x6784;buildv1.2.2&#xFF0C;&#x7535;&#x5B50;&#x91CD;buildv1.1.5&#xFF0C;&#x8282;&#x70B9;v0.12.7&#x548C;npm v2.11.3&#x3002; &#x5F53;&#x6211;&#x6267;&#x884C;node_modules/.bin/electron-rebuild -f -w oracledb &#xFF0C;&#x6211;&#x6536;&#x5230;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A; gyp ERR! stack Error: certificate not trusted gyp ERR! stack at Error (native) gyp ERR! stack at TLSSocket.&lt;anonymous&gt; (_tls_wrap.js:929:36) gyp ERR! stack at TLSSocket.emit (events.js:104:17) gyp ERR! stack at TLSSocket._finishInit (_tls_wrap.js:460:8) gyp ERR! System Windows_NT 6.1.7601 gyp ERR! command &quot;node&quot; &quot;H:\\electron-quick-start\\node_modules\\electron-rebuild\\node_modules\\npm\\node_modules\\node -gyp\\bin\\node-gyp.js&quot; &quot;install&quot; &quot;&#8211;target=1.2.7&quot; &quot;&#8211;arch=x64&quot; &quot;&#8211;dist-url=https://gh-contractor-zcbenz.s3.amazonaws.co [&hellip;]</p>
+  </a>
+   <a href="http://nodejs.dovov.com/node-gyparangodb.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x4F7F;&#x7528;Node-GYP&#x5B8C;&#x6210;ArangoDB&#x7684;&#x54EA;&#x4E9B;&#x90E8;&#x5206;</h3>
+    </div>
+    <p>&#x6211;&#x6B63;&#x5728;&#x641E;&#x6E05;&#x695A;ArangoDB&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x4EE5;&#x786E;&#x5B9A;&#x5B83;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x6210;&#x4E3A;&#x6211;&#x7684;&#x957F;&#x671F;&#x89E3;&#x51B3;scheme&#x3002; &#x6211;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x95EE;&#x9898;&#x662F;&#xFF0C;node&#8211;gyp&#xFF08;&#x6216;Node-Addon&#xFF09;&#x751F;&#x6210;&#x54EA;&#x4E9B;&#x90E8;&#x5206;&#xFF0C;&#x4EE5;&#x53CA;&#x67E5;&#x8BE2;&#x751F;&#x6210;&#x5668;&#x5982;&#x4F55;&#x5C06;JavaScript&#x751F;&#x6210;&#x7684;AQL&#x67E5;&#x8BE2;&#x8F6C;&#x6362;&#x4E3A;&#x539F;&#x751F;&#x5FEB;&#x901F;&#xFF1F; &#x6211;&#x77E5;&#x9053;&#x81EA;&#x5DF1;&#x4E5F;&#x53EF;&#x4EE5;&#x66F4;&#x6DF1;&#x5165;&#x5730;&#x4E86;&#x89E3;&#x4EE3;&#x7801;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4E00;&#x4E9B;&#x6838;&#x5FC3;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x80FD;&#x591F;&#x56DE;&#x7B54;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF08;&#x6216;&#x8005;&#x89E3;&#x91CA;&#x4ED6;&#x4EEC;&#x5982;&#x4F55;&#x5411;JavaScript&#x548C;AQL&#x516C;&#x5F00;function&#xFF09;&#xFF0C;&#x6211;&#x8BA4;&#x4E3A;&#x8FD9;&#x6837;&#x505A;&#x4F1A;&#x5FEB;&#x5F97;&#x591A;&#x3002; &#x6211;&#x89C9;&#x5F97;&#x5F88;&#x591A;&#x4EBA;&#x90FD;&#x6709;&#x8D23;&#x4EFB;&#x53BB;&#x5206;&#x6790;ArangoDB&#x3002; &#xFF08;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;&#x4E0D;&#x662F;&#x76F8;&#x4FE1;&#x8425;&#x9500;&#x77ED;&#x8BED;&#x548C;&#x57FA;&#x51C6;&#8230;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x4E86;&#x89E3;&#x5B83;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF09;&#x3002; &#x6211;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x6807;&#x662F;&#x5C06;ArangoDB&#x89C6;&#x4E3A;JavaScript&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x3002;</p>
+  </a>
+   <a href="http://nodejs.dovov.com/binding-gypbuildopenninode-js.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5982;&#x4F55;&#x7F16;&#x5199;binding.gyp&#x6765;&#x642D;buildOpenNI&#x7684;Node.js&#x63D2;&#x4EF6;&#xFF1F;</h3>
+    </div>
+    <p>&#x6211;&#x8BD5;&#x56FE;&#x6784;build&#x4E00;&#x4E2A;&#x4F7F;&#x7528;OpenNI&#x7684;Node.js&#x63D2;&#x4EF6;&#x3002; &#x6211;&#x4E4B;&#x524D;&#x6CA1;&#x6709;&#x4F7F;&#x7528;Node-gyp&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x6B63;&#x5728;&#x8BBE;&#x7F6E;binding.gyp&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x4FBF;&#x5B83;&#x5305;&#x542B;OpenNI&#x5E93;&#x4F5C;&#x4E3A;&#x6784;build&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002; &#x6211;&#x6B63;&#x5728;&#x7F16;&#x8BD1;&#x7684;&#x4EE3;&#x7801;&#x53EA;&#x662F;Hello World&#x793A;&#x4F8B; &#x3002; &#x6211;&#x4F7F;&#x7528;&#x7684;binding.gyp&#x6587;&#x4EF6;&#x662F;&#x57FA;&#x4E8E;&#x6765;&#x81EA;Github&#x4E0A;&#x7684;NUIMotion &#xFF0C;&#x5B83;&#x6B63;&#x5728;&#x505A;&#x7C7B;&#x4F3C;&#x7684;&#x4E8B;&#x60C5;&#x3002; &#x8FD9;&#x662F;&#x6211;&#x7684;&#xFF1A; { &quot;targets&quot;: [ { &quot;target_name&quot;: &quot;onijs&quot;, &quot;sources&quot;: [ &quot;src/main.cpp&quot; ], &quot;include_dirs&quot;: [ &quot;./src/Include&quot; ], &quot;libraries&quot;: [ &quot;-lOpenNI2&quot;, &quot;-Wl,-rpath ./&quot; ] } ] } &#x4EE5;&#x4E0B;&#x662F;&#x6211;&#x6240;&#x505A;&#x7684;&#xFF08;&#x5728;OSX&#x4E2D;&#x5DE5;&#x4F5C;&#xFF09;&#xFF1A; &#x521B;build&#x4E00;&#x4E2A;&#x540D;&#x4E3A;onijs/ &#x4E0B;&#x8F7D;&#x5E76;&#x63D0;&#x53D6;OpenNI &#x590D;&#x5236;Redist&#x76EE;&#x5F55;&#x7684;&#x5185;&#x5BB9;&#x5230;onijs/ &#xFF08; Redist&#x6709;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;OpenNI2&#x6240;&#x4EE5;&#x73B0;&#x5728;&#x6211;&#x6709;onijs/OpenNI2&#x6709;&#x4E00;&#x4E9B;&#x9A71;&#x52A8;&#x7A0B;&#x5E8F;&#xFF09;&#x3002; &#x5C06;onijs/src/&#x6587;&#x4EF6;&#x5939;&#x590D;&#x5236;&#x5230;onijs/src/ &#x5C06;&#x57FA;&#x672C;&#x7684;&#x201C;Hello World&#x201D;&#x590D;&#x5236;&#x5230;onijs/src/main.cpp &#x628A;&#x6211;&#x7684;onijs/&#x6587;&#x4EF6;&#x653E;&#x5728;onijs/ &#x5728;terminal&#x4E2D;&#xFF0C;&#x6211;&#x505A;&#x4E86;cd /pathTo/onijs/&#x5E76;&#x8FD0;&#x884C;node-gyp configure cd /pathTo/onijs/ node-gyp configure &#xFF0C;&#x5B83;&#x5DE5;&#x4F5C;&#x6B63;&#x5E38; &#x7136;&#x540E;&#xFF0C;&#x6211;&#x8FD0;&#x884C;node-gyp build gyp node-gyp build &#xFF0C;&#x7136;&#x540E;barfed&#x3002; [&hellip;]</p>
+  </a>
+   <a href="http://nodejs.dovov.com/centosnode-jszeromq.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5728;CentOS&#x4E0A;&#x4E3A;Node.js&#x5B89;&#x88C5;ZeroMQ&#x7ED1;&#x5B9A;&#x5931;&#x8D25;</h3>
+    </div>
+    <p>&#x6240;&#x4EE5;&#x6211;&#x8BD5;&#x56FE;&#x5728;CentOS VPS&#x4E0A;&#x5B89;&#x88C5;ZeroMQ&#x4E0E;Node.js&#x7684;&#x7ED1;&#x5B9A;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x53EA;&#x662F;&#x5931;&#x8D25;&#x4E86;&#xFF0C;&#x6211;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002; &#x6211;&#x6B63;&#x5728;&#x8FD0;&#x884C;CentOS 6.5&#x3002; &#x6211;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;Node.js 0.10.26&#x4F7F;&#x7528;&#xFF1A; sudo yum install nodejs npm &#x6211;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x4E86;ZeroMQ 2.2.0&#x4F7F;&#x7528;&#xFF1A; sudo yum install zeromq &#x6700;&#x540E;&#x5C1D;&#x8BD5;&#x5B89;&#x88C5;&#x4F7F;&#x7528;package.json&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x7684;&#x201C;zmq&#x201D;&#x7248;&#x672C;&#x201C;2.7.x&#x201D;&#x7684;ZeroMQ&#x7ED1;&#x5B9A;&#xFF0C;&#x7136;&#x540E;&#x8FD0;&#x884C;&#xFF1A; npm install &#x8BE5;&#x547D;&#x4EE4;&#x6267;&#x884C;&#x5931;&#x8D25; node-gyp rebuild Traceback (most recent call last): File &quot;/usr/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py&quot;, line 18, in &lt;module&gt; sys.exit(gyp.script_main()) AttributeError: &apos;module&apos; object has no attribute &apos;script_main&apos; &#x6211;&#x4E0D;&#x786E;&#x5B9A;&#x5728;&#x54EA;&#x91CC;&#x5BFB;&#x627E;&#x89E3;&#x51B3;scheme&#x3002; &#x6709;&#x4EBA;&#x6709;&#x4E3B;&#x610F;&#x5417;&#xFF1F; &#x63D0;&#x524D;&#x81F4;&#x8C22;&#x3002;</p>
+  </a>
+   <a href="http://nodejs.dovov.com/socket-iowindows-10.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">socket.io&#x5B89;&#x88C5;&#x9519;&#x8BEF;&#x7684;Windows 10</h3>
+    </div>
+    <p>&#x6211;&#x4F7F;&#x7528;Windows 10 X64&#xFF0C;Python 2.7.10&#x548C;node.js 4.2.0 &#x5F53;&#x6211;&#x5C1D;&#x8BD5;&#x5B89;&#x88C5;socket.io&#x65F6;&#xFF0C;&#x663E;&#x793A;&#x6B64;&#x9519;&#x8BEF;&#xFF1A; C:\WINDOWS\system32&gt;npm install socket.io &gt; bufferutil@1.2.1 install C:\WINDOWS\system32\node_modules\socket.io\node_modules\engine.io\node_modules\ws\node_modules\bufferutil &gt; node-gyp rebuild C:\WINDOWS\system32\node_modules\socket.io\node_modules\engine.io\node_modules\ws\node_modules\bufferutil&gt;if not defined npm_config_node_gyp (node &quot;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js&quot; rebuild ) else (node rebuild ) gyp: binding.gyp not found (cwd: C:\WINDOWS\system32\node_modules\socket.io\node_modules\engine.io\node_modules\ws\node_modules\bufferutil) while trying to load binding.gyp gyp ERR! configure error gyp ERR! stack Error: `gyp` failed with exit code: 1 gyp [&hellip;]</p>
+  </a>
+   <a href="http://nodejs.dovov.com/buildnpm-3.html" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h3 class="mb-1">&#x5982;&#x4F55;&#x91CD;build&#x7535;&#x5B50;&#x672C;&#x5730;npm&#x6A21;&#x5757;&#xFF1F;</h3>
+    </div>
+    <p>&#x8BF7;&#x5E2E;&#x6211;&#x7406;&#x89E3;&#x5982;&#x4F55;&#x91CD;buildElectron 1.6.2&#x7684;native npm&#x6A21;&#x5757;&#xFF1F; &#x6211;&#x4F7F;&#x7528;https://electron.atom.io/docs/tutorial/quick-start&#x4E2D;&#x7684;&#x6B65;&#x9AA4;&#x6765;&#x521B;build&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;Electron&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002; &#x7136;&#x540E;&#x6211;&#x5B89;&#x88C5;&#x4E86;ref&#x5305;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x52A0;&#x8F7D;&#x5230;main.js&#x4E2D;&#x3002; ref&#x5305; &#8211; &#x8FD9;&#x662F;&#x672C;&#x5730;&#x5305;&#x3002; &#x6211;&#x5FC5;&#x987B;&#x91CD;&#x65B0;&#x6784;build&#x8FD9;&#x4E2A;&#x5305;&#x624D;&#x80FD;&#x5728;Electron&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;&#x5B83;&#x3002; &#x6211;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x6559;&#x7A0B;&#x6765;&#x91CD;build&#x672C;&#x5730;&#x5305; &#8211; https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md &#x6709;&#x4E09;&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x91CD;build&#x672C;&#x5730;npm&#x5305;&#xFF1A; 1&#xFF09;&#x201C;&#x4F7F;&#x7528;&#x7535;&#x5B50;&#x91CD;build&#x5B89;&#x88C5;&#x7535;&#x5B50;&#x6A21;&#x5757;&#x548C;&#x91CD;build&#x201D;&#xFF1A; &#x6211;&#x5B89;&#x88C5;&#x4E86;&#x7535;&#x5B50;&#x91CD;buildnpm&#x5305;&#x3002; &#x7136;&#x540E;&#xFF0C;&#x6839;&#x636E;&#x6559;&#x7A0B;&#xFF0C;&#x6211;&#x53EA;&#x9700;&#x8981;&#x8FD0;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A; \ node_modules.bin \&#x7535;&#x5B50;rebuild.cmd &#x4F46;&#x7535;&#x5B50;&#x91CD;build&#x8BD5;&#x56FE;&#x4E0B;&#x8F7D;https://atom.io/download/electron/v1.6.2/iojs-v1.6.2.tar.gz &#x4E3A;&#x4EC0;&#x4E48;&#x4ECE;https://atom.io/download/electron&#x4E0B;&#x8F7D;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x5982;&#x679C;&#x7535;&#x5B50;&#x7248;&#x672C;&#x6587;&#x4EF6;&#x4F4D;&#x4E8E;&#x8FD9;&#x91CC; &#8211; https://github.com/electron/electron/releases &#xFF1F; Electron 1.6.2&#x4EC5;&#x5728;&#x51E0;&#x5468;&#x524D;&#x53D1;&#x5E03;&#xFF0C;&#x4F46;iojs-v1.6.2.tar.gz&#x4E8E;2015&#x5E74;3&#x6708;&#x53D1;&#x5E03;&#x3002; &#x6211;&#x662F;&#x5426;&#x6B63;&#x786E;&#x7406;&#x89E3;&#x7535;&#x5B50;&#x91CD;build&#x4E0B;&#x8F7D;&#x9519;&#x8BEF;&#x7684;&#x6587;&#x4EF6;&#xFF1F; 2&#xFF09;&#x4F7F;&#x7528;node-gyp&#x624B;&#x52A8;&#x6784;buildElectron&#x7684;&#x5305;&#x3002; &#x8BBE;&#x7F6E;HOME =&#xFF05;USERPROFILE&#xFF05;/&#x3002;electron-gyp cd ./node_modules/ref node-gyp rebuild &#8211;target = 1.6.2 &#8211;arch = x64 &#8211;dist-url = https://atom.io/download/electron &#x5728;&#x8FD9;&#x91CC;dist-url&#x4F7F;&#x7528;https://atom.io/download/electron &#x3002; &#x4E3A;&#x4EC0;&#x4E48;&#xFF1F; &#x6211;&#x8BD5;&#x8FC7;&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#8211;dist-url&#x3002; &#x4F46;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;node-gyp&#x4F1A;&#x4E0B;&#x8F7D;&#x4EE5;&#x4E0B;&#x6587;&#x4EF6;&#xFF1A; gyp http GET https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz gyp http 200 [&hellip;]</p>
+  </a>
+     
+</div>
+        </div>
+    <nav>
+  <ul class='pagination'>
+	<li class='page-item'><span class='page-link current'>1</span></li>
+	<li class='page-item'><a class='page-link' href='http://nodejs.dovov.com/node.js/gyp/page/2'>2</a></li>
+	<li class='page-item'><a class='page-link' href='http://nodejs.dovov.com/node.js/gyp/page/3'>3</a></li>
+	<li class='page-item'><a class="next page-link" href="http://nodejs.dovov.com/node.js/gyp/page/2">Next</a></li>
+</ul>
+	</nav>
+	</div>
+<div class="col-md-4 order-3">
+	<!-- /70071061/whjz-jy/300x600-01-dovov-whjz-jy -->
+<div id='div-gpt-ad-1558695547999-0' style='height:600px; width:300px;'>
+<script>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1558695547999-0'); });
+</script>
+</div>
+        <div class="card border-0">
+            <div class="card-header">Intereting Posts</div>
+            <div class="list-group list-group-flush">
+          <a href="http://nodejs.dovov.com/nodejs-106.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x66FF;&#x4EE3;nodejs&#x4E2D;&#x7684;&#x57DF;  </a>
+  <a href="http://nodejs.dovov.com/mysqldatetime.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x4ECE;Mysql&#x83B7;&#x53D6;DateTime  </a>
+  <a href="http://nodejs.dovov.com/node-js-335.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x4EE5;&#x7F16;&#x7A0B;&#x65B9;&#x5F0F;&#x91CD;&#x65B0;&#x542F;&#x52A8;Node.js&#x670D;&#x52A1;&#x5668;  </a>
+  <a href="http://nodejs.dovov.com/dockerwebsocket.html" rel="bookmark" class="list-group-item list-group-item-action">
+    dockerWebsocket&#x7F29;&#x653E;  </a>
+  <a href="http://nodejs.dovov.com/nodejsexcel-2.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x7528;nodeJs&#x8986;&#x76D6;excel&#x6587;&#x4EF6;  </a>
+  <a href="http://nodejs.dovov.com/javascriptdynamicmocha-zombie-jstesting.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x5F53;&#x4F7F;&#x7528;JavaScriptdynamic&#x52A0;&#x8F7D;&#x9875;&#x9762;&#x5185;&#x5BB9;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;Mocha + Zombie.js&#x8FDB;&#x884C;&#x9A8C;&#x6536;testing  </a>
+  <a href="http://nodejs.dovov.com/promisifiedbuildmongodb.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x5728;&#x94FE;&#x5F0F;Promisified&#x51FD;&#x6570;&#x4E2D;&#x521B;buildMongoDB&#x6587;&#x6863;  </a>
+  <a href="http://nodejs.dovov.com/cucumber-jsafterstep.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x6211;&#x600E;&#x6837;&#x624D;&#x80FD;&#x5F97;&#x5230;&#x5728;cucumber.js&#x7684;AfterStep&#x94A9;&#x5B50;&#x7684;&#x6B65;&#x9AA4;&#x7ED3;&#x679C;  </a>
+  <a href="http://nodejs.dovov.com/callback-71.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x4F7F;&#x7528;callback&#x5B8C;&#x6210;&#x6811;&#x884C;&#x8D70;&#x540E;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x51FD;&#x6570;  </a>
+  <a href="http://nodejs.dovov.com/swagger-expressaws-serverless.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x5C06;Swagger Express&#x9879;&#x76EE;&#x8FC1;&#x79FB;&#x5230;AWS Serverless  </a>
+  <a href="http://nodejs.dovov.com/node-jsfirebasevalidation.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x5982;&#x4F55;&#x5728;Node.js&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;Firebase&#x8EAB;&#x4EFD;validation&#xFF1F;  </a>
+  <a href="http://nodejs.dovov.com/letconstvariables.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x91CD;&#x590D;&#x7684;&#x8BCD;&#x6C47;&#x58F0;&#x660E;;  &#x65E0;&#x6CD5;&#x91CD;&#x65B0;&#x5B9A;&#x4E49;let&#x6216;constvariables  </a>
+  <a href="http://nodejs.dovov.com/mean-14.html" rel="bookmark" class="list-group-item list-group-item-action">
+    MEAN&#x5806;&#x6808;&#x7684;&#x65B0;&#x7279;&#x6027;&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x6570;&#x636E;&#xFF1F;  </a>
+  <a href="http://nodejs.dovov.com/botvalidation.html" rel="bookmark" class="list-group-item list-group-item-action">
+    &#x5982;&#x4F55;&#x5728;bot&#x6846;&#x67B6;&#x4E2D;validation&#x7535;&#x8BDD;&#x53F7;&#x7801;&#xFF1F;  </a>
+  <a href="http://nodejs.dovov.com/node-js-mongo-primefaces.html" rel="bookmark" class="list-group-item list-group-item-action">
+    node.js + mongo +&#x591A;&#x4E2A;&#x5B9E;&#x4F53;&#x7684;primefaces&#x66F4;&#x65B0;=&#x5934;&#x75DB;  </a>
+			</div>
+        </div>    
+</div></div>
+   <div class="clearfix mt-5"></div>
+    <hr />
+<footer>
+        <ul class="list-inline text-center">
+        <li class="list-inline-item">© 2017 Nodejs 开发</li>
+        <li class="list-inline-item"><a href="/topics">Topics</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+</footer>
+
+</div>     
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+<span style="display:none">
+<script type="text/javascript">
+var sc_project=11578194; 
+var sc_invisible=1; 
+var sc_security="d8de9a10"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="Web Analytics
+Made Easy - StatCounter" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="//c.statcounter.com/11578194/0/d8de9a10/1/" alt="Web
+Analytics Made Easy - StatCounter"></a></div></noscript>
+</span>
+</html>

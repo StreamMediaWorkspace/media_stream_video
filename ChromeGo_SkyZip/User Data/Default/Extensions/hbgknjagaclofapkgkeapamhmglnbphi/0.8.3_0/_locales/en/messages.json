@@ -1,0 +1,98 @@
+{
+   "extension_description": {
+      "description": "The description of this Extension.",
+      "message": "skyZIP™ acceleration and compression Proxy"
+   },
+   "extension_name": {
+      "description": "The name of this Extension.",
+      "message": "skyZIP™ Proxy"
+   },
+   "extension_short_name": {
+      "description": "The short name of this Extension.",
+      "message": "skyZIP™"
+   },
+   "head_advanced_settings": {
+      "description": "",
+      "message": "Advanced Settings:"
+   },
+   "head_authentication": {
+      "description": "",
+      "message": "Authentication:"
+   },
+   "head_general": {
+      "description": "",
+      "message": "General:"
+   },
+   "head_options": {
+      "description": "",
+      "message": "skyZIP&trade; Proxy Options"
+   },
+   "head_tipps": {
+      "description": "",
+      "message": "Tipps:"
+   },
+   "label_bypass_rules": {
+      "description": "",
+      "message": "Bypass rules"
+   },
+   "label_format": {
+      "description": "",
+      "message": "Format"
+   },
+   "label_http_server": {
+      "description": "",
+      "message": "HTTP Server:"
+   },
+   "label_https_server": {
+      "description": "",
+      "message": "HTTPS Server:"
+   },
+   "label_mode": {
+      "description": "",
+      "message": "Mode:"
+   },
+   "label_password": {
+      "description": "",
+      "message": "Password:"
+   },
+   "label_save": {
+      "description": "",
+      "message": "Save"
+   },
+   "label_username": {
+      "description": "",
+      "message": "Username:"
+   },
+   "mode_extreme": {
+      "description": "",
+      "message": "Extreme"
+   },
+   "mode_highrrt": {
+      "description": "",
+      "message": "High Delay"
+   },
+   "mode_medium": {
+      "description": "",
+      "message": "Medium"
+   },
+   "mode_moderate": {
+      "description": "",
+      "message": "Moderate"
+   },
+   "mode_none": {
+      "description": "",
+      "message": "None"
+   },
+   "state_off": {
+      "description": "The current Proxy state.",
+      "message": "skyZIP™ Proxy: Disabled"
+   },
+   "state_on": {
+      "description": "The current Proxy state.",
+      "message": "skyZIP™ Proxy: Enabled"
+   },
+   "text_adblockinfo": {
+      "description": "",
+      "message": "To increase your Website loading speed even further we recommend you to \u003Ca target=\"blank\" href=\"https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb\">Install Adblock Plus\u003C/a>"
+   }
+}

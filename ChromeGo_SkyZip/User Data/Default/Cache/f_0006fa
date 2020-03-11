@@ -1,0 +1,762 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>不能将持久&lt;Function&gt;添加到向量中&lt;Persistent &lt;Function&gt;&gt; - VoidCC</title>
+    <meta name="description" content="我正在从v8 3.x迁移到4.y，并且遇到了其中一个头文件中定义的某个函数的问题。 //JavascriptBase.h 
+namespace Company { 
+    class Base { 
+     protected: 
+     void registerHandler(v8::Persistent&lt;v8::Function&gt;& func) { 
+      user_functi"/>
+    <meta name="keywords" content="不能,将,持久,function,添加,向量,中,persistent,function"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <link rel="shortcut icon" href="http://img.voidcc.com/voidso/favicon.ico" type="image/x-icon"/>
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/animate.css?t=1560086042961" type="text/css"/>
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/voidme.css?t=1560086042961" type="text/css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6208739752673518",
+            enable_page_level_ads: true
+        });
+    </script>
+</head>
+
+<body>
+<div id="wrap"><!-- wrap begin-->
+    <header id="header" class="navbar navbar-fixed-top box-shadow" data-spy="affix" data-offset-top="1">
+        <div class="bg-simple">
+            <div class="container">
+                <div class="navbar-header ">
+                    <button class="btn btn-link visible-xs pull-right m-r" type="button" data-toggle="collapse"
+                            data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="/" class="navbar-brand m-r-n m-l-n-md">
+                    VoidCC
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav m-l-n visible-xs visible-sm visible-md visible-lg visible-xl">
+                        <li>
+                            <a href="/tag">
+                                <span><i class="fa fa-tags m-r-xs" aria-hidden="true"></i>标签列表</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav ">
+                        <li>
+                            <!-- search form -->
+                            <form id="search" action="/search" method="GET"
+                                  class="navbar-form navbar-form-sm visible-xs visible-md visible-lg"
+                                  ui-shift="prependTo" data-target=".navbar-collapse" role="search">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="q" ng-model="selected"
+                                               class="form-control input-sm bg-light no-border  padder"
+                                               placeholder="搜索...">
+                                        <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm bg-light "><i class="fa fa-search"></i></button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- / search form -->
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right m-r-xs">
+                        <li>
+                            <div class="m-t">
+                                <a class="dropdown mr-3 card-link" onclick="showLang()"><i
+                                        class="fa fa-globe fa-lg"></i><span>简体中文</span></a>
+                            </div>
+                        </li>
+                            <script>var mulang = true;</script>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                    <a class="dropdown-item col-lg-4 col-md-6 col-sm-12"
+                                       href="http://hk.voidcc.com/question/p-hsghwhwh-bkv.html" target="_blank"
+                                       title="不能將持久&lt;Function&gt;添加到向量中&lt;Persistent &lt;Function&gt;&gt;">HK
+                                        (繁體中文)</a>
+                            </div>
+                        <script>
+                            function showLang() {
+                                if (mulang) {
+                                    var ddmenus = $("#dropdownMenu");
+                                    if (ddmenus.hasClass("show")) {
+                                        ddmenus.removeClass("show");
+                                    } else {
+                                        ddmenus.addClass("show");
+                                    }
+                                }
+                            }
+                        </script>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </header><div class="main-content bg-light container">
+    <div class="row banner">
+    </div>
+    <div class="row">
+
+<div class="col-lg-9 col-md-8 col-sm-7">
+    <ol class="breadcrumb">
+        <li><a href="http://cn.voidcc.com/">首页</a></li>
+        <li>问答</li>
+        <li>不能将持久&lt;Function&gt;添加到向量中&lt;Persistent &lt;Function&gt;&gt;</li>
+    </ol>
+    <div class="page box_white">
+
+        <div class="question-title">
+            <span class="text-logo margin-top-sm">Q</span>
+            <h1>
+                <a href="http://cn.voidcc.com/question/p-hsghwhwh-bkv.html">不能将持久&lt;Function&gt;添加到向量中&lt;Persistent &lt;Function&gt;&gt;</a>
+            </h1>
+        </div>
+
+        <div class="question-meta">
+
+            <div class="tags left">
+                <ul class="list-inline">
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/c%2B%2B" title="c++">c++</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/v8" title="v8">v8</a></li>
+                </ul>
+            </div>
+
+            <div class="p-author padding-top-12">
+                    <span><i class="glyphicon glyphicon-time"></i>
+                        <span>2016-01-11</span>
+                    </span>
+                <span><i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="view" title="views">3 views</span>
+                    </span>
+
+                <span class="like" title="likes">
+                        <i class="glyphicon glyphicon-heart"></i>
+                        <span class="likenum">2</span> likes&nbsp;
+                    </span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="item-description text-md markdown-body voidso">
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3932151511"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+            <article>
+
+                <div class="post-col vote-info">
+                    <span class="count">2<i class="fa fa-thumbs-up"></i></span>
+                </div>
+
+                <div class="post-offset">
+                <p>我正在从v8 3.x迁移到4.y，并且遇到了其中一个头文件中定义的某个函数的问题。<a href="http://cn.voidcc.com/question/p-hsghwhwh-bkv.html">不能将持久&lt;Function&gt;添加到向量中&lt;Persistent &lt;Function&gt;&gt;</a></p> 
+<pre><code class="prettyprint-override">//JavascriptBase.h 
+namespace Company { 
+    class Base { 
+     protected: 
+     void registerHandler(v8::Persistent&lt;v8::Function&gt;&amp; func) { 
+      user_functions_.push_back(func); 
+     } 
+     private: 
+     std::vector&lt;v8::Persistent&lt;v8::Function&gt;&gt; user_functions_; 
+    } 
+} 
+</code></pre> 
+<p>当我尝试编译我收到以下错误：</p> 
+<pre><code class="prettyprint-override">third-party2/v8/4.7.39/gcc-4.8.1-glibc-2.17-fb/281a9e6/include/v8.h:667:53: error: assigning to 'v8::Object *volatile' from incompatible type 'v8::Primitive *' 
+    while (false) { *(static_cast&lt;O* volatile*&gt;(0)) = static_cast&lt;Primitive*&gt;(0); }; 
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+third-party2/v8/4.7.39/gcc-4.8.1-glibc-2.17-fb/281a9e6/include/v8.h:663:5: note: in instantiation of function template specialization 'v8::NonCopyablePersistentTraits&lt;v8::Function&gt;::Uncompilable&lt;v8::Object&gt;' requested here 
+    Uncompilable&lt;Object&gt;(); 
+    ^
+third-party2/v8/4.7.39/gcc-4.8.1-glibc-2.17-fb/281a9e6/include/v8.h:7175:6: note: in instantiation of function template specialization 'v8::NonCopyablePersistentTraits&lt;v8::Function&gt;::Copy&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;' requested here 
+    M::Copy(that, this); 
+    ^
+third-party2/v8/4.7.39/gcc-4.8.1-glibc-2.17-fb/281a9e6/include/v8.h:729:5: note: in instantiation of function template specialization 'v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;::Copy&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;' requested here 
+    Copy(that); 
+    ^
+third-party2/libgcc/4.8.1/gcc-4.8.1-glibc-2.17-fb/8aac7fc/include/c++/4.8.1/ext/new_allocator.h:120:23: note: in instantiation of member function 'v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;::Persistent' requested here 
+{ ::new((void *)__p) _Up(std::forward&lt;_Args&gt;(__args)...); } 
+        ^
+third-party2/libgcc/4.8.1/gcc-4.8.1-glibc-2.17-fb/8aac7fc/include/c++/4.8.1/bits/alloc_traits.h:254:8: note: in instantiation of function template specialization '__gnu_cxx::new_allocator&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &gt;::construct&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;, const v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &amp;&gt;' requested here 
+{ __a.construct(__p, std::forward&lt;_Args&gt;(__args)...); } 
+    ^
+third-party2/libgcc/4.8.1/gcc-4.8.1-glibc-2.17-fb/8aac7fc/include/c++/4.8.1/bits/alloc_traits.h:393:4: note: in instantiation of function template specialization 'std::allocator_traits&lt;std::allocator&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &gt; &gt;::_S_construct&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;, const v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &amp;&gt;' requested here 
+{ _S_construct(__a, __p, std::forward&lt;_Args&gt;(__args)...); } 
+^
+third-party2/libgcc/4.8.1/gcc-4.8.1-glibc-2.17-fb/8aac7fc/include/c++/4.8.1/bits/stl_vector.h:905:21: note: in instantiation of function template specialization 'std::allocator_traits&lt;std::allocator&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &gt; &gt;::construct&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;, const v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &amp;&gt;' requested here 
+    _Alloc_traits::construct(this-&gt;_M_impl, this-&gt;_M_impl._M_finish, 
+        ^
+./Company/JavaScriptBase.h:84:21: note: in instantiation of member function 'std::vector&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt;, std::allocator&lt;v8::Persistent&lt;v8::Function, v8::NonCopyablePersistentTraits&lt;v8::Function&gt; &gt; &gt; &gt;::push_back' requested here 
+    user_functions_.push_back(func); 
+        ^
+1 error generated. 
+</code></pre> 
+<p>我做了一些谷歌上搜索，发现<code class="prettyprint-override">Persistent</code>对象是不可转让的，但我不知道该怎么做此信息。任何帮助，将不胜感激。</p>
+
+                    <!-- post info -->
+                    <div class="post-info">
+                        <div class="post-meta row">
+                            <p class="text-secondary col-lg-6">
+                                <span class="source"><a rel="noopener" target="_blank"
+                                                        href="https://stackoverflow.com/q/34729216">来源</a></span>
+                            </p>
+                            <p class="text-secondary col-lg-6">
+                                    <span class="float-right date">
+                                        <span>2016-01-11</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/1489726/">Paymahn Moghadasian</a></span>
+                                    </span>
+                            </p>
+                            <p class="col-12"></p>
+                            <p class="col-12"></p></div>
+                    </div>
+
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">[将句柄存储到散列表中的对象或Google的V8引擎中的集合]（http://stackoverflow.com/questions/21239249/storing-handles-to-objects-in-a-hashmap-or- set-in-googles-v8-engine） –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/284853/">smirnoff</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                </div>
+            </article>
+        </div>
+
+        <div class="answer-title">
+            <span class="text-logo margin-top-sm">A</span>
+            <h2 class="title h4">回答</h2>
+        </div>
+
+        <div class="item-description text-md markdown-body margin-bottom-40 voidso">
+
+        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">3<i class="fa fa-thumbs-up"></i></span>
+                    <i class="fa fa-check fa-2x"></i>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>如果他们不能分配，那么你（显然）不能分配他们。并且由于<code class="prettyprint-override">std::vector&lt;&gt;</code>依赖于使用赋值运算符复制值，因此您的方法无效。</p> 
+<p>然而，您可以存储指向它们的指针，因为任何东西的复制指针都已定义好。</p>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/34729542">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2016-01-11 19:31:13</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/108796/">Blindy</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">从技术上说，复制悬挂/无效指针是未定义的。但我想这些不是事物的指针。 :) –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">这是真的吗？我知道标准试图假装指针是某种特殊的魔法构造，而不仅仅是一堆数字，因为它现在是最常见的，但它是一个无效指针的事实有什么区别呢？ –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/108796/">Blindy</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">@LightnessRacesinOrbit，我相信，这一点是辩论？ –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/5245033/">SergeyA</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </article>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="4319274062"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">0<i class="fa fa-thumbs-up"></i></span>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>可以使能够复制的执着与这个“类型定义”</p> 
+<pre><code class="prettyprint-override">using CopyablePersistent = v8::Persistent&lt;T, v8::CopyablePersistentTraits&lt;T&gt;&gt;; 
+</code></pre> 
+<p>这是假定它是一个模板类里面，但你可以做任何你想要的吨。</p> 
+<p>编辑：显然这是一个“非常糟糕的”事情，但我不知道为什么。</p>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/34734576">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2016-01-12 02:23:17</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/493106/">xaxxon</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">为什么这是一件“非常糟糕”的事情？你能提供链接到源代码吗？ –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/284853/">smirnoff</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">没有。刚刚被freenode的＃v8上的开发者告知。他们表示，这将导致间歇性崩溃。尽管如此，它确实不需要。你可以在你的代码中传递Global＆，并在STL容器中使用，或者你也可以用Global的普通构造函数创建一个新的。 –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/493106/">xaxxon</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </article>
+        </div>
+
+        <div class="clearfix">
+        </div>
+
+                <div class="relative-box">
+                    <div class="relative">相关问题</div>
+                    <ul class="relative_list">
+                            <li>
+                                1. <a href="http://cn.voidcc.com/question/p-bqxinals-um.html" target="_blank"
+                                                 title="遍历向量&lt;向量&lt;对&lt;int, int&gt;&gt;&gt;"> 遍历向量&lt;向量&lt;对&lt;int, int&gt;&gt;&gt; </a>
+                            </li>
+                            <li>
+                                2. <a href="http://cn.voidcc.com/question/p-kcamfqed-ba.html" target="_blank"
+                                                 title="将派生类变量添加到向量中&lt;BaseClass&gt;"> 将派生类变量添加到向量中&lt;BaseClass&gt; </a>
+                            </li>
+                            <li>
+                                3. <a href="http://cn.voidcc.com/question/p-xojfheyu-bbw.html" target="_blank"
+                                                 title="在将&lt;tr&gt;添加到不同的&lt;table&gt;"> 在将&lt;tr&gt;添加到不同的&lt;table&gt; </a>
+                            </li>
+                            <li>
+                                4. <a href="http://cn.voidcc.com/question/p-gazwqjdj-bbp.html" target="_blank"
+                                                 title="C++ map &lt;string，vector &lt;pair &lt;string，string&gt;&gt;&gt;：将映射添加到空向量？"> C++ map &lt;string，vector &lt;pair &lt;string，string&gt;&gt;&gt;：将映射添加到空向量？ </a>
+                            </li>
+                            <li>
+                                5. <a href="http://cn.voidcc.com/question/p-kkfvychn-mu.html" target="_blank"
+                                                 title="将向量&lt;float&gt;中的数据复制到向量&lt;Mat&gt;（Opencv/C++）"> 将向量&lt;float&gt;中的数据复制到向量&lt;Mat&gt;（Opencv/C++） </a>
+                            </li>
+                            <li>
+                                6. <a href="http://cn.voidcc.com/question/p-cfycqjsi-ya.html" target="_blank"
+                                                 title="推矢量&lt;double&gt;到矢量&lt;矢量&lt;double&gt;&gt;"> 推矢量&lt;double&gt;到矢量&lt;矢量&lt;double&gt;&gt; </a>
+                            </li>
+                            <li>
+                                7. <a href="http://cn.voidcc.com/question/p-qnojsjzx-bmw.html" target="_blank"
+                                                 title="如何将Dictionary &lt;String，String&gt;添加到Array &lt;Dictionary &lt;String，String &gt;&gt;？"> 如何将Dictionary &lt;String，String&gt;添加到Array &lt;Dictionary &lt;String，String &gt;&gt;？ </a>
+                            </li>
+                            <li>
+                                8. <a href="http://cn.voidcc.com/question/p-zecgjvxk-bom.html" target="_blank"
+                                                 title="XSLT - 添加 '&lt;' & '&gt;' 变量"> XSLT - 添加 '&lt;' & '&gt;' 变量 </a>
+                            </li>
+                            <li>
+                                9. <a href="http://cn.voidcc.com/question/p-spnkikkz-sv.html" target="_blank"
+                                                 title="为什么不能将向量&lt;bool&gt;中的元素地址推回到向量&lt;bool*&gt;？"> 为什么不能将向量&lt;bool&gt;中的元素地址推回到向量&lt;bool*&gt;？ </a>
+                            </li>
+                            <li>
+                                10. <a href="http://cn.voidcc.com/question/p-tdjjktid-ga.html" target="_blank"
+                                                 title="玩GAE持久不设置&lt;Long&gt;"> 玩GAE持久不设置&lt;Long&gt; </a>
+                            </li>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="9842885874"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>                            <li>
+                                11. <a href="http://cn.voidcc.com/question/p-rpnmxvhp-un.html" target="_blank"
+                                                 title="返回向量&lt;Foo&gt;或shared_ptr &lt;vector&lt;Foo&gt;&gt;？"> 返回向量&lt;Foo&gt;或shared_ptr &lt;vector&lt;Foo&gt;&gt;？ </a>
+                            </li>
+                            <li>
+                                12. <a href="http://cn.voidcc.com/question/p-przpjkwf-qs.html" target="_blank"
+                                                 title="为什么我不能将列表&lt;T：界面&gt;添加到列表&lt;列表&lt;Interface&gt;&gt;？"> 为什么我不能将列表&lt;T：界面&gt;添加到列表&lt;列表&lt;Interface&gt;&gt;？ </a>
+                            </li>
+                            <li>
+                                13. <a href="http://cn.voidcc.com/question/p-madgnzkn-se.html" target="_blank"
+                                                 title="C++将一个向量&lt;specific_type&gt;投射到向量&lt;boost :: variant&gt;"> C++将一个向量&lt;specific_type&gt;投射到向量&lt;boost :: variant&gt; </a>
+                            </li>
+                            <li>
+                                14. <a href="http://cn.voidcc.com/question/p-fllbhihg-un.html" target="_blank"
+                                                 title="将数组插入向量中&lt;vector&lt;int&gt;&gt;"> 将数组插入向量中&lt;vector&lt;int&gt;&gt; </a>
+                            </li>
+                            <li>
+                                15. <a href="http://cn.voidcc.com/question/p-fvgotmtq-cc.html" target="_blank"
+                                                 title="将&lt;param&gt;元素添加到&lt;object&gt;"> 将&lt;param&gt;元素添加到&lt;object&gt; </a>
+                            </li>
+                            <li>
+                                16. <a href="http://cn.voidcc.com/question/p-woigthgx-bmy.html" target="_blank"
+                                                 title="如何将值添加到List &lt;Map &lt;String，Object &gt;&gt;？"> 如何将值添加到List &lt;Map &lt;String，Object &gt;&gt;？ </a>
+                            </li>
+                            <li>
+                                17. <a href="http://cn.voidcc.com/question/p-gbovavsi-bax.html" target="_blank"
+                                                 title="将元素添加到ArrayList &lt;ArrayList &lt;String&gt;&gt;"> 将元素添加到ArrayList &lt;ArrayList &lt;String&gt;&gt; </a>
+                            </li>
+                            <li>
+                                18. <a href="http://cn.voidcc.com/question/p-uihpgsil-b.html" target="_blank"
+                                                 title="将&lt;TR&gt;添加到&lt;TABLE&gt;与.appendChild"> 将&lt;TR&gt;添加到&lt;TABLE&gt;与.appendChild </a>
+                            </li>
+                            <li>
+                                19. <a href="http://cn.voidcc.com/question/p-pccvyfxz-bgq.html" target="_blank"
+                                                 title="将元素添加到列表&lt;Map.Entry &lt;Integer，Integer &gt;&gt;"> 将元素添加到列表&lt;Map.Entry &lt;Integer，Integer &gt;&gt; </a>
+                            </li>
+                            <li>
+                                20. <a href="http://cn.voidcc.com/question/p-wemywnwg-kx.html" target="_blank"
+                                                 title="将缺省参数添加到&lt;h：outputLink&gt;，&lt;h：commandLink&gt;等"> 将缺省参数添加到&lt;h：outputLink&gt;，&lt;h：commandLink&gt;等 </a>
+                            </li>
+                            <li>
+                                21. <a href="http://cn.voidcc.com/question/p-fitnyoza-sk.html" target="_blank"
+                                                 title="将值添加到列表&lt;Map &lt;String，String &gt;&gt;"> 将值添加到列表&lt;Map &lt;String，String &gt;&gt; </a>
+                            </li>
+                            <li>
+                                22. <a href="http://cn.voidcc.com/question/p-hmbpvedt-yn.html" target="_blank"
+                                                 title="jQuery将文本从&lt;textarea&gt;添加到&lt;tr&gt;"> jQuery将文本从&lt;textarea&gt;添加到&lt;tr&gt; </a>
+                            </li>
+                            <li>
+                                23. <a href="http://cn.voidcc.com/question/p-hnhbahbm-gx.html" target="_blank"
+                                                 title="泛型：将`List &lt;String&gt;`添加到`List &lt;Object&gt;`"> 泛型：将`List &lt;String&gt;`添加到`List &lt;Object&gt;` </a>
+                            </li>
+                            <li>
+                                24. <a href="http://cn.voidcc.com/question/p-vkknfzfw-bgb.html" target="_blank"
+                                                 title="传递矢量&lt;reference_wrapper &lt;int&gt;&gt;到矢量&lt;int&gt;？"> 传递矢量&lt;reference_wrapper &lt;int&gt;&gt;到矢量&lt;int&gt;？ </a>
+                            </li>
+                            <li>
+                                25. <a href="http://cn.voidcc.com/question/p-yddxvabh-gq.html" target="_blank"
+                                                 title="向向量添加对象时发生内存泄漏&lt;unique_ptr &lt;Type&gt;&gt;"> 向向量添加对象时发生内存泄漏&lt;unique_ptr &lt;Type&gt;&gt; </a>
+                            </li>
+                            <li>
+                                26. <a href="http://cn.voidcc.com/question/p-zpqsjtpn-bz.html" target="_blank"
+                                                 title="添加&lt;p&gt;&lt;/p&gt;在HTML"> 添加&lt;p&gt;&lt;/p&gt;在HTML </a>
+                            </li>
+                            <li>
+                                27. <a href="http://cn.voidcc.com/question/p-slopmvvh-pe.html" target="_blank"
+                                                 title="Java持久性标准; Cast Expression &lt;Timestamp&gt; to Expression &lt;Long&gt;？"> Java持久性标准; Cast Expression &lt;Timestamp&gt; to Expression &lt;Long&gt;？ </a>
+                            </li>
+                            <li>
+                                28. <a href="http://cn.voidcc.com/question/p-sbalijqw-bhy.html" target="_blank"
+                                                 title="添加&lt;span&gt; +&lt;/ span&gt;标签&lt;a&gt;标签"> 添加&lt;span&gt; +&lt;/ span&gt;标签&lt;a&gt;标签 </a>
+                            </li>
+                            <li>
+                                29. <a href="http://cn.voidcc.com/question/p-yiknxhns-rp.html" target="_blank"
+                                                 title="错误嵌套向量&lt;&gt;向量&lt;&gt;"> 错误嵌套向量&lt;&gt;向量&lt;&gt; </a>
+                            </li>
+                            <li>
+                                30. <a href="http://cn.voidcc.com/question/p-vczerdcc-bec.html" target="_blank"
+                                                 title="C++ Diff向量&lt;struct&gt;和向量​​&lt;string&gt;？"> C++ Diff向量&lt;struct&gt;和向量​​&lt;string&gt;？ </a>
+                            </li>
+                    </ul>
+                </div>
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3534119089"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+        <div class="padding-top-10"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="http://img.voidcc.com/voidso/script/side.js?t=1560086042961"></script>
+<script type="text/javascript" src="http://img.voidcc.com/voidso/plugin/highlight/highlight.pack.js"></script>
+<link href="http://img.voidcc.com/voidso/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="col-lg-3 col-md-4 col-sm-5">
+    <div id="rightTop">
+        <div class="row sidebar panel panel-default">
+        <div class="panel-heading font-bold">
+            每日一句
+        </div>
+        <div class="panel-body m-b-sm m-t-sm clearfix">
+            每一个你不满意的现在，都有一个你没有努力的曾经。
+        </div>
+    </div>
+<div class="row">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- VOIDCC问答侧边栏广告 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3862022848"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div><div class="row sidebar panel panel-default">
+    <div class="panel-heading font-bold">
+最新问题    </div>
+    <div class="m-b-sm m-t-sm clearfix">
+        <ul class="side_article_list">
+            <li class="side_article_list_item">
+                1. <a href="http://cn.voidcc.com/question/p-uhtfjkja-bdc.html" target="_blank"
+                                 title="如何在已经有“扩展”的Activity中添加MapView？"> 如何在已经有“扩展”的Activity中添加MapView？ </a>
+            </li>
+            <li class="side_article_list_item">
+                2. <a href="http://cn.voidcc.com/question/p-hvulthab-bmn.html" target="_blank"
+                                 title="从排列表创建数据帧，并遍历它"> 从排列表创建数据帧，并遍历它 </a>
+            </li>
+            <li class="side_article_list_item">
+                3. <a href="http://cn.voidcc.com/question/p-qcrvlzxc-bnh.html" target="_blank"
+                                 title="PHP跳过循环基于查询结果集的迭代"> PHP跳过循环基于查询结果集的迭代 </a>
+            </li>
+            <li class="side_article_list_item">
+                4. <a href="http://cn.voidcc.com/question/p-hrdhauve-bcw.html" target="_blank"
+                                 title="iOS - mp3文件没有播放，没有错误？"> iOS - mp3文件没有播放，没有错误？ </a>
+            </li>
+            <li class="side_article_list_item">
+                5. <a href="http://cn.voidcc.com/question/p-bshhxmqv-vg.html" target="_blank"
+                                 title="手动创建类型标记"> 手动创建类型标记 </a>
+            </li>
+            <li class="side_article_list_item">
+                6. <a href="http://cn.voidcc.com/question/p-zitdgtmy-vk.html" target="_blank"
+                                 title="Unix查找与目录匹配的目录"> Unix查找与目录匹配的目录 </a>
+            </li>
+            <li class="side_article_list_item">
+                7. <a href="http://cn.voidcc.com/question/p-ncsxiepy-vh.html" target="_blank"
+                                 title="如何使用kwargs在matplotlib.axes.Axes.arrow蟒蛇2.7"> 如何使用kwargs在matplotlib.axes.Axes.arrow蟒蛇2.7 </a>
+            </li>
+            <li class="side_article_list_item">
+                8. <a href="http://cn.voidcc.com/question/p-fprzoqdv-uu.html" target="_blank"
+                                 title="如何线程安全地读取和写入数据库？"> 如何线程安全地读取和写入数据库？ </a>
+            </li>
+            <li class="side_article_list_item">
+                9. <a href="http://cn.voidcc.com/question/p-bmtlseyg-uv.html" target="_blank"
+                                 title="只有当输入至少有一个数字时才显示mat-autocomplete"> 只有当输入至少有一个数字时才显示mat-autocomplete </a>
+            </li>
+            <li class="side_article_list_item">
+                10. <a href="http://cn.voidcc.com/question/p-mkildzwx-bnq.html" target="_blank"
+                                 title="我想输入数据到parse.com中的custmom列，但我得到一个错误"> 我想输入数据到parse.com中的custmom列，但我得到一个错误 </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    </div>
+
+    <p class="article-nav-bar"></p>
+    <div class="row sidebar article-nav">
+<div class="sidebar panel panel-default">
+    <div class="panel-heading font-bold" style="color:#16a085">
+        本站公众号 · 欢迎关注
+    </div>
+    <div class="clearfix">
+        <img style="width: 100%" src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院"/>
+    </div>
+</div>
+        <div class="row box_white visible-sm visible-md visible-lg margin-zero">
+            <div class="top">
+                <h3 class="title"><i
+                        class="glyphicon glyphicon-th-list"></i>&nbsp;相关问题</h3>
+            </div>
+            <div class="article-relative-content">
+                <ul class="side_article_list">
+                            <li class="side_article_list_item">
+                            1. <a href="http://cn.voidcc.com/question/p-bqxinals-um.html" target="_blank"
+                                             title="遍历向量&lt;向量&lt;对&lt;int, int&gt;&gt;&gt;"> 遍历向量&lt;向量&lt;对&lt;int, int&gt;&gt;&gt; </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            2. <a href="http://cn.voidcc.com/question/p-kcamfqed-ba.html" target="_blank"
+                                             title="将派生类变量添加到向量中&lt;BaseClass&gt;"> 将派生类变量添加到向量中&lt;BaseClass&gt; </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            3. <a href="http://cn.voidcc.com/question/p-xojfheyu-bbw.html" target="_blank"
+                                             title="在将&lt;tr&gt;添加到不同的&lt;table&gt;"> 在将&lt;tr&gt;添加到不同的&lt;table&gt; </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            4. <a href="http://cn.voidcc.com/question/p-gazwqjdj-bbp.html" target="_blank"
+                                             title="C++ map &lt;string，vector &lt;pair &lt;string，string&gt;&gt;&gt;：将映射添加到空向量？"> C++ map &lt;string，vector &lt;pair &lt;string，string&gt;&gt;&gt;：将映射添加到空向量？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            5. <a href="http://cn.voidcc.com/question/p-kkfvychn-mu.html" target="_blank"
+                                             title="将向量&lt;float&gt;中的数据复制到向量&lt;Mat&gt;（Opencv/C++）"> 将向量&lt;float&gt;中的数据复制到向量&lt;Mat&gt;（Opencv/C++） </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            6. <a href="http://cn.voidcc.com/question/p-cfycqjsi-ya.html" target="_blank"
+                                             title="推矢量&lt;double&gt;到矢量&lt;矢量&lt;double&gt;&gt;"> 推矢量&lt;double&gt;到矢量&lt;矢量&lt;double&gt;&gt; </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            7. <a href="http://cn.voidcc.com/question/p-qnojsjzx-bmw.html" target="_blank"
+                                             title="如何将Dictionary &lt;String，String&gt;添加到Array &lt;Dictionary &lt;String，String &gt;&gt;？"> 如何将Dictionary &lt;String，String&gt;添加到Array &lt;Dictionary &lt;String，String &gt;&gt;？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            8. <a href="http://cn.voidcc.com/question/p-zecgjvxk-bom.html" target="_blank"
+                                             title="XSLT - 添加 '&lt;' & '&gt;' 变量"> XSLT - 添加 '&lt;' & '&gt;' 变量 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            9. <a href="http://cn.voidcc.com/question/p-spnkikkz-sv.html" target="_blank"
+                                             title="为什么不能将向量&lt;bool&gt;中的元素地址推回到向量&lt;bool*&gt;？"> 为什么不能将向量&lt;bool&gt;中的元素地址推回到向量&lt;bool*&gt;？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            10. <a href="http://cn.voidcc.com/question/p-tdjjktid-ga.html" target="_blank"
+                                             title="玩GAE持久不设置&lt;Long&gt;"> 玩GAE持久不设置&lt;Long&gt; </a>
+                            </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>    </div>
+</div>
+</div><!-- wrap end-->
+
+<!-- footer -->
+<footer id="footer">
+    <div class="bg-simple lt">
+        <div class="container">
+            <div class="row padder-v m-t">
+                <div class="col-xs-8">
+                    <ul class="list-inline">
+                        <li><a href="http://cn.voidcc.com/contact">联系我们</a></li>
+                        <li>© 2018 CN.VOIDCC.COM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+<!-- / footer -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-77509369-5');
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?67d4731349f0b00136755b80364ce381";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+</html>

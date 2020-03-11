@@ -1,0 +1,725 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>std :: unique_ptr作为std :: thread函数的参数 - VoidCC</title>
+    <meta name="description" content="所以我试图将一个std :: unique指针作为参数传递给在单独的线程中启动的函数，并且出现了一个奇怪的错误在编译的时候，上面写着： 1&gt;c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(1149): error C2280: 'std::unique_ptr&lt;Widget,std::default"/>
+    <meta name="keywords" content="std,unique,ptr,作为,std,thread,函数,参数"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <link rel="shortcut icon" href="http://img.voidcc.com/voidso/favicon.ico" type="image/x-icon"/>
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/animate.css?t=1560086042961" type="text/css"/>
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/voidme.css?t=1560086042961" type="text/css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6208739752673518",
+            enable_page_level_ads: true
+        });
+    </script>
+</head>
+
+<body>
+<div id="wrap"><!-- wrap begin-->
+    <header id="header" class="navbar navbar-fixed-top box-shadow" data-spy="affix" data-offset-top="1">
+        <div class="bg-simple">
+            <div class="container">
+                <div class="navbar-header ">
+                    <button class="btn btn-link visible-xs pull-right m-r" type="button" data-toggle="collapse"
+                            data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="/" class="navbar-brand m-r-n m-l-n-md">
+                    VoidCC
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav m-l-n visible-xs visible-sm visible-md visible-lg visible-xl">
+                        <li>
+                            <a href="/tag">
+                                <span><i class="fa fa-tags m-r-xs" aria-hidden="true"></i>标签列表</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav ">
+                        <li>
+                            <!-- search form -->
+                            <form id="search" action="/search" method="GET"
+                                  class="navbar-form navbar-form-sm visible-xs visible-md visible-lg"
+                                  ui-shift="prependTo" data-target=".navbar-collapse" role="search">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="q" ng-model="selected"
+                                               class="form-control input-sm bg-light no-border  padder"
+                                               placeholder="搜索...">
+                                        <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm bg-light "><i class="fa fa-search"></i></button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- / search form -->
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right m-r-xs">
+                        <li>
+                            <div class="m-t">
+                                <a class="dropdown mr-3 card-link" onclick="showLang()"><i
+                                        class="fa fa-globe fa-lg"></i><span>简体中文</span></a>
+                            </div>
+                        </li>
+                            <script>var mulang = true;</script>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                    <a class="dropdown-item col-lg-4 col-md-6 col-sm-12"
+                                       href="http://hk.voidcc.com/question/p-fshxlsbh-bhc.html" target="_blank"
+                                       title="std :: unique_ptr作爲std :: thread函數的參數">HK
+                                        (繁體中文)</a>
+                            </div>
+                        <script>
+                            function showLang() {
+                                if (mulang) {
+                                    var ddmenus = $("#dropdownMenu");
+                                    if (ddmenus.hasClass("show")) {
+                                        ddmenus.removeClass("show");
+                                    } else {
+                                        ddmenus.addClass("show");
+                                    }
+                                }
+                            }
+                        </script>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </header><div class="main-content bg-light container">
+    <div class="row banner">
+    </div>
+    <div class="row">
+
+<div class="col-lg-9 col-md-8 col-sm-7">
+    <ol class="breadcrumb">
+        <li><a href="http://cn.voidcc.com/">首页</a></li>
+        <li>问答</li>
+        <li>std :: unique_ptr作为std :: thread函数的参数</li>
+    </ol>
+    <div class="page box_white">
+
+        <div class="question-title">
+            <span class="text-logo margin-top-sm">Q</span>
+            <h1>
+                <a href="http://cn.voidcc.com/question/p-fshxlsbh-bhc.html">std :: unique_ptr作为std :: thread函数的参数</a>
+            </h1>
+        </div>
+
+        <div class="question-meta">
+
+            <div class="tags left">
+                <ul class="list-inline">
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/c%2B%2B" title="c++">c++</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/multithreading" title="multithreading">multithreading</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/visual-studio" title="visual-studio">visual-studio</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/c%2B%2B11" title="c++11">c++11</a></li>
+                </ul>
+            </div>
+
+            <div class="p-author padding-top-12">
+                    <span><i class="glyphicon glyphicon-time"></i>
+                        <span>2015-11-23</span>
+                    </span>
+                <span><i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="view" title="views">9 views</span>
+                    </span>
+
+                <span class="like" title="likes">
+                        <i class="glyphicon glyphicon-heart"></i>
+                        <span class="likenum">8</span> likes&nbsp;
+                    </span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="item-description text-md markdown-body voidso">
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3932151511"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+            <article>
+
+                <div class="post-col vote-info">
+                    <span class="count">8<i class="fa fa-thumbs-up"></i></span>
+                </div>
+
+                <div class="post-offset">
+                <p>所以我试图将一个std :: unique指针作为参数传递给在单独的线程中启动的函数，并且出现了一个奇怪的错误在编译的时候，上面写着：<a href="http://cn.voidcc.com/question/p-fshxlsbh-bhc.html">std :: unique_ptr作为std :: thread函数的参数</a></p> 
+<pre><code class="prettyprint-override">1&gt;c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(1149): error C2280: 'std::unique_ptr&lt;Widget,std::default_delete&lt;_Ty&gt;&gt;::unique_ptr(const std::unique_ptr&lt;_Ty,std::default_delete&lt;_Ty&gt;&gt; &amp;)' : attempting to reference a deleted function 
+</code></pre> 
+<p>这个代码，仍然再现了同样的问题的简化版本是：</p> 
+<pre><code class="prettyprint-override">#include &lt;thread&gt; 
+#include &lt;memory&gt; 
+#include &lt;iostream&gt; 
+
+class Widget 
+{ 
+public: 
+    Widget() : m_data(0) 
+    { 
+    } 
+
+    void prepareData(int i) 
+    { 
+    m_data = i; 
+    } 
+
+    int getData() const 
+    { 
+    return m_data; 
+    } 
+
+private: 
+    int m_data; 
+}; 
+
+void processWidget(std::unique_ptr&lt;Widget&gt; widget) 
+{ 
+    std::cout &lt;&lt; widget-&gt;getData() &lt;&lt; std::endl; 
+} 
+
+int main() 
+{ 
+    std::unique_ptr&lt;Widget&gt; widget(new Widget()); 
+    widget-&gt;prepareData(42); 
+
+    std::thread t(processWidget, std::move(widget)); 
+    t.join(); 
+
+    return 0; 
+} 
+</code></pre> 
+<p>我的猜测是，有一些错误的Widget对象的破坏从主要（），但我不能指出的问题。是否有必要额外做些清理该变量的事情？顺便说一句，我使用VS2013。</p>
+
+                    <!-- post info -->
+                    <div class="post-info">
+                        <div class="post-meta row">
+                            <p class="text-secondary col-lg-6">
+                                <span class="source"><a rel="noopener" target="_blank"
+                                                        href="https://stackoverflow.com/q/33870414">来源</a></span>
+                            </p>
+                            <p class="text-secondary col-lg-6">
+                                    <span class="float-right date">
+                                        <span>2015-11-23</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/2479950/">pabloxrl</a></span>
+                                    </span>
+                            </p>
+                            <p class="col-12"></p>
+                            <p class="col-12"></p></div>
+                    </div>
+
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+1</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">@DevSolar不'的std :: thread'总是传递的x值它的处理程序，这是一个MSVC故障呢？ –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+2</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">GCC接受它。 'std :: thread t（[＆widget]（）{processWidget（std :: move（widget））;}）;'也适用。 –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+1</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">在Orwel DevC++ 5.11 bro中运行良好！你的代码没有什么问题 –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                </div>
+            </article>
+        </div>
+
+        <div class="answer-title">
+            <span class="text-logo margin-top-sm">A</span>
+            <h2 class="title h4">回答</h2>
+        </div>
+
+        <div class="item-description text-md markdown-body margin-bottom-40 voidso">
+
+        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">-1<i class="fa fa-thumbs-up"></i></span>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>您不允许复制unique_ptr，因此复制构造函数被禁用。这是指出编译器错误。</p> 
+<p>您可以参考修复：</p> 
+<pre><code class="prettyprint-override">void processWidget(std::unique_ptr&lt;Widget&gt;&amp; widget) 
+</code></pre>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/33871495">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2015-11-23 12:49:10</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/5595263/">Catalin</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+3</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">noone正在OP的代码中复制 –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">@PiotrSkotnicki不是直接的，而是['std :: thread']（http://en.cppreference.com/w/cpp/thread/thread/thread）的构造函数复制/将其参数移动到线程可访问的存储区，然后在调用函数本身时被复制。 –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/2558027/">sjdowling</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">@sjdowling可以请你提供一个标准的参考，它说'std :: thread'使副本可以调用它的处理函数吗？ –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </article>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="4319274062"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>        </div>
+
+        <div class="clearfix">
+        </div>
+
+                <div class="relative-box">
+                    <div class="relative">相关问题</div>
+                    <ul class="relative_list">
+                            <li>
+                                1. <a href="http://cn.voidcc.com/question/p-xpoafavw-up.html" target="_blank"
+                                                 title="的std :: bind函数采取的std ::的unique_ptr作为参数"> 的std :: bind函数采取的std ::的unique_ptr作为参数 </a>
+                            </li>
+                            <li>
+                                2. <a href="http://cn.voidcc.com/question/p-ketdvuwu-th.html" target="_blank"
+                                                 title="std :: unique_ptr和std :: shared_ptr作为虚函数的参数"> std :: unique_ptr和std :: shared_ptr作为虚函数的参数 </a>
+                            </li>
+                            <li>
+                                3. <a href="http://cn.voidcc.com/question/p-rnirowia-yp.html" target="_blank"
+                                                 title="boost :: thread和std :: unique_ptr"> boost :: thread和std :: unique_ptr </a>
+                            </li>
+                            <li>
+                                4. <a href="http://cn.voidcc.com/question/p-aabzvmoy-hu.html" target="_blank"
+                                                 title="以一个函数作为参数类似于std :: thread"> 以一个函数作为参数类似于std :: thread </a>
+                            </li>
+                            <li>
+                                5. <a href="http://cn.voidcc.com/question/p-pihngmbw-em.html" target="_blank"
+                                                 title="如何将ifstream作为参数传递给std :: thread函数？"> 如何将ifstream作为参数传递给std :: thread函数？ </a>
+                            </li>
+                            <li>
+                                6. <a href="http://cn.voidcc.com/question/p-wnjmzmqz-bay.html" target="_blank"
+                                                 title="'std :: thread :: thread'：没有重载的函数需要7个参数"> 'std :: thread :: thread'：没有重载的函数需要7个参数 </a>
+                            </li>
+                            <li>
+                                7. <a href="http://cn.voidcc.com/question/p-atwmmxey-bbm.html" target="_blank"
+                                                 title="错误C2280：'std :: thread :: thread（const std :: thread＆）'：尝试引用已删除的函数"> 错误C2280：'std :: thread :: thread（const std :: thread＆）'：尝试引用已删除的函数 </a>
+                            </li>
+                            <li>
+                                8. <a href="http://cn.voidcc.com/question/p-ftirfwcq-cb.html" target="_blank"
+                                                 title="C++ std :: vector作为std :: function的参数"> C++ std :: vector作为std :: function的参数 </a>
+                            </li>
+                            <li>
+                                9. <a href="http://cn.voidcc.com/question/p-ejuwizsp-bde.html" target="_blank"
+                                                 title="std ::函数作为模板参数"> std ::函数作为模板参数 </a>
+                            </li>
+                            <li>
+                                10. <a href="http://cn.voidcc.com/question/p-dapirvkl-bgr.html" target="_blank"
+                                                 title="std :: vector作为模板函数参数"> std :: vector作为模板函数参数 </a>
+                            </li>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="9842885874"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>                            <li>
+                                11. <a href="http://cn.voidcc.com/question/p-oltobxya-qp.html" target="_blank"
+                                                 title="使用已删除的函数std :: unique_ptr"> 使用已删除的函数std :: unique_ptr </a>
+                            </li>
+                            <li>
+                                12. <a href="http://cn.voidcc.com/question/p-nneodxac-xx.html" target="_blank"
+                                                 title="将std :: unique_ptr作为参数的正确复制语义"> 将std :: unique_ptr作为参数的正确复制语义 </a>
+                            </li>
+                            <li>
+                                13. <a href="http://cn.voidcc.com/question/p-glnmaods-bkd.html" target="_blank"
+                                                 title="将参数传递给std :: thread wrapper"> 将参数传递给std :: thread wrapper </a>
+                            </li>
+                            <li>
+                                14. <a href="http://cn.voidcc.com/question/p-ddsbfpke-bdn.html" target="_blank"
+                                                 title="std :: unique_ptr std :: auto_ptr的转换构造函数"> std :: unique_ptr std :: auto_ptr的转换构造函数 </a>
+                            </li>
+                            <li>
+                                15. <a href="http://cn.voidcc.com/question/p-wpmjwkyl-by.html" target="_blank"
+                                                 title="将std :: shared_ptr传递给std :: thread的函数对象"> 将std :: shared_ptr传递给std :: thread的函数对象 </a>
+                            </li>
+                            <li>
+                                16. <a href="http://cn.voidcc.com/question/p-kdbzgdjb-zu.html" target="_blank"
+                                                 title="使用std :: greater或std :: less作为参数的参数"> 使用std :: greater或std :: less作为参数的参数 </a>
+                            </li>
+                            <li>
+                                17. <a href="http://cn.voidcc.com/question/p-bgulvxhl-pg.html" target="_blank"
+                                                 title="std :: stringstream作为参数"> std :: stringstream作为参数 </a>
+                            </li>
+                            <li>
+                                18. <a href="http://cn.voidcc.com/question/p-eytpkcst-bep.html" target="_blank"
+                                                 title="std :: unique_ptr与数组指针"> std :: unique_ptr与数组指针 </a>
+                            </li>
+                            <li>
+                                19. <a href="http://cn.voidcc.com/question/p-zkbtayjb-gw.html" target="_blank"
+                                                 title="从std :: stringstream传递std :: string参数作为参数"> 从std :: stringstream传递std :: string参数作为参数 </a>
+                            </li>
+                            <li>
+                                20. <a href="http://cn.voidcc.com/question/p-omqsafxa-baz.html" target="_blank"
+                                                 title="是std :: unique_ptr移入std :: vector"> 是std :: unique_ptr移入std :: vector </a>
+                            </li>
+                            <li>
+                                21. <a href="http://cn.voidcc.com/question/p-zmjlryse-bkk.html" target="_blank"
+                                                 title="std :: unique_ptr :: release（）vs std :: move（）"> std :: unique_ptr :: release（）vs std :: move（） </a>
+                            </li>
+                            <li>
+                                22. <a href="http://cn.voidcc.com/question/p-euchpftx-bdr.html" target="_blank"
+                                                 title="std ::函数参数子类"> std ::函数参数子类 </a>
+                            </li>
+                            <li>
+                                23. <a href="http://cn.voidcc.com/question/p-vwlzmrsr-cb.html" target="_blank"
+                                                 title="使用std :: thread与std :: mutex"> 使用std :: thread与std :: mutex </a>
+                            </li>
+                            <li>
+                                24. <a href="http://cn.voidcc.com/question/p-qpiaqlgj-bkg.html" target="_blank"
+                                                 title="为什么不std :: unique_ptr具有像std :: shared_ptr一样的别名构造函数？"> 为什么不std :: unique_ptr具有像std :: shared_ptr一样的别名构造函数？ </a>
+                            </li>
+                            <li>
+                                25. <a href="http://cn.voidcc.com/question/p-ntzmcrsb-cz.html" target="_blank"
+                                                 title="C++ std ::函数作为函子的参数"> C++ std ::函数作为函子的参数 </a>
+                            </li>
+                            <li>
+                                26. <a href="http://cn.voidcc.com/question/p-xraohtab-br.html" target="_blank"
+                                                 title="QMap和std :: unique_ptr"> QMap和std :: unique_ptr </a>
+                            </li>
+                            <li>
+                                27. <a href="http://cn.voidcc.com/question/p-nemppvkl-bde.html" target="_blank"
+                                                 title="XCode std :: thread C++"> XCode std :: thread C++ </a>
+                            </li>
+                            <li>
+                                28. <a href="http://cn.voidcc.com/question/p-xlpotfuj-bes.html" target="_blank"
+                                                 title="MinGW和std :: thread"> MinGW和std :: thread </a>
+                            </li>
+                            <li>
+                                29. <a href="http://cn.voidcc.com/question/p-qaplhycm-ha.html" target="_blank"
+                                                 title="用lambdas初始化std :: unique_ptr的std :: vector"> 用lambdas初始化std :: unique_ptr的std :: vector </a>
+                            </li>
+                            <li>
+                                30. <a href="http://cn.voidcc.com/question/p-kjkdxonu-bdy.html" target="_blank"
+                                                 title="如何使用std :: unique_ptr作为std :: list变量"> 如何使用std :: unique_ptr作为std :: list变量 </a>
+                            </li>
+                    </ul>
+                </div>
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3534119089"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+        <div class="padding-top-10"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="http://img.voidcc.com/voidso/script/side.js?t=1560086042961"></script>
+<script type="text/javascript" src="http://img.voidcc.com/voidso/plugin/highlight/highlight.pack.js"></script>
+<link href="http://img.voidcc.com/voidso/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="col-lg-3 col-md-4 col-sm-5">
+    <div id="rightTop">
+        <div class="row sidebar panel panel-default">
+        <div class="panel-heading font-bold">
+            每日一句
+        </div>
+        <div class="panel-body m-b-sm m-t-sm clearfix">
+            每一个你不满意的现在，都有一个你没有努力的曾经。
+        </div>
+    </div>
+<div class="row">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- VOIDCC问答侧边栏广告 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3862022848"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div><div class="row sidebar panel panel-default">
+    <div class="panel-heading font-bold">
+最新问题    </div>
+    <div class="m-b-sm m-t-sm clearfix">
+        <ul class="side_article_list">
+            <li class="side_article_list_item">
+                1. <a href="http://cn.voidcc.com/question/p-khckgrzc-bmn.html" target="_blank"
+                                 title="自定义地图框Geocoder控件"> 自定义地图框Geocoder控件 </a>
+            </li>
+            <li class="side_article_list_item">
+                2. <a href="http://cn.voidcc.com/question/p-fawtgxyr-bnh.html" target="_blank"
+                                 title="Java-错误：无法找到或加载主类"> Java-错误：无法找到或加载主类 </a>
+            </li>
+            <li class="side_article_list_item">
+                3. <a href="http://cn.voidcc.com/question/p-bnjkmuml-bmt.html" target="_blank"
+                                 title="默认情况下如何在`bash` shell中过滤掉无用的消息？"> 默认情况下如何在`bash` shell中过滤掉无用的消息？ </a>
+            </li>
+            <li class="side_article_list_item">
+                4. <a href="http://cn.voidcc.com/question/p-ximaoggj-vg.html" target="_blank"
+                                 title="openapi v3响应正文中的多行示例"> openapi v3响应正文中的多行示例 </a>
+            </li>
+            <li class="side_article_list_item">
+                5. <a href="http://cn.voidcc.com/question/p-oystnmon-vg.html" target="_blank"
+                                 title="Python 3.6.3 urlopen从URI中删除服务器名称以存储在远程服务器上的html文件"> Python 3.6.3 urlopen从URI中删除服务器名称以存储在远程服务器上的html文件 </a>
+            </li>
+            <li class="side_article_list_item">
+                6. <a href="http://cn.voidcc.com/question/p-bwmetmxg-vk.html" target="_blank"
+                                 title="8位内联汇编大小不匹配旋转"> 8位内联汇编大小不匹配旋转 </a>
+            </li>
+            <li class="side_article_list_item">
+                7. <a href="http://cn.voidcc.com/question/p-awfxdpsy-vk.html" target="_blank"
+                                 title="将字符串数组从WWW转换为Unity3d中的类列表"> 将字符串数组从WWW转换为Unity3d中的类列表 </a>
+            </li>
+            <li class="side_article_list_item">
+                8. <a href="http://cn.voidcc.com/question/p-zlapgcsu-vh.html" target="_blank"
+                                 title="按钮上的颜色随时变化"> 按钮上的颜色随时变化 </a>
+            </li>
+            <li class="side_article_list_item">
+                9. <a href="http://cn.voidcc.com/question/p-wlmhtzci-bnq.html" target="_blank"
+                                 title="如何在用户卸载应用程序时重新备份数据并重新安装应用程序所有数据恢复"> 如何在用户卸载应用程序时重新备份数据并重新安装应用程序所有数据恢复 </a>
+            </li>
+            <li class="side_article_list_item">
+                10. <a href="http://cn.voidcc.com/question/p-tkisurxk-bnw.html" target="_blank"
+                                 title="链接列表添加功能不按预期工作"> 链接列表添加功能不按预期工作 </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    </div>
+
+    <p class="article-nav-bar"></p>
+    <div class="row sidebar article-nav">
+<div class="sidebar panel panel-default">
+    <div class="panel-heading font-bold" style="color:#16a085">
+        本站公众号 · 欢迎关注
+    </div>
+    <div class="clearfix">
+        <img style="width: 100%" src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院"/>
+    </div>
+</div>
+        <div class="row box_white visible-sm visible-md visible-lg margin-zero">
+            <div class="top">
+                <h3 class="title"><i
+                        class="glyphicon glyphicon-th-list"></i>&nbsp;相关问题</h3>
+            </div>
+            <div class="article-relative-content">
+                <ul class="side_article_list">
+                            <li class="side_article_list_item">
+                            1. <a href="http://cn.voidcc.com/question/p-xpoafavw-up.html" target="_blank"
+                                             title="的std :: bind函数采取的std ::的unique_ptr作为参数"> 的std :: bind函数采取的std ::的unique_ptr作为参数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            2. <a href="http://cn.voidcc.com/question/p-ketdvuwu-th.html" target="_blank"
+                                             title="std :: unique_ptr和std :: shared_ptr作为虚函数的参数"> std :: unique_ptr和std :: shared_ptr作为虚函数的参数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            3. <a href="http://cn.voidcc.com/question/p-rnirowia-yp.html" target="_blank"
+                                             title="boost :: thread和std :: unique_ptr"> boost :: thread和std :: unique_ptr </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            4. <a href="http://cn.voidcc.com/question/p-aabzvmoy-hu.html" target="_blank"
+                                             title="以一个函数作为参数类似于std :: thread"> 以一个函数作为参数类似于std :: thread </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            5. <a href="http://cn.voidcc.com/question/p-pihngmbw-em.html" target="_blank"
+                                             title="如何将ifstream作为参数传递给std :: thread函数？"> 如何将ifstream作为参数传递给std :: thread函数？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            6. <a href="http://cn.voidcc.com/question/p-wnjmzmqz-bay.html" target="_blank"
+                                             title="'std :: thread :: thread'：没有重载的函数需要7个参数"> 'std :: thread :: thread'：没有重载的函数需要7个参数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            7. <a href="http://cn.voidcc.com/question/p-atwmmxey-bbm.html" target="_blank"
+                                             title="错误C2280：'std :: thread :: thread（const std :: thread＆）'：尝试引用已删除的函数"> 错误C2280：'std :: thread :: thread（const std :: thread＆）'：尝试引用已删除的函数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            8. <a href="http://cn.voidcc.com/question/p-ftirfwcq-cb.html" target="_blank"
+                                             title="C++ std :: vector作为std :: function的参数"> C++ std :: vector作为std :: function的参数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            9. <a href="http://cn.voidcc.com/question/p-ejuwizsp-bde.html" target="_blank"
+                                             title="std ::函数作为模板参数"> std ::函数作为模板参数 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            10. <a href="http://cn.voidcc.com/question/p-dapirvkl-bgr.html" target="_blank"
+                                             title="std :: vector作为模板函数参数"> std :: vector作为模板函数参数 </a>
+                            </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>    </div>
+</div>
+</div><!-- wrap end-->
+
+<!-- footer -->
+<footer id="footer">
+    <div class="bg-simple lt">
+        <div class="container">
+            <div class="row padder-v m-t">
+                <div class="col-xs-8">
+                    <ul class="list-inline">
+                        <li><a href="http://cn.voidcc.com/contact">联系我们</a></li>
+                        <li>© 2018 CN.VOIDCC.COM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+<!-- / footer -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-77509369-5');
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?67d4731349f0b00136755b80364ce381";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+</html>

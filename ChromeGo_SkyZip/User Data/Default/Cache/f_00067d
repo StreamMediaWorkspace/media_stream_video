@@ -1,0 +1,673 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>如何为电子重建原生npm模块？ - VoidCC</title>
+    <meta name="description" content="请帮我理解如何为Electron 1.6.2重建本地npm模块？ 我使用https://electron.atom.io/docs/tutorial/quick-start中的步骤来创建一个简单的Electron应用程序。 然后我安装了ref包并将其加载到main.js中。 ref包 - 它是本地包。我必须重建这个包才能在Electron应用程序中使用它。 我用下面的教程重建天然包 - https"/>
+    <meta name="keywords" content="如何,电子,重建,原生,npm,模块"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <link rel="shortcut icon" href="http://img.voidcc.com/voidso/favicon.ico" type="image/x-icon"/>
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/animate.css?t=1560086042961" type="text/css"/>
+    <link rel="stylesheet" href="http://img.voidcc.com/voidso/css/voidme.css?t=1560086042961" type="text/css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6208739752673518",
+            enable_page_level_ads: true
+        });
+    </script>
+</head>
+
+<body>
+<div id="wrap"><!-- wrap begin-->
+    <header id="header" class="navbar navbar-fixed-top box-shadow" data-spy="affix" data-offset-top="1">
+        <div class="bg-simple">
+            <div class="container">
+                <div class="navbar-header ">
+                    <button class="btn btn-link visible-xs pull-right m-r" type="button" data-toggle="collapse"
+                            data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="/" class="navbar-brand m-r-n m-l-n-md">
+                    VoidCC
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav m-l-n visible-xs visible-sm visible-md visible-lg visible-xl">
+                        <li>
+                            <a href="/tag">
+                                <span><i class="fa fa-tags m-r-xs" aria-hidden="true"></i>标签列表</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav ">
+                        <li>
+                            <!-- search form -->
+                            <form id="search" action="/search" method="GET"
+                                  class="navbar-form navbar-form-sm visible-xs visible-md visible-lg"
+                                  ui-shift="prependTo" data-target=".navbar-collapse" role="search">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="q" ng-model="selected"
+                                               class="form-control input-sm bg-light no-border  padder"
+                                               placeholder="搜索...">
+                                        <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm bg-light "><i class="fa fa-search"></i></button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- / search form -->
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right m-r-xs">
+                        <li>
+                            <div class="m-t">
+                                <a class="dropdown mr-3 card-link" onclick="showLang()"><i
+                                        class="fa fa-globe fa-lg"></i><span>简体中文</span></a>
+                            </div>
+                        </li>
+                            <script>var mulang = true;</script>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                    <a class="dropdown-item col-lg-4 col-md-6 col-sm-12"
+                                       href="http://hk.voidcc.com/question/p-pkthsoom-qw.html" target="_blank"
+                                       title="如何爲電子重建原生npm模塊？">HK
+                                        (繁體中文)</a>
+                            </div>
+                        <script>
+                            function showLang() {
+                                if (mulang) {
+                                    var ddmenus = $("#dropdownMenu");
+                                    if (ddmenus.hasClass("show")) {
+                                        ddmenus.removeClass("show");
+                                    } else {
+                                        ddmenus.addClass("show");
+                                    }
+                                }
+                            }
+                        </script>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </header><div class="main-content bg-light container">
+    <div class="row banner">
+    </div>
+    <div class="row">
+
+<div class="col-lg-9 col-md-8 col-sm-7">
+    <ol class="breadcrumb">
+        <li><a href="http://cn.voidcc.com/">首页</a></li>
+        <li>问答</li>
+        <li>如何为电子重建原生npm模块？</li>
+    </ol>
+    <div class="page box_white">
+
+        <div class="question-title">
+            <span class="text-logo margin-top-sm">Q</span>
+            <h1>
+                <a href="http://cn.voidcc.com/question/p-pkthsoom-qw.html">如何为电子重建原生npm模块？</a>
+            </h1>
+        </div>
+
+        <div class="question-meta">
+
+            <div class="tags left">
+                <ul class="list-inline">
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/node_js" title="node.js">node.js</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/npm" title="npm">npm</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/electron" title="electron">electron</a></li>
+                        <li><a target='_blank' href="http://cn.voidcc.com/tag/node-gyp" title="node-gyp">node-gyp</a></li>
+                </ul>
+            </div>
+
+            <div class="p-author padding-top-12">
+                    <span><i class="glyphicon glyphicon-time"></i>
+                        <span>2017-03-16</span>
+                    </span>
+                <span><i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="view" title="views">2 views</span>
+                    </span>
+
+                <span class="like" title="likes">
+                        <i class="glyphicon glyphicon-heart"></i>
+                        <span class="likenum">2</span> likes&nbsp;
+                    </span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="item-description text-md markdown-body voidso">
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3932151511"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+            <article>
+
+                <div class="post-col vote-info">
+                    <span class="count">2<i class="fa fa-thumbs-up"></i></span>
+                </div>
+
+                <div class="post-offset">
+                <p>请帮我理解如何为Electron 1.6.2重建本地npm模块？<a href="http://cn.voidcc.com/question/p-pkthsoom-qw.html">如何为电子重建原生npm模块？</a></p> 
+<p>我使用<a href="https://electron.atom.io/docs/tutorial/quick-start" rel="nofollow noreferrer">https://electron.atom.io/docs/tutorial/quick-start</a>中的步骤来创建一个简单的Electron应用程序。 <br> 然后我安装了ref包并将其加载到main.js中。 <br> ref包 - 它是本地包。我必须重建这个包才能在Electron应用程序中使用它。</p> 
+<p>我用下面的教程重建天然包 - <a href="https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md" rel="nofollow noreferrer">https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md</a></p> 
+<p>有3种方法如何重建天然NPM包：</p> 
+<p><strong>1）“安装的模块和使用电子重建重建为电子” ：</strong><br> 我安装了electron-rebuild npm包。 <br> 然后，根据教程中，我只需要下面的命令来运行：<br> \ node_modules.bin \电子rebuild.cmd <br> 但电子重建试图下载<a href="https://atom.io/download/electron/v1.6.2/iojs-v1.6.2.tar.gz" rel="nofollow noreferrer">https://atom.io/download/electron/v1.6.2/iojs-v1.6.2.tar.gz</a><br> 为什么下载的东西从<a href="https://atom.io/download/electron" rel="nofollow noreferrer">https://atom.io/download/electron</a>如果电子发布文件位于这里 - <a href="https://github.com/electron/electron/releases" rel="nofollow noreferrer">https://github.com/electron/electron/releases</a>？ <br> Electron 1.6.2仅在几周前发布，但iojs-v1.6.2.tar.gz于2015年3月发布。<br> 我是否正确理解电子重建下载错误的文件？</p> 
+<p><strong>2）使用node-gyp手动构建Electron包装。</strong><br> 组HOME =％USERPROFILE％/。电子GYP <br> CD ./node_modules/ref <br> 节点-GYP重建--target = 1.6.2 --arch = 64 --dist-URL = <a href="https://atom.io/download/electron" rel="nofollow noreferrer">https://atom.io/download/electron</a></p> 
+<p>而这里dist-url使用<a href="https://atom.io/download/electron" rel="nofollow noreferrer">https://atom.io/download/electron</a>。 <br> 为什么？ <br> 我试过不用--dist-url。 <br> 但是，在这种情况下，节点GYP下载以下文件：<br> GYP HTTP GET <a href="https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz</a><br> GYP HTTP 200 <a href="https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz</a><br> GYP HTTP GET <a href="https://iojs.org/download/release/v1.6.2/SHASUMS256.txt" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/SHASUMS256.txt</a><br> GYP HTTP GET <a href="https://iojs.org/download/release/v1.6.2/win-x64/iojs.lib" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/win-x64/iojs.lib</a><br> GYP HTTP GET <a href="https://iojs.org/download/release/v1.6.2/win-x86/iojs.lib" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/win-x86/iojs.lib</a><br> GYP HTTP 200 <a href="https://iojs.org/download/release/v1.6.2/SHASUMS256.txt" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/SHASUMS256.txt</a><br> gyp http 200 <a href="https://iojs.org/download/release/v1.6.2/win-x64/iojs.lib" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/win-x64/iojs.lib</a><br> gyp http 200 <a href="https://iojs.org/download/release/v1.6.2/win-x86/iojs.lib" rel="nofollow noreferrer">https://iojs.org/download/release/v1.6.2/win-x86/iojs.lib</a><br> 它是正确的吗？</p> 
+<p><strong>3）使用npm重建本地包：</strong><br> rem＃电子版本。 <br> set npm_config_target = 1.6.2 <br> rem＃Electron的体系结构，可以是ia32或x64。<br> set npm_config_arch = x64 <br> set npm_config_target_arch = x64 <br> rem＃下载Electron的标题。 <br> rem set npm_config_disturl = <a href="https://atom.io/download/electron" rel="nofollow noreferrer">https://atom.io/download/electron</a><br> rem＃告诉node-pre-gyp我们正在为Electron构建。 <br> set npm_config_runtime = electron <br> rem＃告诉node-pre-gyp从源代码构建模块。 <br> set npm_config_build_from_source = true <br> rem＃安装所有依赖关系，并将缓存存储到〜/ .electron-gyp。 <br> 集HOME =％USERPROFILE.electron-GYP <br> NPM安装</p> 
+<p>再次<a href="https://atom.io/download/electron" rel="nofollow noreferrer">https://atom.io/download/electron</a>。 <br> 为什么？</p> 
+<p>有谁知道如何正确地重建Electron 1.6.2的ref本机包？</p>
+
+                    <!-- post info -->
+                    <div class="post-info">
+                        <div class="post-meta row">
+                            <p class="text-secondary col-lg-6">
+                                <span class="source"><a rel="noopener" target="_blank"
+                                                        href="https://stackoverflow.com/q/42834453">来源</a></span>
+                            </p>
+                            <p class="text-secondary col-lg-6">
+                                    <span class="float-right date">
+                                        <span>2017-03-16</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/167739/">Volodymyr Bezuglyy</a></span>
+                                    </span>
+                            </p>
+                            <p class="col-12"></p>
+                            <p class="col-12"></p></div>
+                    </div>
+
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">这里没有问题，dist URL是正确的。这是发布镜像/托管的地方 –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/2499250/">MarshallOfSound</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">@MarshallOfSound我不明白。 Electron 1.6.2于15天前发布。 https://iojs.org/download/release/v1.6.2/iojs-v1.6.2.tar.gz创建于2年前 - 23-Mar-2015。 为什么电子重建使用非常古老的iojs-v1.6.2.tar.gz来用新的Electron 1.6.2重建本地npm包？ –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">它并没有，由于遗留构建系统工作的方式，在这种情况下，1和3之间的任何节点版本1.6.2被认为是iojs。这就是node-gyp的编写方式，因此电子文件的名称会以这种方式工作 –
+                        <span class="text-secondary">
+                            <small>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/2499250/">MarshallOfSound</a></span>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                </div>
+            </article>
+        </div>
+
+        <div class="answer-title">
+            <span class="text-logo margin-top-sm">A</span>
+            <h2 class="title h4">回答</h2>
+        </div>
+
+        <div class="item-description text-md markdown-body margin-bottom-40 voidso">
+
+        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">0<i class="fa fa-thumbs-up"></i></span>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>你是对的，给node-gyp的版本映射到Electron版本而不是内部节点版本，因为这是头文件被上传到的版本。实际上，所有这些背后都有一个更复杂的解释，但最终用户应该没有问题。您提供的代码是正确的，并且来自文档。有用。不需要理解为什么的内部工作原理。</p>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/42838413">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2017-03-16 15:31:31</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/2499250/">MarshallOfSound</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+    <!-- comments -->
+    <div class="comments">
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">好的，我明白了。 现在我使用以下命令来重建ref包： cd。\ node_modules \ ref “D：\\ tools \\ nodejs \\ node.exe”“C：\\ tmp \\ test \\ node_modules \\ node- gyp \\ bin \\ node-gyp.js“”rebuild“”--target = 1.6.1“”--arch = x64“”--build-from-source“--nodedir = D：\ tools \ iojs -v1.6.1 它的工作原理。 但是，当我设置--arch = ia32然后Electron抱怨“错误：％1不是有效的Win32应用程序”。 可能是什么问题？ –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div itemprop="comment" class="post-comment">
+            <div class="row">
+                <div class="col-lg-1"><span class="text-secondary">+0</span></div>
+                <div class="col-lg-11">
+                    <p class="commenttext">是否有关于节点和电子本地模块构建差异的任何文档？ –
+                        <span class="text-secondary">
+                            <small>
+                                <span></span>
+                            </small>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </article>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="4319274062"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>        </div>
+
+        <div class="clearfix">
+        </div>
+
+                <div class="relative-box">
+                    <div class="relative">相关问题</div>
+                    <ul class="relative_list">
+                            <li>
+                                1. <a href="http://cn.voidcc.com/question/p-wpctzdxu-nt.html" target="_blank"
+                                                 title="如何为npm模块创建声明？"> 如何为npm模块创建声明？ </a>
+                            </li>
+                            <li>
+                                2. <a href="http://cn.voidcc.com/question/p-zypzruox-ee.html" target="_blank"
+                                                 title="电子 - NPM模块在渲染器"> 电子 - NPM模块在渲染器 </a>
+                            </li>
+                            <li>
+                                3. <a href="http://cn.voidcc.com/question/p-gzvyzwmv-kw.html" target="_blank"
+                                                 title="如何创建tar -ed npm模块"> 如何创建tar -ed npm模块 </a>
+                            </li>
+                            <li>
+                                4. <a href="http://cn.voidcc.com/question/p-ybxbaqyh-hm.html" target="_blank"
+                                                 title="npm安装分模块git子模块"> npm安装分模块git子模块 </a>
+                            </li>
+                            <li>
+                                5. <a href="http://cn.voidcc.com/question/p-tramsrcd-re.html" target="_blank"
+                                                 title="如何从生成的模块生成多模块原型？"> 如何从生成的模块生成多模块原型？ </a>
+                            </li>
+                            <li>
+                                6. <a href="http://cn.voidcc.com/question/p-udgllabx-tq.html" target="_blank"
+                                                 title="如何webpack npm模块？"> 如何webpack npm模块？ </a>
+                            </li>
+                            <li>
+                                7. <a href="http://cn.voidcc.com/question/p-roaayuvm-sc.html" target="_blank"
+                                                 title="如何生成电子邮件模块等糖crm模块中的唯一ID？"> 如何生成电子邮件模块等糖crm模块中的唯一ID？ </a>
+                            </li>
+                            <li>
+                                8. <a href="http://cn.voidcc.com/question/p-bchqeaze-sy.html" target="_blank"
+                                                 title="在电子和webpack中使用npm模块？"> 在电子和webpack中使用npm模块？ </a>
+                            </li>
+                            <li>
+                                9. <a href="http://cn.voidcc.com/question/p-uzzlvnvc-un.html" target="_blank"
+                                                 title="电子原子 - 模块“节点的Windows”未编译"> 电子原子 - 模块“节点的Windows”未编译 </a>
+                            </li>
+                            <li>
+                                10. <a href="http://cn.voidcc.com/question/p-foxssqua-rq.html" target="_blank"
+                                                 title="重用Git子模块的子模块"> 重用Git子模块的子模块 </a>
+                            </li>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="9842885874"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>                            <li>
+                                11. <a href="http://cn.voidcc.com/question/p-cpzcyocm-gw.html" target="_blank"
+                                                 title="重命名已发布的NPM模块"> 重命名已发布的NPM模块 </a>
+                            </li>
+                            <li>
+                                12. <a href="http://cn.voidcc.com/question/p-ypzjfywz-ub.html" target="_blank"
+                                                 title="NPM安装电子"> NPM安装电子 </a>
+                            </li>
+                            <li>
+                                13. <a href="http://cn.voidcc.com/question/p-rafeijbq-cn.html" target="_blank"
+                                                 title="Node.js Babel构建和npm模块别名"> Node.js Babel构建和npm模块别名 </a>
+                            </li>
+                            <li>
+                                14. <a href="http://cn.voidcc.com/question/p-vepmkqja-ss.html" target="_blank"
+                                                 title="如何重新加载python子模块？"> 如何重新加载python子模块？ </a>
+                            </li>
+                            <li>
+                                15. <a href="http://cn.voidcc.com/question/p-cwwnkzzk-qg.html" target="_blank"
+                                                 title="NPM模块 - 如何利用package.json文件？"> NPM模块 - 如何利用package.json文件？ </a>
+                            </li>
+                            <li>
+                                16. <a href="http://cn.voidcc.com/question/p-haxntdqu-us.html" target="_blank"
+                                                 title="Node.js：如何集中npm模块？"> Node.js：如何集中npm模块？ </a>
+                            </li>
+                            <li>
+                                17. <a href="http://cn.voidcc.com/question/p-xqmgkrhq-ny.html" target="_blank"
+                                                 title="如何在grunt上使用npm模块？"> 如何在grunt上使用npm模块？ </a>
+                            </li>
+                            <li>
+                                18. <a href="http://cn.voidcc.com/question/p-mlxtpjuz-qu.html" target="_blank"
+                                                 title="NPM清洁模块"> NPM清洁模块 </a>
+                            </li>
+                            <li>
+                                19. <a href="http://cn.voidcc.com/question/p-squphcyi-dq.html" target="_blank"
+                                                 title="在npm软件包中使用非npm-git子模块"> 在npm软件包中使用非npm-git子模块 </a>
+                            </li>
+                            <li>
+                                20. <a href="http://cn.voidcc.com/question/p-trexbjjn-eb.html" target="_blank"
+                                                 title="jenkins git如何重置构建之间的子模块"> jenkins git如何重置构建之间的子模块 </a>
+                            </li>
+                            <li>
+                                21. <a href="http://cn.voidcc.com/question/p-xxcrpjhz-du.html" target="_blank"
+                                                 title="如何从npm作为独立的AMD/CommonJS模块获取模块"> 如何从npm作为独立的AMD/CommonJS模块获取模块 </a>
+                            </li>
+                            <li>
+                                22. <a href="http://cn.voidcc.com/question/p-htddggqs-do.html" target="_blank"
+                                                 title="如何使用热电模块替换电子"> 如何使用热电模块替换电子 </a>
+                            </li>
+                            <li>
+                                23. <a href="http://cn.voidcc.com/question/p-hltkyuac-ct.html" target="_blank"
+                                                 title="NPM：更新模块内的模块"> NPM：更新模块内的模块 </a>
+                            </li>
+                            <li>
+                                24. <a href="http://cn.voidcc.com/question/p-sqdnfxfn-sm.html" target="_blank"
+                                                 title="节点NPM错误：无法找到模块“写入文件原子”"> 节点NPM错误：无法找到模块“写入文件原子” </a>
+                            </li>
+                            <li>
+                                25. <a href="http://cn.voidcc.com/question/p-ralclljq-ts.html" target="_blank"
+                                                 title="反应原生的原生android模块需要问权限吗？"> 反应原生的原生android模块需要问权限吗？ </a>
+                            </li>
+                            <li>
+                                26. <a href="http://cn.voidcc.com/question/p-cubkymxv-uz.html" target="_blank"
+                                                 title="原生动画模块不可用 - 反应原生"> 原生动画模块不可用 - 反应原生 </a>
+                            </li>
+                            <li>
+                                27. <a href="http://cn.voidcc.com/question/p-nuxibljg-rd.html" target="_blank"
+                                                 title="需要从NPM缓存NPM模块"> 需要从NPM缓存NPM模块 </a>
+                            </li>
+                            <li>
+                                28. <a href="http://cn.voidcc.com/question/p-zzxodnko-gc.html" target="_blank"
+                                                 title="创建一个子模块模块"> 创建一个子模块模块 </a>
+                            </li>
+                            <li>
+                                29. <a href="http://cn.voidcc.com/question/p-tkzlvwgo-ry.html" target="_blank"
+                                                 title="为NPM创建模块化组件库包"> 为NPM创建模块化组件库包 </a>
+                            </li>
+                            <li>
+                                30. <a href="http://cn.voidcc.com/question/p-kzeqxxdi-vg.html" target="_blank"
+                                                 title="如何将独立应用程序部署为npm模块？"> 如何将独立应用程序部署为npm模块？ </a>
+                            </li>
+                    </ul>
+                </div>
+
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3534119089"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+        <div class="padding-top-10"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="http://img.voidcc.com/voidso/script/side.js?t=1560086042961"></script>
+<script type="text/javascript" src="http://img.voidcc.com/voidso/plugin/highlight/highlight.pack.js"></script>
+<link href="http://img.voidcc.com/voidso/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="col-lg-3 col-md-4 col-sm-5">
+    <div id="rightTop">
+        <div class="row sidebar panel panel-default">
+        <div class="panel-heading font-bold">
+            每日一句
+        </div>
+        <div class="panel-body m-b-sm m-t-sm clearfix">
+            每一个你不满意的现在，都有一个你没有努力的曾经。
+        </div>
+    </div>
+<div class="row">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- VOIDCC问答侧边栏广告 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6208739752673518"
+         data-ad-slot="3862022848"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div><div class="row sidebar panel panel-default">
+    <div class="panel-heading font-bold">
+最新问题    </div>
+    <div class="m-b-sm m-t-sm clearfix">
+        <ul class="side_article_list">
+            <li class="side_article_list_item">
+                1. <a href="http://cn.voidcc.com/question/p-snkbsjhj-ou.html" target="_blank"
+                                 title="java消息包 - 使用变体时的属性文件命名约定？"> java消息包 - 使用变体时的属性文件命名约定？ </a>
+            </li>
+            <li class="side_article_list_item">
+                2. <a href="http://cn.voidcc.com/question/p-tqhyebbt-ty.html" target="_blank"
+                                 title="使用CABasicAnimation后，防止CAGradientLayer位置返回原始值"> 使用CABasicAnimation后，防止CAGradientLayer位置返回原始值 </a>
+            </li>
+            <li class="side_article_list_item">
+                3. <a href="http://cn.voidcc.com/question/p-rzjwhleq-ty.html" target="_blank"
+                                 title="使用分割获取图像的名称"> 使用分割获取图像的名称 </a>
+            </li>
+            <li class="side_article_list_item">
+                4. <a href="http://cn.voidcc.com/question/p-pksqmqil-tv.html" target="_blank"
+                                 title="如何获得MS SQL Strored Procedure返回值在PHP中使用PDO？"> 如何获得MS SQL Strored Procedure返回值在PHP中使用PDO？ </a>
+            </li>
+            <li class="side_article_list_item">
+                5. <a href="http://cn.voidcc.com/question/p-odrgynir-tu.html" target="_blank"
+                                 title="获得Oracle存储过程的参数"> 获得Oracle存储过程的参数 </a>
+            </li>
+            <li class="side_article_list_item">
+                6. <a href="http://cn.voidcc.com/question/p-rmcmpiwf-tu.html" target="_blank"
+                                 title="获取网页"> 获取网页 </a>
+            </li>
+            <li class="side_article_list_item">
+                7. <a href="http://cn.voidcc.com/question/p-dxgexolg-pp.html" target="_blank"
+                                 title="如何使用一定数量的参数搜索函数"> 如何使用一定数量的参数搜索函数 </a>
+            </li>
+            <li class="side_article_list_item">
+                8. <a href="http://cn.voidcc.com/question/p-cowfdjkv-rx.html" target="_blank"
+                                 title="如何通过有序，随机和重放来播放歌曲？"> 如何通过有序，随机和重放来播放歌曲？ </a>
+            </li>
+            <li class="side_article_list_item">
+                9. <a href="http://cn.voidcc.com/question/p-pyzdavpm-ok.html" target="_blank"
+                                 title="在哪里可以下载这个版本的adventureworks数据库"> 在哪里可以下载这个版本的adventureworks数据库 </a>
+            </li>
+            <li class="side_article_list_item">
+                10. <a href="http://cn.voidcc.com/question/p-grrnvpks-ro.html" target="_blank"
+                                 title="YUI数据表与AJAX"> YUI数据表与AJAX </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    </div>
+
+    <p class="article-nav-bar"></p>
+    <div class="row sidebar article-nav">
+<div class="sidebar panel panel-default">
+    <div class="panel-heading font-bold" style="color:#16a085">
+        本站公众号 · 欢迎关注
+    </div>
+    <div class="clearfix">
+        <img style="width: 100%" src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院"/>
+    </div>
+</div>
+        <div class="row box_white visible-sm visible-md visible-lg margin-zero">
+            <div class="top">
+                <h3 class="title"><i
+                        class="glyphicon glyphicon-th-list"></i>&nbsp;相关问题</h3>
+            </div>
+            <div class="article-relative-content">
+                <ul class="side_article_list">
+                            <li class="side_article_list_item">
+                            1. <a href="http://cn.voidcc.com/question/p-wpctzdxu-nt.html" target="_blank"
+                                             title="如何为npm模块创建声明？"> 如何为npm模块创建声明？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            2. <a href="http://cn.voidcc.com/question/p-zypzruox-ee.html" target="_blank"
+                                             title="电子 - NPM模块在渲染器"> 电子 - NPM模块在渲染器 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            3. <a href="http://cn.voidcc.com/question/p-gzvyzwmv-kw.html" target="_blank"
+                                             title="如何创建tar -ed npm模块"> 如何创建tar -ed npm模块 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            4. <a href="http://cn.voidcc.com/question/p-ybxbaqyh-hm.html" target="_blank"
+                                             title="npm安装分模块git子模块"> npm安装分模块git子模块 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            5. <a href="http://cn.voidcc.com/question/p-tramsrcd-re.html" target="_blank"
+                                             title="如何从生成的模块生成多模块原型？"> 如何从生成的模块生成多模块原型？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            6. <a href="http://cn.voidcc.com/question/p-udgllabx-tq.html" target="_blank"
+                                             title="如何webpack npm模块？"> 如何webpack npm模块？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            7. <a href="http://cn.voidcc.com/question/p-roaayuvm-sc.html" target="_blank"
+                                             title="如何生成电子邮件模块等糖crm模块中的唯一ID？"> 如何生成电子邮件模块等糖crm模块中的唯一ID？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            8. <a href="http://cn.voidcc.com/question/p-bchqeaze-sy.html" target="_blank"
+                                             title="在电子和webpack中使用npm模块？"> 在电子和webpack中使用npm模块？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            9. <a href="http://cn.voidcc.com/question/p-uzzlvnvc-un.html" target="_blank"
+                                             title="电子原子 - 模块“节点的Windows”未编译"> 电子原子 - 模块“节点的Windows”未编译 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            10. <a href="http://cn.voidcc.com/question/p-foxssqua-rq.html" target="_blank"
+                                             title="重用Git子模块的子模块"> 重用Git子模块的子模块 </a>
+                            </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>    </div>
+</div>
+</div><!-- wrap end-->
+
+<!-- footer -->
+<footer id="footer">
+    <div class="bg-simple lt">
+        <div class="container">
+            <div class="row padder-v m-t">
+                <div class="col-xs-8">
+                    <ul class="list-inline">
+                        <li><a href="http://cn.voidcc.com/contact">联系我们</a></li>
+                        <li>© 2018 CN.VOIDCC.COM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+<!-- / footer -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-77509369-5');
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?67d4731349f0b00136755b80364ce381";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+</html>

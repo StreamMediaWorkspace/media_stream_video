@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en-US" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://systemisbusy.info/blog/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/js/html5.js"></script>
+	<![endif]-->
+	<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>uv_async_t让Node.js脚本停止运行 - System is busy.</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v12.0 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="在公司搬砖给Node.js写C++插件的时候遇到了一个BUG：在为Node.js导出的C++类中，如果存储了uv_async_t对象，会让一些Node.js的async/await操作不能正常工作。套上async/await，代码执行到C++代码通过回调函数异步返回给JS数据之后，脚本就停止工作了。 C++部分的代码大致是这样的： #include &lt;nan.h&gt; #include &lt;memory&gt; #include &lt;thread&gt; #include &lt;vector&gt; // simple wrapper for uv_async_t class uvAsyncEvent { public: uvAsyncEvent(void* context, uv_async_cb callback) { m_pAsyncHandle.reset(new uv_async_t()); m_pAsyncHandle-&gt;data = context; uv_async_init(uv_default_loop(), m_pAsyncHandle.get(), callback); } ~uvAsyncEvent() { } void* GetContext() const { return m_pAsyncHandle-&gt;data; } void Notify() { uv_async_send(m_pAsyncHandle.get()); } private: struct Deleter { void operator()(uv_async_t* asyncEvent) &hellip; Continue reading uv_async_t让Node.js脚本停止运行" />
+<meta name="twitter:title" content="uv_async_t让Node.js脚本停止运行 - System is busy." />
+<meta name="twitter:image" content="https://systemisbusy.info/blog/wp-content/uploads/2019/08/QQ截图20190808223410.png" />
+<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://systemisbusy.info/blog/#website","url":"https://systemisbusy.info/blog/","name":"System is busy.","potentialAction":{"@type":"SearchAction","target":"https://systemisbusy.info/blog/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"ImageObject","@id":"https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/#primaryimage","url":"https://systemisbusy.info/blog/wp-content/uploads/2019/08/QQ\u622a\u56fe20190808223410.png","width":1014,"height":748},{"@type":"WebPage","@id":"https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/#webpage","url":"https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/","inLanguage":"en-US","name":"uv_async_t\u8ba9Node.js\u811a\u672c\u505c\u6b62\u8fd0\u884c - System is busy.","isPartOf":{"@id":"https://systemisbusy.info/blog/#website"},"primaryImageOfPage":{"@id":"https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/#primaryimage"},"datePublished":"2019-08-09T02:41:27+00:00","dateModified":"2019-08-09T02:41:27+00:00","author":{"@id":"https://systemisbusy.info/blog/#/schema/person/14d7cd49b88a74e480f1bb41b9e9986f"}},{"@type":["Person"],"@id":"https://systemisbusy.info/blog/#/schema/person/14d7cd49b88a74e480f1bb41b9e9986f","name":"BSoD_Ultimate","image":{"@type":"ImageObject","@id":"https://systemisbusy.info/blog/#authorlogo","url":"https://secure.gravatar.com/avatar/69560868a8dbdaff2906b2d258ef0938?s=96&d=mm&r=g","caption":"BSoD_Ultimate"},"sameAs":[]}]}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="System is busy. &raquo; Feed" href="https://systemisbusy.info/blog/feed/" />
+<link rel="alternate" type="application/rss+xml" title="System is busy. &raquo; Comments Feed" href="https://systemisbusy.info/blog/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="System is busy. &raquo; uv_async_t让Node.js脚本停止运行 Comments Feed" href="https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/systemisbusy.info\/blog\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.2.3"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://systemisbusy.info/blog/wp-includes/css/dist/block-library/style.min.css?ver=5.2.3' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-theme-css'  href='https://systemisbusy.info/blog/wp-includes/css/dist/block-library/theme.min.css?ver=5.2.3' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='https://systemisbusy.info/blog/wp-content/plugins/contact-widgets/assets/css/font-awesome.min.css?ver=4.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfifteen-fonts-css'  href='https://fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/genericons/genericons.css?ver=3.2' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfifteen-style-css'  href='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/style.css?ver=5.2.3' type='text/css' media='all' />
+<style id='twentyfifteen-style-inline-css' type='text/css'>
+
+		/* Custom Sidebar Text Color */
+		.site-title a,
+		.site-description,
+		.secondary-toggle:before {
+			color: #020202;
+		}
+
+		.site-title a:hover,
+		.site-title a:focus {
+			color: #020202; /* Fallback for IE7 and IE8 */
+			color: rgba( 2, 2, 2, 0.7);
+		}
+
+		.secondary-toggle {
+			border-color: #020202; /* Fallback for IE7 and IE8 */
+			border-color: rgba( 2, 2, 2, 0.1);
+		}
+
+		.secondary-toggle:hover,
+		.secondary-toggle:focus {
+			border-color: #020202; /* Fallback for IE7 and IE8 */
+			border-color: rgba( 2, 2, 2, 0.3);
+		}
+
+		.site-title a {
+			outline-color: #020202; /* Fallback for IE7 and IE8 */
+			outline-color: rgba( 2, 2, 2, 0.3);
+		}
+
+		@media screen and (min-width: 59.6875em) {
+			.secondary a,
+			.dropdown-toggle:after,
+			.widget-title,
+			.widget blockquote cite,
+			.widget blockquote small {
+				color: #020202;
+			}
+
+			.widget button,
+			.widget input[type="button"],
+			.widget input[type="reset"],
+			.widget input[type="submit"],
+			.widget_calendar tbody a {
+				background-color: #020202;
+			}
+
+			.textwidget a {
+				border-color: #020202;
+			}
+
+			.secondary a:hover,
+			.secondary a:focus,
+			.main-navigation .menu-item-description,
+			.widget,
+			.widget blockquote,
+			.widget .wp-caption-text,
+			.widget .gallery-caption {
+				color: rgba( 2, 2, 2, 0.7);
+			}
+
+			.widget button:hover,
+			.widget button:focus,
+			.widget input[type="button"]:hover,
+			.widget input[type="button"]:focus,
+			.widget input[type="reset"]:hover,
+			.widget input[type="reset"]:focus,
+			.widget input[type="submit"]:hover,
+			.widget input[type="submit"]:focus,
+			.widget_calendar tbody a:hover,
+			.widget_calendar tbody a:focus {
+				background-color: rgba( 2, 2, 2, 0.7);
+			}
+
+			.widget blockquote {
+				border-color: rgba( 2, 2, 2, 0.7);
+			}
+
+			.main-navigation ul,
+			.main-navigation li,
+			.secondary-toggle,
+			.widget input,
+			.widget textarea,
+			.widget table,
+			.widget th,
+			.widget td,
+			.widget pre,
+			.widget li,
+			.widget_categories .children,
+			.widget_nav_menu .sub-menu,
+			.widget_pages .children,
+			.widget abbr[title] {
+				border-color: rgba( 2, 2, 2, 0.1);
+			}
+
+			.dropdown-toggle:hover,
+			.dropdown-toggle:focus,
+			.widget hr {
+				background-color: rgba( 2, 2, 2, 0.1);
+			}
+
+			.widget input:focus,
+			.widget textarea:focus {
+				border-color: rgba( 2, 2, 2, 0.3);
+			}
+
+			.sidebar a:focus,
+			.dropdown-toggle:focus {
+				outline-color: rgba( 2, 2, 2, 0.3);
+			}
+		}
+	
+</style>
+<link rel='stylesheet' id='twentyfifteen-block-style-css'  href='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/css/blocks.css?ver=20181018' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyfifteen-ie-css'  href='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/css/ie.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentyfifteen-ie7-css'  href='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/css/ie7.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='https://systemisbusy.info/blog/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://systemisbusy.info/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://systemisbusy.info/blog/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.2.3" />
+<link rel='shortlink' href='https://systemisbusy.info/blog/?p=194' />
+<link rel="alternate" type="application/json+oembed" href="https://systemisbusy.info/blog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsystemisbusy.info%2Fblog%2F2019%2F08%2F09%2Fuv_async_t%25e8%25ae%25a9node-js%25e8%2584%259a%25e6%259c%25ac%25e5%2581%259c%25e6%25ad%25a2%25e8%25bf%2590%25e8%25a1%258c%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://systemisbusy.info/blog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsystemisbusy.info%2Fblog%2F2019%2F08%2F09%2Fuv_async_t%25e8%25ae%25a9node-js%25e8%2584%259a%25e6%259c%25ac%25e5%2581%259c%25e6%25ad%25a2%25e8%25bf%2590%25e8%25a1%258c%2F&#038;format=xml" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-image: url("https://systemisbusy.info/blog/wp-content/uploads/2018/12/adwaita-morning.jpg"); background-position: center top; background-size: auto; background-repeat: repeat; background-attachment: fixed; }
+</style>
+			<style type="text/css" id="wp-custom-css">
+			/*header background*/
+body::before, .site-header {
+	opacity: 0.8;
+}
+
+.site-title {
+	font-family: Courier New, Courier, monospace;
+	font-size: 20px
+}
+
+#menu-item-182 a:before {
+    content: "\f108";
+}
+
+.search-field {
+	font-family: Courier New, Courier, monospace;
+}
+
+.menu-item {
+	font-size: 18px;
+}
+
+.widget-title {
+	font-family: Courier New, Courier, monospace;
+	font-size: 18px;
+}
+
+.site-footer .site-info {
+	font-family: Courier New, Courier, monospace;
+}
+		</style>
+		</head>
+
+<body class="post-template-default single single-post postid-194 single-format-standard custom-background wp-embed-responsive">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<div id="sidebar" class="sidebar">
+		<header id="masthead" class="site-header" role="banner">
+			<div class="site-branding">
+										<p class="site-title"><a href="https://systemisbusy.info/blog/" rel="home">System is busy.</a></p>
+									<button class="secondary-toggle">Menu and widgets</button>
+			</div><!-- .site-branding -->
+		</header><!-- .site-header -->
+
+			<div id="secondary" class="secondary">
+
+					<nav id="site-navigation" class="main-navigation" role="navigation">
+				<div class="menu-main-container"><ul id="menu-main" class="nav-menu"><li id="menu-item-21" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-21"><a href="https://systemisbusy.info/blog">Home</a></li>
+<li id="menu-item-144" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-144"><a href="https://systemisbusy.info/blog/about/">About me</a></li>
+</ul></div>			</nav><!-- .main-navigation -->
+		
+					<nav id="social-navigation" class="social-navigation" role="navigation">
+				<div class="menu-contact-container"><ul id="menu-contact" class="menu"><li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-20"><a title="My Twitter account" target="_blank" rel="noopener noreferrer" href="https://twitter.com/BSoD_ultimate"><span class="screen-reader-text">Twitter</span></a></li>
+<li id="menu-item-182" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182"><a title="My Telegram channel" target="_blank" rel="noopener noreferrer" href="https://t.me/joinchat/AAAAAElzzqoZKemApnD1fw"><span class="screen-reader-text">Telegram</span></a></li>
+</ul></div>			</nav><!-- .social-navigation -->
+		
+					<div id="widget-area" class="widget-area" role="complementary">
+				<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://systemisbusy.info/blog/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit screen-reader-text" value="Search" />
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+											<li>
+					<a href="https://systemisbusy.info/blog/2019/09/03/%e7%bb%99electron%e5%81%9ac%e5%bc%80%e5%8f%91%e7%9a%84%e9%82%a3%e4%ba%9b%e5%9d%91/">给Electron做C++开发的那些坑</a>
+									</li>
+											<li>
+					<a href="https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/">uv_async_t让Node.js脚本停止运行</a>
+									</li>
+											<li>
+					<a href="https://systemisbusy.info/blog/2019/01/09/%e7%bc%96%e5%86%99%e5%85%8d%e6%b3%a8%e5%86%8ccom%e7%bb%84%e4%bb%b6%e7%9a%84%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf/">编写免注册COM组件的正确姿势</a>
+									</li>
+											<li>
+					<a href="https://systemisbusy.info/blog/2018/12/26/%e6%9c%ac%e7%ab%99%e7%8e%b0%e5%b7%b2%e6%94%af%e6%8c%81hsts-preload/">本站现已支持HSTS Preload</a>
+									</li>
+											<li>
+					<a href="https://systemisbusy.info/blog/2018/12/25/libstdc%e7%9a%84stdregex%e7%9a%84%e4%b8%80%e4%b8%aa%e5%9d%91/">libstdc++的std::regex的一个坑</a>
+									</li>
+					</ul>
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h2 class="widget-title">Recent Comments</h2><ul id="recentcomments"></ul></aside><aside id="archives-2" class="widget widget_archive"><h2 class="widget-title">Archives</h2>		<ul>
+				<li><a href='https://systemisbusy.info/blog/2019/09/'>September 2019</a></li>
+	<li><a href='https://systemisbusy.info/blog/2019/08/'>August 2019</a></li>
+	<li><a href='https://systemisbusy.info/blog/2019/01/'>January 2019</a></li>
+	<li><a href='https://systemisbusy.info/blog/2018/12/'>December 2018</a></li>
+		</ul>
+			</aside><aside id="categories-2" class="widget widget_categories"><h2 class="widget-title">Categories</h2>		<ul>
+				<li class="cat-item cat-item-1"><a href="https://systemisbusy.info/blog/category/uncategorized/">Uncategorized</a>
+</li>
+		</ul>
+			</aside><!--
+Plugin: Custom Meta Widget
+Plugin URL: http://shinraholdings.com/plugins/custom-meta-widget/
+-->
+<aside id="custommetawidget-3" class="widget customMetaWidget"><h2 class="widget-title">Meta</h2>		<ul>
+
+		
+		
+					<li><a href="https://systemisbusy.info/blog/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+		
+
+		
+			<li><a href="https://systemisbusy.info/blog/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+		
+		<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li><li><a href="https://twitter.com/BSoD_ultimate">Twitter</a></li>		</ul>
+
+	</aside>			</div><!-- .widget-area -->
+		
+	</div><!-- .secondary -->
+
+	</div><!-- .sidebar -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+<article id="post-194" class="post-194 post type-post status-publish format-standard hentry category-uncategorized">
+	
+	<header class="entry-header">
+		<h1 class="entry-title">uv_async_t让Node.js脚本停止运行</h1>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>在公司搬砖给Node.js写C++插件的时候遇到了一个BUG：在为Node.js导出的C++类中，如果存储了uv_async_t对象，会让一些Node.js的async/await操作不能正常工作。套上async/await，代码执行到C++代码通过回调函数异步返回给JS数据之后，脚本就停止工作了。</p>
+<p>C++部分的代码大致是这样的：</p>
+<pre><code class="">#include &lt;nan.h&gt;
+#include &lt;memory&gt;
+#include &lt;thread&gt;
+#include &lt;vector&gt;
+
+// simple wrapper for uv_async_t
+class uvAsyncEvent
+{
+public:
+    uvAsyncEvent(void* context, uv_async_cb callback)
+    {
+        m_pAsyncHandle.reset(new uv_async_t());
+        m_pAsyncHandle-&gt;data = context;
+        uv_async_init(uv_default_loop(), m_pAsyncHandle.get(), callback);
+    }
+    ~uvAsyncEvent()
+    {
+    }
+    void* GetContext() const
+    {
+        return m_pAsyncHandle-&gt;data;
+    }
+    void Notify()
+    {
+        uv_async_send(m_pAsyncHandle.get());
+    }
+
+private:
+    struct Deleter
+    {
+        void operator()(uv_async_t* asyncEvent) const
+        {
+            if (asyncEvent)
+            {
+                uv_close((uv_handle_t*)asyncEvent, Deleter::uvCloseCallback);
+            }
+        }
+
+        static void uvCloseCallback(uv_handle_t* handle)
+        {
+            delete (uv_async_t*)handle;
+        }
+    };
+    std::unique_ptr&lt;uv_async_t, Deleter&gt; m_pAsyncHandle;
+};
+
+// a c++ class exported to Node.js which holds uv_async_t handles
+class Hang
+    : public Nan::ObjectWrap
+{
+public:
+    static NAN_MODULE_INIT(Init)
+    {
+        v8::Local&lt;v8::FunctionTemplate&gt; tpl = Nan::New&lt;v8::FunctionTemplate&gt;(New);
+        tpl-&gt;SetClassName(Nan::New("Hang").ToLocalChecked());
+        tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
+
+        Nan::SetPrototypeMethod(tpl, "start", Start);
+        Nan::SetPrototypeMethod(tpl, "stop", Stop);
+        Nan::SetPrototypeMethod(tpl, "setCallback", SetCallback);
+
+        constructor.Reset(Nan::GetFunction(tpl).ToLocalChecked());
+
+        Nan::Set(target, Nan::New("Hang").ToLocalChecked(), Nan::GetFunction(tpl).ToLocalChecked());
+    }
+
+private:
+    Hang()
+        : m_pEvent(std::make_unique&lt;uvAsyncEvent&gt;(this, asyncCallback)) // async/await hangs
+        , m_bRunning(true)
+    {
+    }
+public:
+    ~Hang()
+    {
+    }
+
+    static NAN_METHOD(New)
+    {
+        if (info.IsConstructCall()) {
+            // Invoked as constructor: `new Hang(...)`
+            Hang* obj = new Hang();
+            obj-&gt;Wrap(info.This());
+
+            info.GetReturnValue().Set(info.This());
+
+            v8::Local&lt;v8::Object&gt; context = v8::Local&lt;v8::Object&gt;::Cast(info[0]);
+        }
+        else {
+            // Invoked as plain function `Hang(...)`, turn into construct call.
+            const int argc = 1;
+            v8::Local&lt;v8::Value&gt; argv[argc] = { info[0] };
+            v8::Local&lt;v8::Function&gt; cons = Nan::New(constructor);
+            v8::Local&lt;v8::Object&gt; result =
+                Nan::NewInstance(cons, argc, argv).ToLocalChecked();
+            info.GetReturnValue().Set(result);
+        }
+    }
+
+    static NAN_METHOD(SetCallback)
+    {
+        Hang* obj = ObjectWrap::Unwrap&lt;Hang&gt;(info.Holder());
+
+        if (!info[0]-&gt;IsFunction())
+        {
+            Nan::ThrowTypeError("arg 1 is not function");
+            return;
+        }
+
+        obj-&gt;m_evCallback.reset(new Nan::Callback(info[0].As&lt;v8::Function&gt;()));
+    }
+
+    static NAN_METHOD(Start)
+    {
+        Hang* obj = ObjectWrap::Unwrap&lt;Hang&gt;(info.Holder());
+
+        obj-&gt;m_bRunning = true;
+
+        struct ThreadRunner
+        {
+            ThreadRunner(Hang&amp; h)
+                : m_obj(h)
+            {
+            }
+
+            // Run
+            void operator()()
+            {
+                while (m_obj.m_bRunning) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                    m_obj.m_pEvent-&gt;Notify();
+                }
+            }
+        private:
+            Hang&amp; m_obj;
+        };
+
+        if (!obj-&gt;m_workThread)
+        {
+            obj-&gt;m_workThread = std::make_unique&lt;std::thread&gt;(ThreadRunner(*obj));
+        }
+
+    }
+
+    static NAN_METHOD(Stop)
+    {
+        Hang* obj = ObjectWrap::Unwrap&lt;Hang&gt;(info.Holder());
+
+        obj-&gt;m_bRunning = false;
+        if (obj-&gt;m_workThread)
+        {
+            obj-&gt;m_workThread-&gt;join();
+            obj-&gt;m_workThread.reset();
+        }
+
+        obj-&gt;m_pEvent.reset();
+    }
+
+private:
+    static void asyncCallback(uv_async_t* handle)
+    {
+        Hang* pThis = (Hang*)handle-&gt;data;
+        Nan::HandleScope scope;
+
+        auto ret = Nan::New("async callback").ToLocalChecked();
+
+        v8::Local&lt;v8::Value&gt; argv[] = { ret };
+
+        Nan::Call(*pThis-&gt;m_evCallback, 1, argv);
+
+    }
+
+private:
+    std::unique_ptr&lt;uvAsyncEvent&gt; m_pEvent;
+    std::unique_ptr&lt;Nan::Callback&gt; m_evCallback;
+
+    std::unique_ptr&lt;std::thread&gt; m_workThread;
+    bool m_bRunning;
+
+private:
+    static Nan::Persistent&lt;v8::Function&gt; constructor;
+};
+Nan::Persistent&lt;v8::Function&gt; Hang::constructor;
+
+// an asynchronous function for test
+NAN_METHOD(testAsync)
+{
+    class Worker : public Nan::AsyncWorker
+    {
+    public:
+        Worker(Nan::Callback* callbk)
+            : Nan::AsyncWorker(callbk)
+        {
+        }
+
+        void Execute() override
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+
+        void HandleOKCallback() override
+        {
+            Nan::HandleScope scope;
+
+            int argc = 1;
+            std::unique_ptr&lt;v8::Local&lt;v8::Value&gt;[]&gt; argv(new v8::Local&lt;v8::Value&gt;[argc]());
+
+            argv[0] = Nan::New("async task result").ToLocalChecked();
+
+            Nan::Call(*callback, argc, argv.get());
+        }
+    };
+
+    Nan::Callback* callbk = new Nan::Callback(Nan::To&lt;v8::Function&gt;(info[0]).ToLocalChecked());
+
+    Worker* pWorker = new Worker(callbk);
+    Nan::AsyncQueueWorker(pWorker);
+}
+
+NAN_MODULE_INIT(InitAll) 
+{
+    Hang::Init(target);
+    Nan::SetMethod(target, "testAsync", testAsync);
+}
+
+NODE_MODULE(hang, InitAll)
+
+</code></pre>
+<p>用来测试的脚本：</p>
+<pre><code class="">const { Hang, testAsync } = require('./build/Release/hang');
+const { EventEmitter } = require('events');
+
+let h = new Hang();
+
+// calling start method or not does not affect the problem
+// h.start();
+
+function doTestAsync() {
+  return new Promise((resolve, reject) =&gt; {
+    testAsync((data) =&gt; {
+      // This line of code got executed without any problems
+      // after 100ms of the function call(according to the C++ code)
+      console.log(data);
+      resolve(data);
+    });
+  });
+}
+
+function doSetTimeoutAsync() {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      let data = 'timeout async';
+      console.log(data);
+      resolve(data);
+    }, 100)
+  });
+}
+
+// this is ok
+//testAsync((data) =&gt; {
+//    console.log(data);
+//});
+
+async function testHang() {
+  let asyncRet = await doSetTimeoutAsync();
+
+  // no problem
+  console.log("after async call1");
+  let asyncRet2 = await doTestAsync();
+
+  // async/await operation blocks due to the creation of "hang"
+  // I paused the execution via the debugger, then continue, 
+  // Dramatically this line gets executed
+  console.log("after async call2");
+  let asyncRet3 = await doTestAsync();
+  console.log("after async call3");
+  let asyncRet4 = await doTestAsync();
+  console.log("after async call4");
+
+  h.stop();
+}
+
+
+testHang();
+
+</code></pre>
+<h2>背景和BUG表现</h2>
+<p>公司搬砖的项目里，要建立一个TCP长连接，用于与服务端之间通信和保持在线状态。通常情况下会单独启动一个线程用来维护连接，现在要把从服务端接收到的数据传给JS，一个很明显的思路是在工作线程里调用<code>uv_async_send</code>来通知主线程（能调用V8的API的线程）有数据传过来。</p>
+<p>代码本身是简化后的模型。C++模块导出了一个<code>Hang</code>类和一个<code>testAsync</code>函数，<code>Hang</code>类对应的C++类管理了一个<code>uv_async_t</code>对象，<code>testAsync</code>函数使用了<code>Nan::AsyncWorker</code>用于测试Node.js的异步调用。</p>
+<p>发生的问题是：直接通过命令行运行脚本，测试脚本会卡在调用<code>doTestAsync</code>之后，<code>after async call2</code>不会被输出出来。在vscode中启用调试模式时得到的结果也一样。程序的输出是这样的：</p>
+<pre><code class="">timeout async
+after async call1
+async task result
+</code></pre>
+<p>诡异的是，在vscode中把脚本暂停，脚本成功中断在了Node.js内部的代码里，然后继续运行，后面的输出居然输出了出来。然后脚本继续卡在第二次调用<code>doTestAsync</code>之后。如此暂停和继续运行，测试脚本居然能一路跑下去。</p>
+<p>如果把断点停在<code>testAsync</code>提供的回调函数里，会发现程序走过<code>resolve(data)</code>之后就不能继续运行了。</p>
+<p>把脚本本身改写成回调金字塔的样式，就像下面的代码一样，也是没有问题的。但是这样真的是太丑了，而且async/await是官方推崇的方式，总算能彻底解决回调金字塔地狱的问题，因为出现了这状况丫的还得改回去……</p>
+<pre><code class="">testAsync((data) =&gt; {
+  console.log(data);
+  console.log("after async call2");
+  testAsync((data) =&gt; {
+    console.log(data);
+    console.log("after async call3");
+    testAsync((data) =&gt; {
+      console.log(data);
+      console.log("after async call4");
+    });
+  });
+});
+</code></pre>
+<h2>尝试解决</h2>
+<p>首先用二分法找问题原因，逐个排查最近的修改，发现去掉了创建<code>uv_async_t</code>对象的代码，这个问题就不再出现了。</p>
+<p>于是整理了下代码，写了个最小的可以必现这个问题的示例。信心满满地向Node.js提交了个issue，然后这个issue一小时后被项目管理者打入了nodejs/help的冷宫，而且没人回答我提出的问题。</p>
+<p>既然没有人愿意回答我的问题，那就自己干！</p>
+<p>不管怎么说先build个Debug版本的Node.js程序，Release版本经过优化，找错没有那么容易。签出代码库，按照vcbuild.bat的指示来构建，好了，Debug版的Node.js程序有了。因为ABI的问题，又手动建了个vcxproj项目把刚才的c++代码链接到了debug版生成出来的node.lib上。</p>
+<p>然后开始调试。先找下<code>Promise</code>是在哪里实现的，Node.js中用JS写的实现都是放在<code>lib</code>目录下。在这个目录下搜索Promise字样，无果。然后在C++代码里继续搜，发现<code>v8.h</code>中声明了一个<code>Promise</code>类。Promise类里面声明了个Resolve方法。于是抱着试试看的心态在这个方法的实现（在<code>deps/v8/src/api.cc</code>）里加了断点。然后在vs的调试选项里面让Debug版的Node.js进程执行我们的测试脚本，脚本照样还是卡住了，api.cc里面的断点没有进去，看来找的Promise的实现的位置不对。</p>
+<p>继续找Promise的实现，看到Promise类的声明里有个PromiseState枚举类型，应该是用来表示Promise对象当前的状态的，心想v8脚本引擎的内外应该都用同一种类型，用&#8221;查找所有引用&#8221;找了一下，原来v8脚本引擎内部还有个v8::internal::JSPromise类（在<code>deps/v8/src/objects/js-promise.h</code>里）。F12进去，看到了这样的代码，在<code>deps/v8/src/objects.cc</code>里面，这个应该是我们要找的Promise.resolve的实现了：</p>
+<pre><code class="">Handle&lt;Object&gt; JSPromise::Fulfill(Handle&lt;JSPromise&gt; promise,
+                                  Handle&lt;Object&gt; value) {
+  ...
+  // 6. Set promise.[[PromiseState]] to "fulfilled".
+  promise-&gt;set_status(Promise::kFulfilled);
+
+  // 7. Return TriggerPromiseReactions(reactions, value).
+  return TriggerPromiseReactions(isolate, reactions, value,
+                                 PromiseReaction::kFulfill);
+}
+
+// static
+MaybeHandle&lt;Object&gt; JSPromise::Resolve(Handle&lt;JSPromise&gt; promise,
+                                       Handle&lt;Object&gt; resolution) {
+  Isolate* const isolate = promise-&gt;GetIsolate();
+
+  isolate-&gt;RunPromiseHook(PromiseHookType::kResolve, promise,
+                          isolate-&gt;factory()-&gt;undefined_value());
+
+  ...
+
+  // 7. If Type(resolution) is not Object, then
+  if (!resolution-&gt;IsJSReceiver()) {
+    // a. Return FulfillPromise(promise, resolution).
+    return Fulfill(promise, resolution);
+  }
+
+  ...
+
+  // 10. Let thenAction be then.[[Value]].
+  // 11. If IsCallable(thenAction) is false, then
+  if (!then_action-&gt;IsCallable()) {
+    // a. Return FulfillPromise(promise, resolution).
+    return Fulfill(promise, resolution);
+  }
+
+  // 12. Perform EnqueueJob("PromiseJobs", PromiseResolveThenableJob,
+  //                        «promise, resolution, thenAction»).
+  Handle&lt;PromiseResolveThenableJobTask&gt; task =
+      isolate-&gt;factory()-&gt;NewPromiseResolveThenableJobTask(
+          promise, Handle&lt;JSReceiver&gt;::cast(then_action),
+          Handle&lt;JSReceiver&gt;::cast(resolution), isolate-&gt;native_context());
+  if (isolate-&gt;debug()-&gt;is_active() &amp;&amp; resolution-&gt;IsJSPromise()) {
+    // Mark the dependency of the new {promise} on the {resolution}.
+    Object::SetProperty(resolution,
+                        isolate-&gt;factory()-&gt;promise_handled_by_symbol(),
+                        promise, LanguageMode::kStrict)
+        .Check();
+  }
+  isolate-&gt;EnqueueMicrotask(task);
+
+  // 13. Return undefined.
+  return isolate-&gt;factory()-&gt;undefined_value();
+}
+</code></pre>
+<p>在这个函数里加了断点，重新调试。发现在程序卡住之前，Node.js居然没有在<code>JSPromise</code>这里中断！甚至在<code>after async call1</code>输出之前，Node.js进程也没中断在刚才在<code>objects.cc</code>中加的断点上。</p>
+<p>如果换一种调用JS脚本的方式：在shell模式下运行Node.js，输入命令<code>require('./hang.js')</code>调用脚本，在<code>JSPromise</code>里加的断点生效了，但是程序之后卡住的时候，仍然没进到加的断点上。</p>
+<p>两种运行脚本的方式得到不同结果的原因，大概是在命令参数里直接运行脚本的时候，Node.js把脚本的JS代码包括Promise操作全都JIT掉了，JSPromise里面的那些代码根本没有用。</p>
+<p>看来这个问题和Promise的实现是没有关系的。至于还有什么其它原因实在是百思不得其解。</p>
+<h2>转机</h2>
+<h3>问题解决</h3>
+<p>这个问题拖了将近一周的时间，直到有一天想这个问题的时候拖了下控制台窗口，改变了下Node.js控制台窗口的大小。改变了窗口大小之后，await后面的语句居然被执行了！</p>
+<p>期待的结果出现了，赶紧分析下到底发生了什么让结果是对的。再次打开Node.js项目里编译生成的node.sln，用我们的debug版的Node.js启动测试脚本，脚本毫无悬念地卡死。这时候在VS调试器里暂停node.exe的运行，看到主线程中断在了下面的位置：<br />
+<img src="https://systemisbusy.info/blog/wp-content/uploads/2019/08/QQ截图20190808223410.png" alt="" /><br />
+可以看到Node.js调用了Windows的IOCP。一直等待的情况下，只有IOCP管理的HANDLE对应的IO操作完成或者用<code>PostQueuedCompletionStatus</code>直接向IOCP对象发消息，IOCP的等待操作才会退出。再看一下node.exe调用<code>GetQueuedCompletionStatusEx</code>传进去的超时时间是多少，现在这个状态下这个值是-1。所以说程序卡死的原因是一直在等待一个IOCP事件传过来。然而尝试修改前面的timeout数值，改成不是一直等待，重新编译代码，卡死的问题仍然存在。</p>
+<p>在<code>GetQueuedCompletionStatusEx</code>的下一行加个断点，然后让node.exe继续跑下去。这之后拖一下控制台窗口，继续单步跟下去，可以看到IOCP消息对应的libuv消息（uv_req_t）类型是UV_SIGNAL_REQ。继续跟到循环结束走到下一轮循环，单步调试到uv_process_signal_req的时候（在uv_process_reqs里面），可以看到信号的编号是28。编号为28的信号是什么信号？查了下是<code>SIGWINCH</code>，在控制台窗口大小发生改变时，操作系统会向对应的进程发送这个信号。不管这么多，继续单步调试跑到下面<code>signal_wrap.cc</code>的代码时，代码走过<code>wrap-&gt;MakeCallback</code>这一行之后，await后面的JS代码要输出的东西输出到了屏幕上。</p>
+<pre><code class="">  static void OnSignal(uv_signal_t* handle, int signum) {
+    SignalWrap* wrap = ContainerOf(&amp;SignalWrap::handle_, handle);
+    Environment* env = wrap-&gt;env();
+    HandleScope handle_scope(env-&gt;isolate());
+    Context::Scope context_scope(env-&gt;context());
+
+    Local&lt;Value&gt; arg = Integer::New(env-&gt;isolate(), signum);
+    wrap-&gt;MakeCallback(env-&gt;onsignal_string(), 1, &amp;arg);
+  }
+</code></pre>
+<p>所以这个MakeCallback到底做了什么？看代码可以知道<code>SignalWrap</code>也是向JS环境导出的一个类，在JS端的名字叫<code>Signal</code>。在node项目的lib目录下狂搜，找到了与SIGWINCH信号相关的几个处理函数，但是这些函数和执行当前要继续执行的JS代码都没有任何关系。所以可能是C++代码的问题？<br />
+换一种思路来找代码能正常运行的原因。既然控制台都有输出，在Windows下向控制台窗口输出，最终都会调用<code>kernel32.dll</code>导出的<code>WriteConsole</code>函数。又因为涉及到字符串的函数Windows都会提供分别处理<code>char*</code>和<code>wchar_t*</code>的两种函数，所以需要加两个断点，按Ctrl+B打开添加断点窗口，手动加上这两个断点：</p>
+<pre><code class="">  {,,kernel32.dll}WriteConsoleA
+  {,,kernel32.dll}WriteConsoleW
+</code></pre>
+<p>在启用这两个断点调试的情况下去单步调试MakeCallback方法的实现，最终锁定到了这一行C++代码：<br />
+<img src="https://systemisbusy.info/blog/wp-content/uploads/2019/08/QQ截图20190809085439.png" alt="" /><br />
+代码中断在<code>env_-&gt;tick_callback_function()-&gt;Call(process, 0, nullptr).IsEmpty()</code>这一行时，让代码继续运行，node进程就会立刻中断在<code>kernel32.dll</code>导出的<code>WriteConsoleW</code>函数上。看函数的名字tick_callback_function，这个应该就是用来执行等待运行的JS代码的相关的函数，也就是测试脚本里await之后的部分。</p>
+<p>所以结论是：拖动控制台窗口能让async/await继续运行，完全是个副作用。原因只不过是Node.js要运行操作系统信号相关的处理函数的时候，顺带会把等待执行的JS代码拎过来也执行一下而已。鬼使神差地就让脚本按预期的方式工作了。至于为什么新建uv_async_t对象就会让Node.js陷入无限等待IOCP消息的状态，这个我实在是无力去追查。</p>
+<h3><code>SIGWINCH</code>信号是如何在windows下模拟出来的</h3>
+<p>Windows本身是不支持<code>SIGWINCH</code>信号的，Node.js(libuv)用启动监听线程监听控制台窗口大小变化的方法模拟了这个信号。窗口大小变化的消息本身是用<code>PostQueuedCompletionStatus</code>直接向主线程IOCP发消息发过去的。要验证可以Ctrl+B手动加个断点<code>{,,kernelbase.dll}PostQueuedCompletionStatus</code>，然后拖动控制台窗口，程序就会中断在监听控制台窗口的线程里面。</p>
+<h2>解决办法</h2>
+<p>既然系统向Node.js进程发送<code>SIGWINCH</code>信号会迫使Node.js去运行下个事件循环需要执行的JS代码，那么解决方法也就出来了。</p>
+<p>方法是：在测试脚本前面加个定时器，向当前Node.js进程不停地发送<code>SIGWINCH</code>信号，脚本就能继续跑下去直到结束：</p>
+<pre><code class="language-Javascript ">setInterval(() =&gt; {
+    process.emit('SIGWINCH');
+}, 100);
+</code></pre>
+<p>这个解决方法实在是过于草生（中日双语），我始终认为这是Node.js的BUG，应该在事件循环处于空闲的状态时就去处理等待执行的JS代码，然而官方不理，当然原因也可能是真的不好处理。</p>
+<h2>感想</h2>
+<ul>
+<li>二分法找BUG万岁。</li>
+<li>带JIT的脚本引擎找问题是真难，因为JIT出来的汇编代码产出的调用堆栈和编译器生成出来的约定不一样。然后你就没办法看到调用JIT代码之前的堆栈发生了什么。</li>
+<li>有些固有的BUG估计是没有人会理的，久而久之估计就成了feature。</li>
+</ul>
+<h2>后续</h2>
+<p>Node.js 8.x 10.x 12.x 在Windows/Linux上都有这个问题，Mac没条件试。</p>
+	</div><!-- .entry-content -->
+
+	
+	<footer class="entry-footer">
+		<span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://systemisbusy.info/blog/2019/08/09/uv_async_t%e8%ae%a9node-js%e8%84%9a%e6%9c%ac%e5%81%9c%e6%ad%a2%e8%bf%90%e8%a1%8c/" rel="bookmark"><time class="entry-date published updated" datetime="2019-08-09T02:41:27+00:00">August 9, 2019</time></a></span><span class="byline"><span class="author vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="https://systemisbusy.info/blog/author/zetapuppis/">BSoD_Ultimate</a></span></span>			</footer><!-- .entry-footer -->
+
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/2019/08/09/uv_async_t%E8%AE%A9node-js%E8%84%9A%E6%9C%AC%E5%81%9C%E6%AD%A2%E8%BF%90%E8%A1%8C/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://systemisbusy.info/blog/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" /></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='194' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8442b6e1f8" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="96"/></p>			</form>
+			</div><!-- #respond -->
+	
+</div><!-- .comments-area -->
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://systemisbusy.info/blog/2019/01/09/%e7%bc%96%e5%86%99%e5%85%8d%e6%b3%a8%e5%86%8ccom%e7%bb%84%e4%bb%b6%e7%9a%84%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf/" rel="prev"><span class="meta-nav" aria-hidden="true">Previous</span> <span class="screen-reader-text">Previous post:</span> <span class="post-title">编写免注册COM组件的正确姿势</span></a></div><div class="nav-next"><a href="https://systemisbusy.info/blog/2019/09/03/%e7%bb%99electron%e5%81%9ac%e5%bc%80%e5%8f%91%e7%9a%84%e9%82%a3%e4%ba%9b%e5%9d%91/" rel="next"><span class="meta-nav" aria-hidden="true">Next</span> <span class="screen-reader-text">Next post:</span> <span class="post-title">给Electron做C++开发的那些坑</span></a></div></div>
+	</nav>
+		</main><!-- .site-main -->
+	</div><!-- .content-area -->
+
+
+	</div><!-- .site-content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+									<a href="https://wordpress.org/" class="imprint">
+				Proudly powered by WordPress			</a>
+		</div><!-- .site-info -->
+	</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/js/skip-link-focus-fix.js?ver=20141010'></script>
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-includes/js/comment-reply.min.js?ver=5.2.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var screenReaderText = {"expand":"<span class=\"screen-reader-text\">expand child menu<\/span>","collapse":"<span class=\"screen-reader-text\">collapse child menu<\/span>"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-content/themes/twentyfifteen/js/functions.js?ver=20150330'></script>
+<script type='text/javascript' src='https://systemisbusy.info/blog/wp-includes/js/wp-embed.min.js?ver=5.2.3'></script>
+<script async="async" type='text/javascript' src='https://systemisbusy.info/blog/wp-content/plugins/akismet/_inc/form.js?ver=4.1.2'></script>
+
+</body>
+</html>

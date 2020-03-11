@@ -1,0 +1,756 @@
+/* method used to add faceted search params */
+add_facet_params = function(checked, value, search_type) {
+	var query       = $('#query_cache').val();
+	var params      = krugle.conf.facet_params;
+	var is_pager    = checked == 'page';
+	var query_facet = get_facet_type_and_value(checked, value);
+
+	if (query_facet[0]) {
+		var facet_type   = query_facet[0];
+		var facet_val    = query_facet[1];
+		var remove_facet = facet_type.indexOf('-') == 0 ? true : false;
+
+		if (params[facet_type] || remove_facet) {
+			if (remove_facet) {
+				facet_type = facet_type.substring(1);
+			}
+			var facet_val_index = $.inArray(facet_val, params[facet_type]);
+
+			if (facet_val_index == -1) {
+				// add facet
+				params[facet_type].push(facet_val);
+			}
+			else {
+				// remove facet
+				params[facet_type].splice(facet_val_index, 1);
+
+				// remove facet if nothing is selected
+				if (params[facet_type].length == 0) {
+					delete params[facet_type];
+				}
+			}
+		}
+		else {
+			params[facet_type] = [];
+			params[facet_type].push(facet_val);
+		}
+
+		// delete page and dpus when it's value is default
+		delete params.page;
+		delete params.dups;
+	}
+	else {
+		if (query) {
+			params.query = query;
+			var qtypeIndex = query.indexOf('qtype');
+			if (qtypeIndex > 0) {
+				params.qtype = query.substr(qtypeIndex + 6); // 6 is the length of 'qtype:'
+			}
+		}
+
+		// if there is more page, change current page parameters
+		if (is_pager) {
+			if (value > 1) {
+				params.page = value;
+			}
+			else {
+				delete params.page;
+			}
+		}
+	}
+
+	add_date_params(params, is_pager);
+
+	// change date to UTC date if exists
+	// covert_to_UTC(params);
+
+	return params;
+}
+
+/* method used to add date */
+add_date_params = function(params, use_cache) {
+	var date_start = '';
+	var date_end   = '';
+
+	// clear stored dates
+	delete params.date_start;
+	delete params.date_end;
+
+	// using cached dates when search with page number
+	if (use_cache) {
+		date_start = $('#date_start_cache').val();
+		date_end   = $('#date_end_cache').val();
+	}
+	else {
+		date_start = $('#date_start').val();
+		date_end   = $('#date_end').val();
+	}
+
+	if (date_start) {
+		params.date_start = date_start;
+	}
+	if (date_end) {
+		params.date_end = date_end;
+	}
+
+	return params;
+}
+
+/* method used to add params to filter projects list */
+add_project_params = function() {
+	var params = {}; // search params
+
+	/* setup params - start */
+	params['project_name']       = $('#project_name').val().toLowerCase();
+	params['project_crawed']     = $('#project_crawed').val();
+	params['project_updated']    = $('#project_updated').val();
+	params['project_updated_by'] = $('#project_updated_by').val().toLowerCase();
+	params['sort_by']            = $('#project_sort_by').val().toLowerCase();
+	/* setup params - end */
+
+	// change date to UTC date if exists
+	covert_to_UTC(params);
+
+	return params;
+}
+
+/* method used to add params to show snippet */
+add_snippet_params = function() {
+	var params = {}; // snippet params
+
+	/* setup params - start */
+	params['uid']       = $('#snippet_uid').val();
+	params['project']   = $('#snippet_project').val();
+	params['language']  = $('#snippet_lang').val();
+	params['precision'] = parseFloat($('#precision').val());
+    if (params['precision'] == 1.0){
+        params['nextHitsIndex'] = $('#nextHit').val();
+    }
+	/* setup params - end */
+
+	return params;
+}
+
+/* parse url hash */
+setup_hash = function(content_type) {
+	var hash_str        = jQuery.param.fragment();
+	var parsed_hash_arr = ['', [], [], [], '', '', '','basic'];
+
+	if(hash_str) {
+		// split hash string to get all facets
+		var params          = {};
+		var search_input    = $('#query');
+		var hash_components = hash_str.split('&');
+
+		// clear stored facets
+		clear_stored_facets();
+
+		// parse hash string to an object
+		for (var i = 0; i < hash_components.length; i++) {
+			var facets_arr = hash_components[i].split('=');
+
+			params[facets_arr[0]] = facets_arr[1];
+		}
+
+		for (facet in params) {
+			switch (facet) {
+				case 'query' :
+					var facet_val = decodeURIComponent(params[facet]);
+					// clear stored date if exists
+					if (params['date_start'] == undefined) {
+						clear_stored_facets('date_start');
+					}
+
+					if (params['date_end'] == undefined) {
+						clear_stored_facets('date_end');
+					}
+
+					// set values
+					parsed_hash_arr[0]             = facet_val;
+					krugle.conf.facet_params.query = facet_val;
+					search_input.val(facet_val);
+					$('#query_cache').val(facet_val);
+
+					break;
+				case 'project' :
+					// set values
+					var facet_val      = params[facet];
+					var facet_val_arr  = facet_val.split(',');
+
+					// decode facets value
+					for (var i = 0; i < facet_val_arr.length; i++) {
+						facet_val_arr[i] = decodeURIComponent(facet_val_arr[i]);
+					}
+
+					parsed_hash_arr[1] = facet_val_arr;
+					krugle.conf.facet_params.project = facet_val_arr;
+
+					break;
+				case 'author' :
+					// set values
+					var facet_val      = params[facet];
+					var facet_val_arr  = facet_val.split(',');
+
+					// decode facets value
+					for (var i = 0; i < facet_val_arr.length; i++) {
+						facet_val_arr[i] = decodeURIComponent(facet_val_arr[i]);
+					}
+
+					parsed_hash_arr[2] = facet_val_arr;
+					krugle.conf.facet_params.author = facet_val_arr;
+
+					break;
+				case 'language' :
+					// set values
+					var facet_val      = params[facet];
+					var facet_val_arr  = facet_val.split(',');
+
+					// decode facets value
+					for (var i = 0; i < facet_val_arr.length; i++) {
+						facet_val_arr[i] = decodeURIComponent(facet_val_arr[i]);
+					}
+
+					parsed_hash_arr[3] = facet_val_arr;
+					krugle.conf.facet_params.language = facet_val_arr;
+
+					break;
+				case 'date_start' :
+					// clear stored date if exists
+					if (params['date_end'] == undefined) {
+						clear_stored_facets('date_end');
+					}
+
+					// set values
+					parsed_hash_arr[4]                  = params[facet];
+					krugle.conf.facet_params.date_start = params[facet];
+					$('#date_start').val(params[facet]);
+					$('#date_start_cache').val(params[facet]);
+
+					break;
+				case 'date_end' :
+					// clear stored date if exists
+					if (params['date_start'] == undefined) {
+						clear_stored_facets('date_start');
+					}
+
+					// set values
+					parsed_hash_arr[5]                = params[facet];
+					krugle.conf.facet_params.date_end = params[facet];
+					$('#date_end').val(params[facet]);
+					$('#date_end_cache').val(params[facet]);
+
+					break;
+				case 'page' :
+					// set values
+					parsed_hash_arr[6]            = parseInt(params[facet]);
+					krugle.conf.facet_params.page = parsed_hash_arr[6];
+
+					break;
+				case 'dups' :
+					// set values
+					krugle.conf.facet_params.dups = params[facet];
+
+					break;
+				case 'qtype' :
+					var searchType = params[facet];
+					parsed_hash_arr[7] = searchType;
+					$('#searchType').val(searchType);
+					krugle.conf.facet_params.qtype = searchType;
+					break;
+				default :
+					break;
+			}
+		}
+	}
+
+	// bind events for search box
+	bind_search_box_events(content_type);
+
+	return parsed_hash_arr;
+}
+
+get_hash = function(params){
+	var url_hash     = '';
+	var url_hash_arr = [];
+	var current_url  = window.location.href;
+
+	for (var facet in params) {
+		var params_facet_value = params[facet];
+
+		if (facet == 'page') {
+			continue;
+		}
+		else {
+			if ($.inArray(facet, ['project', 'author', 'language']) != -1) {
+				for (var i = 0; i < params_facet_value.length; i++) {
+					params_facet_value[i] = encodeURIComponent(params_facet_value[i]);
+				}
+
+				url_hash_arr.push(facet + '=' + params_facet_value.join(','));
+			}
+			else {
+				url_hash_arr.push(facet + '=' + encodeURIComponent(params_facet_value));
+			}
+		}
+	}
+
+	url_hash = url_hash_arr.join('&');
+
+	if (params.page) {
+		url_hash += '&page=' + params.page;
+	}
+	return url_hash;
+}
+
+/* update hash in url */
+update_hash = function(params, search_type, content_type) {
+	var url_hash = get_hash(params);
+	var url_hash_current = jQuery.param.fragment();
+	if (url_hash) {
+		if (url_hash == url_hash_current) {
+			// trigger 'hashchange' event to reload current page
+			$(window).trigger('hashchange');
+		}
+		else {
+			// update url hash
+			window.location.hash = url_hash;
+		}
+	}
+	else {
+		var url_origin   = window.location.protocol + '//' + window.location.host;
+		var url_pathname = content_type == 'comment' ? krugle.conf.urls.COMMENT_SEARCH_INIT : krugle.conf.urls.DOCUMENT_SEARCH_INIT;
+
+		window.location  = url_origin + url_pathname;
+	}
+}
+
+/* generate search query with facets */
+generate_query_facets = function() {
+	var query         = $('#query');
+	var qtype = $('input:radio[name="advanced_search_type"]:checked').val();
+	var query_str     = '';
+	var classfunctiondef = $('#classfunctiondef');
+	var medfunctioncall = $('#medfunctioncall');
+	var query_facets  = [$('#project'), $('#language'), $('#author'), $('#path')];
+	var date_start    = $('#date_start');
+	var date_end      = $('#date_end');
+
+	// setup query
+	if (query.val()) {
+		query_str += query.val();
+	}
+	// setup qtype, default basic
+	if (!qtype) {
+		qtype = 'basic';
+	}
+	// setup facet parameters
+	for (var i = 0; i < query_facets.length; i++) {
+		var query_facet = query_facets[i].attr('id');
+		var facet_val   = query_facets[i].val();
+
+		if (facet_val) {
+			if (query_facet != 'query' || query_facet != 'date_start' || query_facet != 'date_end') {
+				if (facet_val.indexOf(' ') != -1) {
+					facet_val = '"' + facet_val + '"';
+				}
+			}
+
+			query_str +=  ' ' + query_facet + ':' + facet_val;
+		}
+	}
+	var classfunctiondef_val = classfunctiondef.val();
+	if (classfunctiondef_val) {
+		query_str += ' functiondef:' + classfunctiondef_val + ' classdef:' + classfunctiondef_val;
+	}
+	var medfunctioncall_val = medfunctioncall.val();
+	if (medfunctioncall_val) {
+		query_str += ' functioncall:' + medfunctioncall_val;
+	}
+	// encode query string
+	query_str = 'query=' + encodeURIComponent(query_str);
+
+	// setup date parameters
+	if (date_start.val()) {
+		query_str += '&date_start=' + date_start.val();
+	}
+	if (date_end.val()) {
+		query_str += '&date_end=' + date_end.val();
+	}
+	if (query.val() || classfunctiondef_val || medfunctioncall_val) {
+		// add qtype parameter
+		query_str += '&qtype=' + qtype;
+	}
+	return query_str;
+}
+
+/* method used to generate html code for facets projects, authors or languages */
+generate_facet_html = function(container, list, type, search_type, content_type, show_more) {
+	var list_len        = list.length;
+	var facet_len       = container.find('ul li').length;
+	var more_len        = show_more ? (facet_len + krugle.conf.FACETS_SHOWN) : krugle.conf.FACETS_SHOWN;
+	var html_code       = '';
+	var obj_number      = 0;
+	var obj_length      = 0;
+	var short_list      = [];
+	var checked_num     = 0;
+	var checked_len     = 0;
+	var obj_show_more   = container.parent().find('.more');
+	var facet_count_obj = container.parent().parent().find('.value');
+
+	// count checked facets
+	for (var i = 0; i < list_len; i++) {
+		if (list[i][2]) {
+			checked_num++;
+		}
+	}
+
+	if (list_len > 0) {
+		var projects_creating_num = 0;
+		html_code   = "<ul>";
+		checked_len = round_facets(checked_num);
+		more_len    = (checked_len > more_len) ? checked_len : more_len;
+		short_list  = list.slice(0, more_len);
+		obj_length  = short_list.length;
+
+		for (var i = 0; i < obj_length; i++) {
+			var obj           = _.escape(short_list[i][0]);
+			var obj_number    = short_list[i][1];
+			var obj_checked   = short_list[i][2] ? ' checked="checked"' : '';
+
+			if (type === 'p' && short_list[i][3]) {
+
+				if (list_len === 1) {
+					html_code += "<li><input"+ obj_checked +" disabled style='cursor: not-allowed;' type='checkbox' id=\"" + type + "-" + obj + "\" value=\"" +	obj + "\" \/><label style='cursor: not-allowed;' for=\"" + type + "-" + obj + "\">&nbsp;<span style='color: #999999'>" + obj + "</span><span style='color: #999999'> (" + obj_number + ") </span><span style='color:rgb(255,137,29)'> * </span></label></li>";
+				} else {
+					html_code += "<li><input"+ obj_checked +" onclick=\"do_faceted_search(this.id, this.checked, '" + content_type + "')\" type='checkbox' id=\"" + type + "-" + obj + "\" value=\"" +	obj + "\" \/><label for=\"" + type + "-" + obj + "\">&nbsp;<span>" + obj + "</span> (<span>" + obj_number + "</span>)<span style='color:rgb(255,137,29)'> * </span></label></li>";
+				}
+
+				projects_creating_num++;
+			} else {
+				if (list_len === 1) {
+					html_code += "<li><input"+ obj_checked +" disabled style='cursor: not-allowed;' type='checkbox' id=\"" + type + "-" + obj + "\" value=\"" +	obj + "\" \/><label style='cursor: not-allowed;' for=\"" + type + "-" + obj + "\">&nbsp;<span style='color: #999999'>" + obj + "</span> <span style='color: #999999'> (" + obj_number + ") </span></label></li>";
+				} else {
+					html_code += "<li><input"+ obj_checked +" onclick=\"do_faceted_search(this.id, this.checked, '" + content_type + "')\" type='checkbox' id=\"" + type + "-" + obj + "\" value=\"" +	obj + "\" \/><label for=\"" + type + "-" + obj + "\">&nbsp;<span>" + obj + "</span> (<span>" + obj_number + "</span>) </label></li>";
+				}
+			}
+		}
+
+		html_code += "</ul>";
+
+		container.html(html_code);
+
+		// detect if display the 'show more' function
+		if (list_len <= krugle.conf.FACETS_SHOWN || checked_len == round_facets(list_len)) {
+			obj_show_more.hide();
+		}
+		else {
+			obj_show_more.html('Show more');
+			obj_show_more.show();
+
+			bind_side_bar_show_more_events(container, list, type, search_type, content_type, true);
+		}
+	}
+	else {
+		obj_show_more.hide();
+		container.html(html_code);
+	}
+
+	// set facet count
+	if (projects_creating_num > 0) {
+		facet_count_obj.html('(' + list_len + ')<span style=\'color:rgb(255,137,29)\'> *creating</span>');
+	} else {
+		facet_count_obj.html('(' + list_len + ')');
+	}
+
+}
+
+/* set facets and do_faceted_search */
+set_facets = function(type, value, content_type) {
+	var query        = $('#query_cache').val();
+	var url_hash     = '';
+	var url_origin   = window.location.protocol + '//' + window.location.host;
+	var url_pathname = content_type == 'comment' ? krugle.conf.urls.COMMENT_SEARCH_INIT : krugle.conf.urls.DOCUMENT_SEARCH_INIT;
+	var remove_facet = type.indexOf('-') == 0 ? true : false;
+
+	// unescape facet value for containing ' & "
+	value = unescape(value);
+
+	// handling faceted search from project activity page
+	if (type == 'date_all') {
+		value = get_formatted_date(value, 'yyyy-MM-dd');
+
+		url_hash = 'date_start=' + value + '&date_end=' + value;
+	}
+	else if (type == 'date_start' || type== 'date_end') {
+		value = get_formatted_date(value, 'yyyy-MM-dd');
+
+		if (query) {
+			url_hash = 'query=' + query + '&' + type + '=' + value;
+		}
+		else {
+			url_hash = type + '=' + value;
+		}
+	}
+	else {
+		if (!remove_facet) {
+			// clear stored facets in conf
+			clear_stored_facets();
+
+			var project_name = encodeURIComponent($('#project_name').val());
+
+			if (type == 'sloc_lang') {
+				url_hash = 'project=' + project_name + '&language=' + encodeURIComponent(value);
+			}
+			else if (type == 'sloc_license') {
+				url_hash = 'query=' + encodeURIComponent('license:' + value) + '&project=' + project_name;
+			}
+			else {
+				url_hash = type + '=' + encodeURIComponent(value);
+			}
+		}
+		else {
+			// write hash to conf
+			setup_hash(content_type);
+			// clear search query
+			$('#query, #query_cache').val('');
+			$('#query').focusout();
+			// remove page from conf
+			delete krugle.conf.facet_params.page;
+			for (facet in krugle.conf.facet_params) {
+				var facet_val = krugle.conf.facet_params[facet];
+
+				if (facet == 'query') {
+					url_hash += facet + '=' + encodeURIComponent(facet_val) + '&';
+				}
+				else if (facet == 'date_start' || facet == 'date_end') {
+					value = get_formatted_date(value, 'yyyy-MM-dd');
+
+					if ((facet == 'date_start' && type == '-date_start') || (facet == 'date_end' && type == '-date_end')) {
+						continue;
+					}
+					else {x
+						url_hash += facet + '=' + facet_val + '&';
+					}
+				}
+				else if (facet == 'qtype') {
+					url_hash += facet + '=' + facet_val + '&';
+				}
+				else {
+					var facet_val_index = $.inArray(value, facet_val);
+
+					if (facet_val_index != -1) {
+						// remove facet
+						facet_val.splice(facet_val_index, 1);
+					}
+
+					// remove facet if nothing is selected
+					if (facet_val.length == 0) {
+						delete facet_val;
+					}
+					else {
+						for(var i = 0; i < facet_val.length; i++) {
+							facet_val[i] = encodeURIComponent(facet_val[i]);
+						}
+						url_hash += facet + '=' + facet_val.join(',') + '&';
+					}
+				}
+			}
+
+			url_hash = url_hash.slice(0, -1);
+		}
+	}
+
+	if (url_hash) {
+		window.location  = url_origin + url_pathname + '#' + url_hash;
+	}
+	else {
+		window.location  = url_origin + url_pathname;
+	}
+}
+
+/* clear stored facets data */
+clear_stored_facets = function(clear_date) {
+	// clear stored date, if assigned
+	if (clear_date == 'date_start') {
+		$('#date_start, #date_start_cache').val('');
+	}
+	else if (clear_date == 'date_end') {
+		$('#date_end, #date_end_cache').val('');
+	}
+	else {
+		// clear stored facets
+		krugle.conf.facet_params = {};
+
+		// clear dates
+		$('#date_start, #date_start_cache, #date_end, #date_end_cache').val('');
+
+		// clear query for 'back' button
+		$('#query, #query_cache').val('');
+		$('#query').focusout();
+		$('#query').blur();
+	}
+}
+
+/* clear facet & facet count & hide show more section */
+clear_side_bar_facet_common = function(facet_list, facet_show_more) {
+	var facet_count_obj = facet_list.parent().parent().find('.value');
+	// clear facet items
+	facet_list.html('');
+	// hide show more section
+	facet_show_more.html('');
+	facet_show_more.hide();
+	// set facet count
+	facet_count_obj.html('(0)');
+}
+
+/* get facet type and value */
+get_facet_type_and_value = function(checked, value) {
+	// valid checked value: p-test, a-xxx, l-Java
+	var facet_type  = '';
+	var facet_value = value;
+	var index_minus = checked.indexOf('-');
+
+	if (index_minus != -1) {
+		facet_type  = checked.slice(0, index_minus);
+		facet_value = checked.slice(index_minus + 1);
+
+		// set facet type
+		switch(facet_type) {
+			case 'p':
+				facet_type = (_.isBoolean(value) && value) ? 'project' : '-project';
+				break;
+			case 'a':
+				facet_type = (_.isBoolean(value) && value) ? 'author' : '-author';
+				if (facet_value === 'Unknown')
+					facet_value = '';
+				break;
+			case 'l':
+				facet_type = (_.isBoolean(value) && value) ? 'language' : '-language';
+				break;
+			default:
+				facet_type = '';
+				break;
+		}
+
+		// add quotes for each facet
+		// facet_value = '"' + facet_value + '"';
+	}
+	else {
+		if (checked == 'date_start' || checked == 'date_end') {
+			facet_type = checked;
+		}
+	}
+
+	return [facet_type, facet_value];
+}
+
+/* setup search result filters */
+setup_search_result_filters = function(filters, content_type) {
+	// facets selected in response
+	var filters_list = [];
+
+	// set filter list for different content type
+	var authors    = generate_checked_facets(filters.author);
+	var projects   = generate_checked_facets(filters.project);
+	var languages  = generate_checked_facets(filters.language);
+	var date_start = filters.date_start;
+	var date_end   = filters.date_end;
+
+	if (projects.length > 0) {
+		filters_list.push('Projects');
+		filters_list.push(projects);
+	}
+	if (content_type == 'document' && languages && languages.length > 0) {
+		filters_list.push('Documents');
+		filters_list.push(languages);
+	}
+	if (authors.length > 0) {
+		filters_list.push('Authors');
+		filters_list.push(authors);
+	}
+	if (date_start) {
+		filters_list.push('Start Date');
+		filters_list.push(date_start);
+	}
+	if (date_end) {
+		filters_list.push('End Date');
+		filters_list.push(date_end);
+	}
+
+	return filters_list;
+}
+
+/* filter projects list */
+get_projects_filtered_list = function() {
+	var projects_list     = krugle.conf.project_list;
+
+	// generate filters to filter projects list
+	var filters = add_project_params();
+
+	// filter projects list with 'project name'
+	if (filters['project_name']) {
+		krugle.conf.filtered_list = _.filter(projects_list, function(project) {
+			return (project.name.toLowerCase().indexOf(filters['project_name']) != -1);
+		})
+	}
+	else {
+		krugle.conf.filtered_list = projects_list;
+	}
+	// filter projects list with 'last updated by'
+	if (filters['project_updated_by']) {
+		krugle.conf.filtered_list = _.filter(krugle.conf.filtered_list, function(project) {
+			return (project.last_commit_author.toLowerCase().indexOf(filters['project_updated_by']) != -1);
+		})
+	}
+	// filter projects list with 'last crawled by krugle'
+	if (filters['project_crawed']) {
+		krugle.conf.filtered_list = _.filter(krugle.conf.filtered_list, function(project) {
+			return (new Date(project.last_crawled_time) >= new Date(filters['project_crawed']));
+		})
+	}
+	// filter projects list with 'last updated on'
+	if (filters['project_updated']) {
+		krugle.conf.filtered_list = _.filter(krugle.conf.filtered_list, function(project) {
+			return (new Date(project.last_commit_time) >= new Date(filters['project_updated']));
+		})
+	}
+
+	// if sort by changed, sort projects list
+	if (filters['sort_by']) {
+		if (filters['sort_by'] == 'project name') {
+			krugle.conf.filtered_list = _.sortBy(krugle.conf.filtered_list, function(project) {
+				return project.name.toLowerCase();
+			});
+		}
+
+		if (filters['sort_by'] == 'last indexed') {
+			krugle.conf.filtered_list = _.sortBy(krugle.conf.filtered_list, function(project) {
+				return project.last_commit_time;
+			}).reverse();
+		}
+
+		if (filters['sort_by'] == 'last crawled') {
+			krugle.conf.filtered_list = _.sortBy(krugle.conf.filtered_list, function(project) {
+				return project.last_crawled_time;
+			}).reverse();
+		}
+	}
+}
+
+/* generate checked facets */
+generate_checked_facets = function(list) {
+	var checked_list = [];
+
+	if (!_.isEmpty(list)) {
+		for (var i = 0; i < list.length; i++) {
+			var value   = list[i][0];
+			var checked = list[i][2];
+
+			if (checked) {
+				checked_list.push(value);
+			}
+		}
+	}
+
+	return checked_list;
+}

@@ -1,0 +1,1535 @@
+﻿/*------Start Reset -------*/html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    border: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+}
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+/*-------- End Reset --------*//* Start Elements */
+
+/* language-specific */
+.he-il *, .he-il #ux-header .ux-mtps-internav { font-family: Gisha, 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+.ja-jp *, .ja-jp #ux-header .ux-mtps-internav { font-family: 'Meiryo UI', Meiryo, 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+.ko-kr *, .ko-kr #ux-header .ux-mtps-internav { font-family: 'Malgun Gothic', 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+.th-th *, .th-th #ux-header .ux-mtps-internav { font-family: Leelawadee, 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+.zh-tw *, .zh-hk *, .zh-tw #ux-header .ux-mtps-internav, .zh-hk #ux-header .ux-mtps-internav { font-family: 'Microsoft JhengHei UI', 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+.zh-cn *, .zh-cn #ux-header .ux-mtps-internav { font-family: 'Microsoft YaHei UI', 'Segoe UI', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif !important; }
+/* END language-specific */
+
+.Samples .topleftcorner,
+.Samples .toprightcorner {
+    display: none;
+}
+.cs-cz.Samples .topleftcorner,
+.cs-cz.Samples .toprightcorner, 
+.el-gr.Samples .topleftcorner,
+.el-gr.Samples .toprightcorner, 
+.ja-jp.Samples .topleftcorner,
+.ja-jp.Samples .toprightcorner, 
+.ko-kr.Samples .topleftcorner,
+.ko-kr.Samples .toprightcorner, 
+.pl-pl.Samples .topleftcorner,
+.pl-pl.Samples .toprightcorner, 
+.ru-ru.Samples .topleftcorner,
+.ru-ru.Samples .toprightcorner, 
+.sk-sk.Samples .topleftcorner,
+.sk-sk.Samples .toprightcorner, 
+.zh-cn.Samples .topleftcorner,
+.zh-cn.Samples .toprightcorner, 
+.zh-tw.Samples .topleftcorner,
+.zh-tw.Samples .toprightcorner, 
+.ar-sa.Samples .topleftcorner,
+.ar-sa.Samples .toprightcorner, 
+.he-il.Samples .topleftcorner,
+.he-il.Samples .toprightcorner {
+    display: inline;
+}
+
+img {
+    border: none;
+}
+
+.ResultItemRight img {
+	max-width: 136px;
+    max-height: 102px;
+}
+
+.SignedOutProfileElement {
+    display: none;
+}
+
+a, a:link, a:visited {
+    color: #0095c4;
+    cursor: pointer;
+    text-decoration: none;
+}
+a:hover, a:active {
+    color: #FF6600;
+    text-decoration: none;
+}
+.bold, strong {
+    font-weight: bold;
+}
+em {
+    font-style: italic;
+}
+h1, h2, h3, h4, h5, h6 {
+    clear: both;
+    color: #3a3e43;
+    font-family: 'Segoe UI Semibold' , 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    line-height: 125%;
+}
+h1 {
+    font-size: 22px;
+    line-height: 130%;
+    margin: 5px 0;
+}
+h2 {
+    font-size: 20px;
+    margin: 4px 0;
+}
+h3 {
+    font-size: 18px;
+    margin: 3px 0;
+}
+h4 {
+    font-size: 16px;
+    margin: 2px 0;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+.Clear {
+    clear: both;
+}
+.ClearBreak {
+    clear: both;
+    padding-bottom: 1px;
+}
+.ClearLeft {
+    clear: left;
+}
+.ClearRight {
+    clear: right;
+}
+.ClearRightBreak {
+    clear: right;
+    height: 16px;
+}
+.Left {
+    float: left;
+}
+.Right {
+    float: right;
+}
+.Center {
+    text-align: center;
+}
+.no_wrap {
+    white-space: nowrap;
+}
+p {
+    margin: 0 0 12px;
+}
+.absolute {
+    position: absolute;
+}
+ol, ul {
+    line-height: 125%;
+    margin: 0 0 12px;
+    padding-left: 26px;
+}
+#ux-header ol, #ux-header ul {
+    margin: 0;
+}
+li {
+    padding: 0 0 3px;
+}
+ul li ol li {
+    list-style-image: none;
+}
+.BulletList {
+    line-height: 125%;
+    list-style-type: disc;
+    margin: 12px 0 12px 18px;
+    padding-left: 18px;
+}
+.NumberList {
+    margin: 12px 0 12px 24px;
+}
+.DropDownArrow {
+    padding-bottom: 2px;
+    padding-left: 5px;
+}
+a:hover .DropDownArrow {
+    text-decoration: none;
+}
+.hidden{
+    display: none;
+    visibility: hidden;
+}
+.pre {
+    margin: 10px;
+    padding: 10px;
+}
+.code {
+    background: #dddddd;
+    display: block;
+    font-family: Lucida Console, Courier New;
+    font-size: 100%;
+    line-height: 100%;
+    margin: 10px;
+    padding: 10px;
+}
+html {
+    font-size: 100.01%;
+}
+body {
+    color: #333333;
+    font-family: 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    font-size: 84%;
+    line-height: 1.25;
+    text-align: left;
+}
+/* End Elements */#BodyBackground {
+    padding: 0;
+}
+#JelloSizer {
+    margin: 0 auto;
+    max-width: 998px !important;
+    padding: 0;
+    width: 998px !important;
+}
+#JelloExpander {
+    margin: 0 auto;
+    min-width: 998px;
+    position: relative;
+}
+#JelloWrapper {
+    background: none;
+    width: 100%;
+}
+/*-------- Start Masthead Control --------*/.Masthead {
+    padding: 12px 0 0;
+}
+.BrandLogo {
+    margin: 2px 0 0 8px;
+    background-image: url('//i1.social.s-msft.com/contentservice/13b2973a-4449-4cfe-9ff1-a06200c1c1c5/logo_msdn.png');
+    background-repeat: no-repeat;
+    color: #313131;
+    font-family: 'Segoe UI Semibold' , 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    font-size: 19px;
+    float: left;
+    line-height: 1.25;
+    width: 312px;
+    min-height: 21px;
+}
+.BrandLogoLink {
+    display: block;
+    min-width: 49px;
+    min-height: 28px;
+}
+#BrandDisplayText {
+    display: none;
+}
+.BrandLogo a, .BrandLogo a:link, .BrandLogo a:visited, .BrandLogo a:hover, .BrandLogo a:active {
+    color: #313131;
+}
+a#NetworkLink:hover, a.BrandLogoLink:hover {
+    text-decoration: none;
+}
+.PassportScarab{
+    float: right;
+    padding: 0;
+    white-space: nowrap;
+}
+.PassportScarab a, .PassportScarab a:link, .PassportScarab a:visited, .PassportScarab a:hover, .PassportScarab a:active {
+    color: #313131;
+}
+.UserName {
+    float: right;
+    font-size: 13px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 257px;
+    text-align: right;
+}
+.UserName a, .UserName a:link, .UserName a:visited, .UserName a:hover, .UserName a:active {
+    color: #313131;
+}
+#NetworkTaglineText {
+    display: none;
+}
+.Masthead .NetworkLogo {
+    font-family: 'Segoe UI Semibold' , 'Segoe UI' , 'Lucida Grande' ,Verdana,Arial,Helvetica,sans-serif;
+    font-size: 19px;
+    line-height: 1.5;
+    position: absolute;
+    right: 12px;
+    z-index: 99;
+}
+#NetworkTaglineLogo {
+    margin-top: 2px;
+    margin-right: 10px;
+    width: 87px;
+    height: 23px;
+    display: none;
+}
+.NetworkLogo a, .NetworkLogo a:link, .NetworkLogo a:visited, .NetworkLogo a:hover, .NetworkLogo a:active {
+    color: #046cb6;
+}
+div#ux-header {
+    z-index: 999;
+}
+#ux-header header div.row div.left nav ul li div.subNav {
+    padding: 0;
+} 
+
+/*-------- End Masthead Control --------*//*-------- Start tab control branding --------*/.internav a, .internav a:link, .internav a:visited, .internav a:hover, .internav a:active {
+    text-decoration: none;
+    color: #313131;
+}
+#masthead a, #masthead a:link, #masthead a:visited, #masthead a:hover, #masthead a:focus, #masthead a:active {
+    color: #313131;
+}
+.internav a:hover {
+    background-color: #fff;
+}
+.internav a.active, .internav a.active:hover {
+    background: #becbd7 url('//i1.social.s-msft.com/contentservice/1de160e2-73af-4669-944f-9ee101393a90/contentpaneInternavActiveSprite.png') no-repeat -10px -120px;
+}
+.LocalNavigation .TabOff a:hover {
+    background-color: #313131;
+}
+.LocalNavigation .TabOn {
+    background-color: #313131;
+}
+/*-------- End tab control branding --------*//*-------- Start Inter App Nav --------*/.internav {
+    background-position: -430px -68px;
+    background-repeat: no-repeat;
+    float: left;
+    font-family: 'Segoe UI Semibold' , 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    height: 32px;
+    margin: 0 0 0 8px;
+    max-width: 936px;
+    overflow: hidden;
+    padding: 0px 37px 0px 0px;
+    position: relative;
+    white-space: nowrap;
+}
+.internav {
+    background-image: url('//i1.social.s-msft.com/contentservice/1de160e2-73af-4669-944f-9ee101393a90/contentpaneInternavActiveSprite.png');
+}
+.leftcap {
+    background: url('//i1.social.s-msft.com/contentservice/1de160e2-73af-4669-944f-9ee101393a90/contentpaneInternavActiveSprite.png') no-repeat -10px -68px;
+    height: 32px;
+    left: -20px;
+    position: absolute;
+    width: 40px;
+}
+.internav a {
+    color: #313131;
+    float: left;
+    margin: 0;
+    padding: 6px 9px;
+    white-space: nowrap;
+}
+.internav a:hover {
+    color: #313131;
+    background-color: #fff;
+    height: 20px;
+    margin: 1px 0;
+    padding: 6px 9px 4px;
+}
+.internav a.active {
+    color: #313131;
+    height: 20px;
+    margin: 1px 0;
+    padding: 5px 9px;
+}
+/*-------- End Inter App Nav --------*//*-------- Start LocalNavigation --------*/.LocalNavigation {
+    display: inline-block;
+    font-size: 12px;
+    margin: 0 0 0 -17px;
+    padding: 0 0 1px;
+    white-space: nowrap;
+    width: 996px;
+}
+.localleftcap {
+    display: none;
+}
+.HeaderTabs {
+    margin: 0 0 0 25px;
+    width: 948px;
+}
+.LocalNavigation .TabOff {
+    float: left;
+    white-space: nowrap;
+}
+.LocalNavigation .TabOff a {
+    float: left;
+    margin-top: 1px;
+    padding: 4px 6px;
+    cursor: pointer;
+    color: #fff;
+}
+.LocalNavigation .TabOff a:hover {
+    padding: 5px 6px 3px;
+}
+.LocalNavigation .TabOn {
+    float: left;
+    margin-top: 1px;
+    padding: 4px 6px;
+    white-space: nowrap;
+}
+.LocalNavigation .TabOn a, .LocalNavigation .TabOn a:hover, .LocalNavigation .TabOn a:visited {
+    color: #fff;
+    cursor: default;
+    text-decoration: none;
+}
+.LocalNavBottom {
+    display: none;
+}
+.LocalNavigation {
+    display: none;
+}
+.cleartabstrip {
+    clear: both;
+    height: 0px;
+}
+* html .cleartabstrip {
+    display: none;
+}
+/*-------- End LocalNavigation --------*//*-------- End NavigationBox --------*//*-------- Start Content Pane --------*/.topleftcorner {
+    height: 17px;
+    margin-top: -2px;
+    margin-right: 21px;
+}
+.toprightcorner {
+    float: right;
+    height: 17px;
+    margin-top: -17px;
+    width: 21px;
+}
+.alley {
+    min-height: 768px;
+}
+.wrapper {
+    min-height: 768px;
+}
+.inner {
+    background: #fff;
+    min-height: 768px;
+    padding: 1px;
+}
+.bottomleftcorner {
+    height: 21px;
+    margin-right: 21px;
+}
+.bottomrightcorner {
+    float: right;
+    height: 21px;
+    margin-top: -21px;
+    width: 21px;
+}
+/*-------- End Content Pane --------*//*-------- Start SearchControl --------*/
+.Search {
+    float: left;
+    width: 34%;
+    border: 1px solid #ccc;
+}
+/*.SearchBox {
+    background-color: #fff;
+    border: solid 1px #346B94;
+    float: right;
+    height: 22px;
+    margin: 0 0 12px;
+    width: 314px;
+}
+.SearchBox ul {
+    z-index: 999;
+    display: block;
+    font-size: 9pt;
+    list-style: none;
+    list-style-image: none;
+}*/
+.TextBoxSearch {
+    border: 1px solid #849CB1;
+    color: black;
+    font-size: 13px;
+    font-style: normal;
+    margin: 0;
+    padding: 0 0 0 5px;
+    vertical-align: top;
+    width: 232px;
+    float: left;
+}
+.TextBoxSearchIE7 {
+    padding: 2px 2px 0 5px;
+    border: solid 1px white;
+}
+.Bing {
+    background: #fff url('//i1.social.s-msft.com/contentservice/9fcdc46d-264e-42ba-9916-9d6501354f31/bing.png') 0 0 no-repeat;
+    display: inline-block;
+    height: 22px;
+    overflow: hidden;
+    text-align: right;
+    width: 47px;
+    float: right;
+}
+.SearchButton {
+    background: #fff url('//i1.social.s-msft.com/contentservice/9fcdc46d-264e-42ba-9916-9d6501354f31/bing.png') 0 -22px no-repeat;
+    display: inline-block;
+    border-width: 0;
+    cursor: pointer;
+    height: 21px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    vertical-align: top;
+    width: 21px;
+    float: right;
+	}
+	
+span.MetroSearchtextbox {
+    height: auto;
+}
+	
+/*-------- End SearchControl --------*/.FooterLogoContainer {
+    display: none;
+}
+.FooterLinks {
+    padding: 6px 0 12px 8px;
+    font-size: 9pt;
+}
+.FooterLinks A {
+    color: #03c;
+    font-weight: normal;
+}
+.FooterLinks A:hover {
+    color: #f60 !important;
+    text-decoration: none !important;
+}
+.FooterCopyright {
+    font-weight: normal;
+    color: #000;
+    display: inline;
+    padding-right: 5px;
+}
+.IE7 .FooterCopyright {
+    zoom: 1;
+}
+.Pipe {
+    color: #000;
+    font-size: 125%;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+/* End MTPS Msdn.css *//* STO Community Styles *//* Locale Flyout */.GlobalBar {
+    color: #313131;
+    float: right;
+    font-size: 12px;
+    margin: -4px 10px 0 0;
+    width: 275px;
+    z-index: 100;
+    position: relative;
+}
+.GlobalBar a:hover {
+    text-decoration: underline;
+}
+.LocaleFlyout {
+    float: right;
+    white-space: nowrap;
+    font-size: 12px;
+}
+#TargetPanel a {
+    color: #313131;
+}
+.LocaleFlyout a, .LocaleFlyout a:link, .LocaleFlyout a:visited, .LocaleFlyout a:hover, .LocaleFlyout a:active {
+    color: #000;
+}
+.LocaleFlyout a:hover {
+    text-decoration: underline;
+}
+.ContextMenuPanel {
+    padding: 3px;
+    background-color: #fff;
+    border: solid 1px #B8B8B8;
+    cursor: default;
+    position: absolute;
+    display: none;
+    min-width: 150px;
+}
+a.ContextMenuItem {
+    font-size: 10px;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    padding: 1px 3px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+a.ContextMenuItem:hover {
+    text-decoration: underline;
+    background-color: #F0F7FD;
+}
+.DropDownArrow {
+    background: transparent url('//i1.social.s-msft.com/contentservice/3300c9bf-8d30-40ef-8349-9d6e00f78cd2/arrow_dn.gif') no-repeat scroll 0 7px;
+    margin: 0 0 0 5px;
+    height: 3px;
+    width: 5px;
+    padding-bottom: 4px;
+    padding-left: 5px;
+}
+/* End Locale Flyout */
+
+/* Search App */
+
+.search .result a, 
+.Msdn #instantAnswer, 
+.search .ResultDescription {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0;
+}
+.ApplicationTitle a {
+    display: block;
+    float: left;
+    font: 1.2em 'Segoe UI' , Tahoma;
+    padding-right: .75em;
+    text-decoration: none;
+    position: relative;
+    font-weight: normal;
+}
+#sitenav {
+    font: 1.2em 'Segoe UI' , Tahoma;
+    vertical-align: bottom;
+}
+#sitenav a {
+    float: left;
+    padding: 12px .75em 0 .5em;
+    white-space: nowrap;
+}
+div.rssfeed {
+    background: transparent url('//i1.social.s-msft.com/contentservice/2f447308-bfd2-4d0a-a1a1-9dad00d7256b/RSS.png') no-repeat scroll 0 0;
+    height: 17px;
+    width: 17px;
+}
+h1.ApplicationTitle {
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.RefinementListContainer {
+    padding-top: 0;
+}
+span.ResultsMessage span,
+#ResultsMessageDiv .ResultsMessage {
+    font-size: 14px !important;
+}
+span.ResultsMessage span, .ResultsMessage div {
+    font-weight: bold !important;
+}
+
+.ResultItemRight .ResultStatusIconCell {
+	width: 25px !important;
+}
+
+.SearchResultsButton {
+    margin-left: .25em;
+    cursor: pointer;
+    float: left;
+}
+.SearchResultsButton a {
+    font-size: .84em;
+    font-weight: bold;
+}
+.SearchResultsButton a, .SearchResultsButton a:link, .SearchResultsButton a:visited, .SearchResultsButton a:active {
+    text-decoration: none;
+    color: #464646;
+}
+.SearchResultsButton a:hover {
+    color: #FF6600;
+}
+
+.SearchResultsButton .ButtonLeft, 
+.SearchResultsButton .ButtonRight {
+    display: none;
+}
+.SearchResultsButton .ButtonMiddle {
+    background: url('//i1.social.s-msft.com/contentservice/a74581ac-12ff-4b85-93e4-a20c009a8957/homesearch.png') no-repeat;
+    width: 22px;
+    margin: 25% 0 0;
+    vertical-align: middle;
+    float: right;
+    height: 22px;
+    border: none;
+    cursor: pointer;
+    right: 0;
+    text-indent: -9999px; 
+}
+
+#RightSideMastHead {
+    display: none;
+}
+/* Boston Styles */.box {
+    margin: 0 0 12px;
+    overflow: hidden;
+}
+.box h1, .box h2, .box h3, .box h4, .box h5 {
+    background: #e8e8e8 url('//i1.social.s-msft.com/contentservice/71e33cb0-9472-431a-a2e7-9d7e002ad77f/headers.gif') 0px 0px repeat;
+    color: #260859;
+    font-family: 'Segoe UI Semibold' , 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    height: 23px;
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding: 8px 0 0;
+    white-space: nowrap;
+}
+.box h1 {
+    font-size: 20px;
+    height: 31px;
+    padding: 0;
+}
+.box h2 {
+    font-size: 18px;
+    height: 28px;
+    padding: 3px 0 0;
+}
+.box h3 {
+    font-size: 16px;
+}
+.box h4 {
+    font-size: 14px;
+    height: 24px;
+    padding: 7px 0 0;
+}
+.box h5 {
+    font-size: 13px;
+    height: 23px;
+    padding: 8px 0 0;
+}
+.box h6 {
+    font-size: 13px;
+    height: 31px;
+    line-height: 100%;
+    padding: 0;
+}
+.box h1 a, .box h2 a, .box h3 a, .box h4 a, .box h5 a, .box h6 a {
+    color: #260859;
+}
+.box h1 a:link, .box h2 a:link, .box h3 a:link, .box h4 a:link, .box h5 a:link, .box h6 a:link {
+    color: #260859;
+}
+.box h1 a:visited, .box h2 a:visited, .box h3 a:visited, .box h4 a:visited, .box h5 a:visited, .box h6 a:visited {
+    color: #260859;
+}
+.box h1 a:hover, .box h2 a:hover, .box h3 a:hover, .box h4 a:hover, .box h5 a:hover, .box h6 a:hover {
+    color: #260859;
+}
+.box h1 a:focus, .box h2 a:focus, .box h3 a:focus, .box h4 a:focus, .box h5 a:focus, .box h6 a:focus {
+    color: #260859;
+}
+.box h1 a:active, .box h2 a:active, .box h3 a:active, .box h4 a:active, .box h5 a:active, .box h6 a:active {
+    color: #260859;
+}
+.profile .forumPref {
+    margin-top: -8px;
+}
+#content .box h4 {
+    font-size: 15px;
+}
+/* End Boston Styles */.Container {
+    position: relative;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+}
+.SystemMessage, .ja-jp .SystemMessage {
+    background-color: #DD0000;
+    margin: 1% auto;
+    padding: 1%;
+    font-family: 'Segoe UI' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+    width: 98%;
+    color: rgb(2555,255,255);
+    font-weight: normal;
+    border: none;
+}
+/*Moved from Profile.css*/
+.Msdn #editLink {
+    background-color: #e8e8e8;
+}
+.Msdn #left-rail h3 {
+    background-color: #e8e8e8;
+}
+
+#MainContent .profile-tab { 
+    line-height: 1.45;
+}
+
+.IE7 #MainContent .profile-tab { 
+    display: inline;
+    zoom: 1;
+    top: 2px;
+}
+
+#MainContent .profile-tab-selected
+
+.IE7 LI.announcement DIV.head {
+    clear: left;
+}
+/* Search */.search .refine .header {
+    border-bottom-color: #260859;
+}
+/* Begin adjustments that should be moved in to forums.css in the next release */#homePageTabs li:hover {
+    color: #0095C4 !important;
+}
+#homePageTabs li.highlight, #homePageTabs li.highlight:hover {
+    color: #2a2a2a !important;
+}
+#msdn-technet-en-home .forumsTitle {
+    font: 100 2.68em 'Segoe UI Light' , 'Segoe UI' , 'Lucida Grande' ,Verdana,Arial,Helvetica,sans-serif !important;
+    margin-top: -23px;
+}
+/* End adjustments that should be moved in to forums.css in the next release */
+
+.SearchResult .ResultItemRight {
+    color: #333;
+}
+
+.search .ResultUrl {
+    color: #3f7502;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/* search box on search results page */
+.search #searchBoxContainer {
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+.search div#MainContent .MetroSearchtextbox {
+    width: 490px;
+    border: none;
+    background-color: #dedfe1;
+    margin-top: 10px;
+}
+.search div#MainContent .TextBoxSearch {
+    height: 100%;
+    background: transparent;
+    padding: 9px 14px;
+    width: 87.5%;
+    border: none;
+    color: #000;
+}
+
+@media screen and (-ms-high-contrast: active) {
+    .search .MetroButton {
+        background: url('//i1.social.s-msft.com/contentservice/a74581ac-12ff-4b85-93e4-a20c009a8957/homesearch.png') no-repeat;
+        width: 22px;
+        margin: 25% 0 0;
+        vertical-align: middle;
+        float: right;
+        height: 22px;
+        border: none;
+        cursor: pointer;
+        right: 0;
+    }
+}
+
+.search .MetroButton {
+    background: url('//i1.social.s-msft.com/contentservice/a74581ac-12ff-4b85-93e4-a20c009a8957/homesearch.png') no-repeat;
+    width: 22px;
+    margin: 25% 0 0;
+    vertical-align: middle;
+    float: right;
+    height: 22px;
+    border: none;
+    cursor: pointer;
+    right: 0;
+}
+
+/* Samples/Gallery */
+
+div.profile-usercard-inline .profile-inline {
+    padding: 0;
+}
+
+/*--------Begin forums styles-------*/
+
+/* page layout & element widths */
+
+div#msdn-technet-en-home div#homePageSidebarContainer,
+div#msdn-technet-en-thread div#threadPageSidebarContainer, 
+div#threadPageActionsContainer .quickActions {
+    float: left;
+    width: 227px;
+    min-width: 220px;
+    clear: both;
+}
+
+div#msdn-technet-en-thread div#threadPageContentContainer {
+    border-left: 3px solid #eeeeee;
+}
+
+#homePageSidebarContainer div#sidebar, 
+#threadPageSidebarContainer div#sidebar {
+    width: 227px;
+    word-wrap: break-word;
+}
+
+/* headings */
+
+.Forums #categoryFilter h3, 
+.Forums #homepageLeaderboard .box .leaderBoardTitle h4, 
+#content div.box h4,
+#threadPageSidebarContainer h3 {
+	font: 1.1em "Segoe UI","Helvetica",Garuda,Arial,sans-serif;
+	font-weight: normal;
+	color: #000;
+    padding-right: 15px;
+    background-color: transparent;
+}
+
+/* top bar - Ask a question, announcements, search */
+
+div#threadPageActionsContainer {
+    width: 100%;
+}
+div#threadPageActionsContainer .searchActions {
+    float: right;
+    width: 73.5%;
+}
+
+div#threadPageActionsContainer div.quickActions, 
+#homePageQuickActions {
+    float: left;
+    width: 22%;
+    min-width: 135px;
+}
+#searchActionsContainer {
+    float: right;
+    width: 76%;
+}
+div#threadPageActionsContainer div.searchActions {
+    float: right;
+    width: 74.5%;
+}
+div#searchActions {
+    width: 98%;
+}
+div#threadsearchbarContainer {
+    width: 480px;
+}
+div#searchActions {
+    padding-left: 15px;
+}
+
+#allThreadsContainer {
+    padding-left: 14px;
+}
+
+#homePageQuickActions div.section {
+    margin-bottom: 0;
+}
+#threadPageActionsContainer .quickActions, 
+#homePageQuickActions {
+    z-index: 999;
+}
+#MainContent #threadPageActionsContainer .section {
+    margin-top: 0;
+}
+#MainContent div#askaquestion {
+    margin-top: 0;
+}
+.IE7 div#askaquestion {
+    float: left;
+}
+
+.IE .quickActions {
+    z-index: 999;
+    position: relative;
+}
+.IE7 #quickLinks {
+    width: 150px;
+}
+.IE7 #quickLinksText {
+    width: 125px;
+}
+.IE7 #quickLinks #quickLinksText, 
+.IE7 #quickLinks div.arrowcontainer {
+    float: left;
+}
+.IE #quickLinks ul.popup {
+    z-index: 999;
+}
+
+#quickLinks #quickLinksText span {
+    color: #000;
+    font-size:13px;
+}
+#quickLinks.dropdown .popup a:hover {
+    color: #000;
+}
+.IE7 #homePageQuickActions #quickLinks {
+    padding-top: 10px;
+}
+
+#MainContent #msdn-technet-en-home a#seeAnnouncementsLink, 
+#MainContent #msdn-technet-en-thread a#seeAnnouncementsLink, 
+#MainContent #msdn-technet-en-thread a #seeAnnouncementsText, 
+#msdn-technet-en-thread #threadPageActionsContainer #relatedThreadCountContainer a {
+    color: #000;
+    text-decoration: none;
+    font-weight: normal;
+    display: block;
+}
+.IE7 #MainContent #msdn-technet-en-home a#seeAnnouncementsLink,
+.IE7 #MainContent #msdn-technet-en-thread a#seeAnnouncementsLink,
+.IE7 #MainContent #msdn-technet-en-thread a#seeAnnouncementsText,
+.IE7 #msdn-technet-en-thread #threadPageActionsContainer #relatedThreadCountContainer a {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+#MainContent #msdn-technet-en-home a#seeAnnouncementsLink:hover, 
+#MainContent #msdn-technet-en-thread a#seeAnnouncementsLink:hover, 
+#msdn-technet-en-thread #threadPageActionsContainer #relatedThreadCountContainer a:hover {
+    background-color: #dedfe1;
+}
+#searchContent #searchActions #announcementsContainer, 
+#msdn-technet-en-thread #threadPageActionsContainer #relatedThreadCountContainer {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    min-width: 210px;
+}
+
+#searchbox.watermark {
+    font-style: normal;
+}
+#searchContent #searchActions #announcementsContainer {
+    background-color: #f0f0f0;
+}
+#searchContent .searchbar .searchboxinnercontainer, 
+#threadsearchbarContainer .searchbar .searchboxinnercontainer {
+    background-color: #dedfe1;
+} 
+
+/* sidebar */
+
+#viewallCategoriesContainer {
+    padding-right: 12px;
+}
+
+#categoryFilterSection #categoryFilter {
+    padding-top: 2px;
+}
+ul#topCategoryItems {
+    margin-right: 15px;
+}
+#categoryFilterSection .forumFilter {
+    padding: 12px 0 0;
+}
+ul#topCategoryItems .forumFilter .forumItem .checkboxText {
+    width: 172px;
+    padding-top: 1px;
+}
+#categoryFilter li.categoryArea {
+    padding-bottom: 18px;
+}
+#categoryFilter li.categoryArea .categoryHeaderText {
+    display: inline-block;
+    width: 190px;
+}
+.categoryHeader.selected {
+    font-weight: normal;
+    font-family: 'Segoe UI Semibold' , 'Lucida Grande' , Verdana, Arial, Helvetica, sans-serif;
+}
+#msdn-technet-en-home ul#topCategoryItems a, 
+#msdn-technet-en-home ul#topCategoryItems a:link {
+	color:#959595;
+    padding-left: 10px;
+}
+#msdn-technet-en-home ul#topCategoryItems a.current, 
+#msdn-technet-en-home ul#topCategoryItems a:hover, 
+#msdn-technet-en-home ul#topCategoryItems a:active {
+	color: #000;
+}
+.forumFilter .forumItem div.checkboxContainer {
+    width:12px;
+}
+
+#homepageLeaderboard div.seeMore {
+    width:16%;
+    margin-right: 9px;
+}
+#homepageLeaderboard .leaderboards .box th {
+    color: #000;
+    text-align: left;
+}
+
+.leaderboards .num {
+    text-align: right;
+}
+
+div#sidebar > div#rail {
+    margin: 0;
+}
+
+/* threads */
+
+.Forums #homePageContentContainer ol, 
+.Forums #homePageContentContainer ul {
+	line-height: 100%;
+}
+
+div#homePageFilterBarContainer {
+    padding-left: 17px;
+    margin-top: -26px;
+}
+
+div.threadsnippet .threadmetricscontainer {
+    margin-right: 10px;
+}
+
+.threadResults .threadsnippet .threadmetricscontainer .status {
+    width: 37px;
+    height: 37px;
+}
+.de-de .threadResults .threadsnippet .status, 
+.de-de.Forums .threadsnippet .votes {
+    font-size: 15px;
+    line-height: .8em;
+}
+.de-de.Forums .threadsnippet .votes .count {
+    padding: 9px 0 9px;
+}
+.status.abusive, 
+#msdn-technet-en-thread div.threadIcon.abusive, 
+div.replies div.messageIcon.status.abusive {
+	background-color: #ba121a;
+}
+
+.status.answered, 
+.status.answeredlocked,
+.status.answeredprivate, 
+.status.sticky, #stickyThreads .threadsnippet .status.sticky, 
+#msdn-technet-en-thread h1 div.threadIcon.sticky, 
+div.messageIcon.question.root, 
+#msdn-technet-en-thread #threadPageContentContainer li.answer div.messageIcon, 
+#msdn-technet-en-home #homePageResultsContainer div.messageIcon.answer, 
+#threadPageContainer img.rss, .pageTitle img.rss, 
+#allCategoryPopupContainer img.icon.rss, 
+.threadsnippet .details .detailscontainer h3 em,
+.threadsnippet .details .detailscontainer .threadSummary em,
+li.answer .messageSidebar div.messageIcon, 
+.messageSidebar div.messageIcon.answer, 
+#msdn-technet-en-home div.tagcontainer, 
+.status.proposed,
+.status.proposedlocked,
+.status.proposedprivate, 
+div.replies div.messageIcon.status.proposed {
+	background-color: #007acc;
+}
+
+.status.proposed,
+.status.proposedlocked,
+.status.proposedprivate, 
+div.replies div.messageIcon.status.proposed {
+	opacity: .7;
+}
+
+#msdn-technet-en-thread div.threadIcon.sticky {
+    padding: 5px 10px 10px 5px;
+    height: 30px;
+    width: 30px;
+}
+.threadsnippet img.icon.sticky {
+    height: 30px;
+}
+.status.deleted, 
+.status.discussion, 
+.status.discussionlocked, 
+.status.discussionprivate, 
+div.replies div.messageIcon.status, 
+div.messageIcon.reply.status,
+div#msdn-technet-en-thread div.threadIcon.locked, 
+div#msdn-technet-en-thread div.threadIcon, 
+.Forums div.messageIcon.question.root, 
+.status.unanswered, 
+.status.unansweredlocked, 
+.status.private, 
+.status.unansweredprivate {
+	background-color: #b5b5b5;
+}
+
+.Forums .threadmetricscontainer .metrics {
+    position: relative;
+    overflow: hidden;
+}
+.Forums .threadsnippet .votes {
+    line-height: 1em;
+    padding-bottom: 0;
+    width: auto;
+    max-width: 50px;
+    word-wrap: break-word;
+}
+.Forums .threadsnippet .votes .count {
+	font-size: 18px;
+	font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, Helvetica, sans-serif;
+    padding: 9px 0 2px;
+}
+
+div.threadsnippet div.expandedThreadContainer {
+    font-size: 12px;
+}
+.Forums li.threadblock .detailscontainer > h3 {
+    font-size: 1.2em;
+    font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, Helvetica, sans-serif;
+    margin-top: -5px;
+}
+.threadSummary {
+    padding: 4px 0;
+}
+#homePageStickyThreadsContainer ul#stickyThreads {
+    margin-bottom: 10px;
+}
+
+#homePageResultsContainer li.message div.body {
+    margin-bottom: 1em;
+    line-height: 1.3em;
+}
+#msdn-technet-en-home #homePageResultsContainer div.expandedThreadContainer .messageContent, 
+#msdn-technet-en-home #homePageResultsContainer div.expandedThreadContainer .messageSidebar {
+    padding-top: 10px;
+}
+#msdn-technet-en-thread #threadPageContainer .messageSidebar,
+div.expandedThreadContainer .messageSidebar {
+    max-width: 37px;
+}
+#msdn-technet-en-thread #threadPageContainer .messageSidebar div.votinglabel, 
+div.expandedThreadContainer .messageSidebar div.votinglabel {
+    line-height:100%;
+}
+div.section#threadPageContainer {
+    word-wrap: break-word;
+}
+#homePageResultsContainer .expandedThreadContainer ul.message.root {
+    margin-top: 0;
+}
+
+#msdn-technet-en-home #homePageResultsContainer div.expandedThreadContainer li.message div.menu.message {
+    height: auto;
+}
+#msdn-technet-en-thread #homePageResultsContainer #threadPageContainer li.message, 
+#msdn-technet-en-home #homePageResultsContainer div.expandedThreadContainer li.message {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+div.section#threadPageContainer {
+    padding: 0 0 .5em 1em;
+}
+div#msdn-technet-en-thread #threadPageContainer .messageContent {
+    width: 92%;
+    border-bottom: 2px solid #eee;
+    padding-left: 0;
+    padding-bottom: 10px;
+    margin-left: 20px;
+}
+
+div#msdn-technet-en-thread .expandedContent #threadPageContainer .messageContent {
+    width: 94%;
+}
+.Forums #msdn-technet-en-thread #threadPageContainer .message.root .messageContent, 
+.Forums #msdn-technet-en-thread #threadPageContainer .message.answer .messageContent {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+#msdn-technet-en-thread #threadPageContainer ul.message li.message, 
+#msdn-technet-en-home #homePageResultsContainer div.expandedThreadContainer li.message {
+    width: 100%;
+}
+#msdn-technet-en-thread #threadPageContentContainer #threadPageContainer .messageContent {
+    font-size: 13px;
+}
+#threadPageContainer h1 {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    margin-top: -10px;
+}
+
+.expandedContent li.threadblock .threadsnippet .details {
+    width: 90%;
+}
+
+#msdn-technet-en-home .expandedContent #homePageResultsContainer div.expandedThreadContainer .messageContent {
+    width: 92%;
+}
+#msdn-technet-en-home .expandedContent #homePageResultsContainer div.expandedThreadContainer .children .children .messageContent {
+    width: 90%;
+}
+
+#msdn-technet-en-thread ul.relatedThreads li {
+    text-indent: 0;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+#msdn-technet-en-home .threadsnippet .details .detailscontainer .breadcrumb a:hover {
+    color: #0095c4;
+}
+
+.threadsnippet .details {
+    width: 88%;
+}
+#msdn-technet-en-home div.expandedThreadContainer .messageContent {
+    width: 90%;
+}
+#msdn-technet-en-home div.expandedThreadContainer .children .messageContent {
+    width: 88%;
+}
+#msdn-technet-en-home div.expandedThreadContainer .children .children .messageContent {
+    width: 86%;
+}
+#msdn-technet-en-home div.expandedThreadContainer .children .children .children .children .messageContent {
+    width: 84%;
+}
+
+#msdn-technet-en-thread #threadPageContainer .messageContent,
+div.expandedThreadContainer div.messageContent {
+    width: 82%;
+}
+
+#msdn-technet-en-thread #threadPageContainer .children .messageContent,
+div.expandedThreadContainer .children div.messageContent {
+    width: 90%;
+}
+
+#msdn-technet-en-thread #threadPageContainer .children .children .messageContent,
+div.expandedThreadContainer .children .children div.messageContent {
+    width: 88%;
+}
+
+#msdn-technet-en-thread #threadPageContainer li.message, 
+div.expandedThreadContainer li.message {
+    width: 100%;
+}
+
+/* popups */
+
+#sortFilter ul.popup {
+    background-color: #fff;
+}
+
+#quickLinks ul.popup, #msdn-technet-en-thread .abusive ul.popup {
+    font-size: 14px;
+    line-height: 20px;
+    opacity: 1;
+}
+#sortFilter .popup {
+    top: 20px;
+}
+
+#msdn-technet-en-thread #threadPageContainer li.message div.menu>div>a.popup, 
+div.expandedThreadContainer li.message div.menu>div>a.popup {
+    padding-top: 0;
+}
+
+.rtl .popup input[type="radio"], 
+.rtl .popup input[type="checkbox"] {
+    cursor: pointer;
+    float: left;
+}
+
+.rtl #quickLinks ul.popup {
+    left: 0;
+}
+
+/* profile/user card */
+
+div.profile-usercard-inline div.profile-inline {
+    border: none;
+}
+
+div.profile-usercard-mini .profile-mini .profile-mini-header .profile-mini-display-name, 
+div.profile-usercard-mini .profile-mini .profile-mini-points {
+    font-size: 12px;
+}
+
+#msdn-technet-en-thread #threadPageContainer .messageContent .messageFooter .userInfo {
+    margin-right: 5px;
+}
+
+div#threadPageSidebarContainer .profile-usercard-inline .profile-inline {
+    padding: 0;
+    width: 100%;
+}
+
+/* voting */
+
+div.expandedThreadContainer .messageSidebar div.voting {
+    width: 100%;
+}
+
+#msdn-technet-en-thread #threadPageContainer .messageSidebar div.voting img.voteup, 
+#msdn-technet-en-home div.expandedThreadContainer .messageSidebar div.voting img.voteup {
+    margin: 0 auto;
+    height: 25px;
+    width: 18px;
+}
+
+/* announcements */
+
+#msdn-technet-en-thread #noAnnouncementsTextBox {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+}
+
+#searchActions .announcement.popup {
+    color: #666;
+}
+.announcement.popup strong,
+.announcement.popup b {
+    font-family: 'Segoe UI Semibold', Helvetica, Garuda, Arial, sans-serif;
+    font-weight: normal;
+}
+#searchActions div.announcement.popup li.announcement div.head {
+    margin: 12px 0 0 9px;
+}
+.announcement.popup .announcementContainer {
+    font-size: 1.2em;
+    line-height: 110%;
+}
+.announcement.popup div.arrowcontainer {
+    margin-right: 5px;
+}
+
+#searchActions, #threadsearchbarContainer {
+    margin-left: 0 !important;
+}
+div#announcementsContainer {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+#seeAnnouncementsText, #seeAnnouncementsLink {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 0.4em;
+    display: block;
+}
+
+div#searchActions .announcement.popup {
+    width: 72%;
+}
+
+/* View all */
+#msdn-technet-en-home div #allCategoryPopupContainer.popup {
+    padding: 1em;
+}
+a#closeAllCategoryPopup {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+#allCategoryPopupContainer #forumDetailsContainer a#submitAllCategories {
+    bottom: 10px;
+    right: 10px;
+    background-color: #007acc;
+}
+#allCategoryPopupContainer #forumDetailsContainer a#submitAllCategories:hover {
+    background-color: #005a97;
+}
+#allCategoryPopupContainer #forumsDetailsSelectedHeader:first-child {
+    font-weight: normal;
+    font-family: 'Segoe UI Semibold', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+}
+#allCategoryPopupContainer li.categoryArea a.categoryHeaderText {
+    width: 90%;
+    margin-left: 5px;
+    color: #959595;
+}
+#allCategoryPopupContainer li.categoryArea a.categoryHeaderText:hover, .checkboxText {
+    color: #000;
+}
+#allCategoryPopupContainer div.arrowcontainer {
+    margin-top: 2px;
+}
+#forumDetailsContainerBanner {
+    color: #333;
+}
+
+/* other forums pages */
+
+#newThreadPage h1 {
+    font-weight: normal;
+    font-family: 'Segoe UI Light',Arial,Helvetica,sans-serif;
+}
+#newThreadPage h3, .users tr.userstitle, 
+#mySettingsContentContainer #myForumsPreferences h5 {
+    font-weight: normal;
+    font-family: 'Segoe UI Semibold',Arial,Helvetica,sans-serif;
+}
+
+#newThreadPage button#btnSubmit, 
+#mySettingsContentContainer #myForumsPreferences input[type="submit"] {
+    cursor: pointer;
+}
+#newThreadPage button#btnSubmit:hover, 
+#mySettingsContentContainer #myForumsPreferences input[type="submit"]:hover {
+    background-color: #005a97;
+}
+
+li.forum div.forumSpace div.forumContent,
+div.myForumsHeaderName {
+    width: 68%;
+}
+div.myForumsStatsCol {
+    width: 32%;
+}
+
+li.forum .stats div.statsThreads {
+    width: 62%;
+}
+.rtl li.forum .stats div.statsThreads {
+    float: left;
+}
+
+li.forum .stats div.statsMessages {
+    width: 38%;
+}
+
+.content li.forum {
+    margin: 1em 0;
+}
+
+.rtl li.forumheader div.statGroup, 
+.rtl li.forum div.statGroup, 
+.rtl .myForumsStatsCol .myForumStatsHeader .messagesHeader, 
+.rtl .myForumsStatsCol .myForumStatsHeader .threadsHeader {
+    text-align: right;
+}
+
+.rtl #content div.box.myForumsHeaderName h4 {
+    padding-right: 0;
+}
+
+.relatedThreads .alignMiddle {
+    max-width: 750px;
+}
+
+/*--------End forums styles-------*/

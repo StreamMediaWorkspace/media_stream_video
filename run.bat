@@ -1,0 +1,1 @@
+".\ChromeGo_SkyZip\chrome.exe" --register-pepper-plugins="D:\\media_stream_video\\Release\\media_stream_video.dll;application/x-ppapi-example-media-stream-video" file:///D:/media_stream_video/html/index.html 

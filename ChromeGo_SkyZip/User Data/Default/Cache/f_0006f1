@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msvalidate.01" content="3667D2FEB238C1BF174F3CB1AE0D3C16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" media="all" href="https://libraries.io/assets/application-89a940fc1b9baf0932d0f863d906cba971001cf12adb8341f474618633fda708.css" data-turbolinks-track="true" />
+  <title>electron/electron-rebuild - Libraries.io</title>
+  <meta name="description" content="Package to rebuild native Node.js modules against the currently installed Electron version - a TypeScript repository on GitHub">
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="zBE+XCogpYHQCuUPlXf2kWSHYttNKKDy6OP9NQQIDU/NLHzEqB6LijuiVFVoEsGZXSznUj+GbpiZA76FniB9YQ==" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/apple-touch-icon-60x60.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+  <meta name="application-name" content="&nbsp;"/>
+  <meta name="msapplication-TileColor" content="#FFFFFF" />
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+  <meta name="msapplication-square70x70logo" content="/mstile-70x70.png" />
+  <meta name="msapplication-square150x150logo" content="/mstile-150x150.png" />
+  <meta name="msapplication-wide310x150logo" content="/mstile-310x150.png" />
+  <meta name="msapplication-square310x310logo" content="/mstile-310x310.png" />
+  <meta property="fb:admins" content="508462908" />
+  <meta name="yandex-verification" content="2a6b144b8bd37026" />
+  <meta property="og:type" content="article" />
+<meta property="og:site_name" content="Libraries.io" />
+<meta property="og:url" content="https://libraries.io/github/electron/electron-rebuild" />
+<meta property="og:title" content="electron/electron-rebuild on GitHub" />
+<meta property="og:description" content="Package to rebuild native Node.js modules against the currently installed Electron version - a TypeScript repository on GitHub" />
+<meta property="og:image"  content="https://github.com/electron.png?size=200" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@librariesio" />
+<meta name="twitter:title" content="electron/electron-rebuild on GitHub" />
+<meta name="twitter:description" content="Package to rebuild native Node.js modules against the currently installed Electron version - a TypeScript repository on GitHub" />
+<meta name="twitter:image" content="https://github.com/electron.png?size=200" />
+
+  <link href="/opensearch.xml" title="Libraries.io" rel="search" type="application/opensearchdescription+xml">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-105624087-2', 'auto');
+    </script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
+  <script src="https://libraries.io/assets/application-da84f2843bb49d6bf02ca953db6a618488bbbe9f96a5cb05020e1aff88ecac7f.js" data-turbolinks-track="true"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "Libraries.io",
+      "url": "https://libraries.io/",
+      "description": "Discover open source packages, modules and frameworks you can use in your code",
+      "license": "https://github.com/librariesio/libraries.io/blob/master/LICENSE.txt",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://libraries.io/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Libraries.io",
+      "description": "Discover open source packages, modules and frameworks you can use in your code",
+      "url": "https://libraries.io/",
+      "logo": "https://libraries.io/apple-touch-icon-152x152.png",
+      "email": "support@libraries.io",
+      "sameAs": [
+        "https://twitter.com/librariesio",
+        "https://www.facebook.com/libraries.io",
+        "https://github.com/librariesio",
+        "https://plus.google.com/101868076054784591044"
+      ]
+    }
+  </script>
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><img width="116" height="22" src="https://libraries.io/assets/logo-81a987a6228bd0482a3b741ec729bedbb3963acd2c02944479557abf63c54a75.svg" /></a>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-left">
+            <li class=' '>
+                <form class="navbar-form search_form" action="/repos/search?host_type=github" accept-charset="UTF-8" method="get">
+  <div class="input-group input-group">
+
+    <div class="input-group-btn">
+     <a type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></a>
+     <ul class="dropdown-menu">
+       <li>
+         <a href="/search">
+           <span class='fa-blank'></span>
+           Packages
+</a>       </li>
+       <li>
+         <a href="/repos/search">
+           <i class="fa fa-check"></i>
+           Repositories
+</a>       </li>
+     </ul>
+   </div>
+
+    <input type="text" name="q" id="q" value="" placeholder="Search Repositories" class="form-control" size="40" />
+      
+      
+      
+      
+    <span class="input-group-btn">
+      <button class="btn btn-primary" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </span>
+  </div>
+</form>
+            </li>
+          </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+              <div class="navbar-btn btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Login <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="/login?host_type=github&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Felectron%2Felectron-rebuild">
+                      <i class="fa fa-github"></i> GitHub
+</a>                  </li>
+                  <li>
+                    <a href="/login?host_type=gitlab&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Felectron%2Felectron-rebuild">
+                      <i class="fa fa-gitlab"></i> GitLab
+</a>                  </li>
+                  <li>
+                    <a href="/login?host_type=bitbucket&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Felectron%2Felectron-rebuild">
+                      <i class="fa fa-bitbucket"></i> Bitbucket
+</a>                  </li>
+                  <li class='divider'></li>
+                  <li class="dropdown-header terms">
+                    By logging in you accept <br>our <a href='/terms'>terms of service</a> <br>and <a href='/privacy'>privacy policy</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+
+
+
+  <div class="alert alert-info hidden-xs" role="alert" style="background-color: #F6914D; border-color: #F6914D; color: white;">
+    <img src="https://libraries.io/assets/tidelift-small-8121450dc1d441d6515d7a4920bfcfc053a0a5fba90f5d6af617a5da57f3eadd.png" width="36px" style="padding-right: 12px;" />
+    20% of your dependencies might be unmaintained
+<strong>
+  <a href="https://tidelift.com/subscription/dependency-analyzer?utm_source=libraries.io&utm_medium=referral&utm_content=analyzer-2"
+     target="_blank"
+     style="text-decoration:underline;color: white;">
+     Try our free dependency analyzer
+  </a>
+</strong>
+
+  </div>
+
+    
+
+
+<div class="row">
+  <div class='col-md-8'>
+    <h1>
+          <a href="/github/electron"><img width="50" height="50" src="https://github.com/electron.png?size=100" /></a>
+      electron/electron-rebuild
+      <a class="tip" title="View electron/electron-rebuild on GitHub" href="https://github.com/electron/electron-rebuild"><i class="fa fa-github"></i></a>
+      
+    </h1>
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>
+<hr>
+<div class='row'>
+    <div class='col-md-8'>
+      <p>
+        Package to rebuild native Node.js modules against the currently installed Electron version
+      </p>
+      <p>
+        Language: <a href="/languages/TypeScript">TypeScript</a>
+      </p>
+        <hr>
+        <div id="readme" class="instapaper_body md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h2>
+<a id="user-content-electron-rebuild" class="anchor" aria-hidden="true" href="#electron-rebuild"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Electron Rebuild</h2>
+<p><a href="https://travis-ci.org/electron/electron-rebuild" rel="nofollow"><img src="https://camo.githubusercontent.com/9aa779edcd55bed2093241fe10340f6607239ed5/68747470733a2f2f7472617669732d63692e6f72672f656c656374726f6e2f656c656374726f6e2d72656275696c642e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/electron/electron-rebuild.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://npm.im/electron-rebuild" rel="nofollow"><img src="https://camo.githubusercontent.com/8fd5e8239aa70936741cb05613a0bcbf659b7abd/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656c656374726f6e2d72656275696c642e7376673f7374796c653d666c6174" alt="NPM" data-canonical-src="https://img.shields.io/npm/v/electron-rebuild.svg?style=flat" style="max-width:100%;"></a></p>
+<p>This executable rebuilds native Node.js modules against the version of Node.js
+that your Electron project is using. This allows you to use native Node.js
+modules in Electron apps without your system version of Node.js matching exactly
+(which is often not the case, and sometimes not even possible).</p>
+<h3>
+<a id="user-content-how-does-it-work" class="anchor" aria-hidden="true" href="#how-does-it-work"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How does it work?</h3>
+<p>Install the package with <code>--save-dev</code>:</p>
+<div class="highlight highlight-source-shell"><pre>npm install --save-dev electron-rebuild</pre></div>
+<p>Then, whenever you install a new npm package, rerun electron-rebuild:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-s"><span class="pl-pds">$(</span>npm bin<span class="pl-pds">)</span></span>/electron-rebuild</pre></div>
+<p>Or if you're on Windows:</p>
+<div class="highlight highlight-source-shell"><pre>.<span class="pl-cce">\n</span>ode_modules<span class="pl-cce">\.</span>bin<span class="pl-cce">\e</span>lectron-rebuild.cmd</pre></div>
+<p>If you have a good node-gyp config but you see an error about a missing element on Windows like <code>Could not load the Visual C++ component "VCBuild.exe"</code>, try to launch electron-rebuild in an npm script:</p>
+<div class="highlight highlight-source-json"><pre><span class="pl-s"><span class="pl-pds">"</span>scripts<span class="pl-pds">"</span></span>: {
+  <span class="pl-s"><span class="pl-pds">"</span>rebuild<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>electron-rebuild -f -w yourmodule<span class="pl-pds">"</span></span>
+}</pre></div>
+<p>and then</p>
+<div class="highlight highlight-source-shell"><pre>npm run rebuild</pre></div>
+<h3>
+<a id="user-content-what-versions-of-node-does-it-work-with" class="anchor" aria-hidden="true" href="#what-versions-of-node-does-it-work-with"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What versions of Node does it work with?</h3>
+<p>Node v6.0.0 or higher is required.</p>
+<h3>
+<a id="user-content-cli-arguments" class="anchor" aria-hidden="true" href="#cli-arguments"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Arguments</h3>
+<pre><code>Usage: electron-rebuild --version [version] --module-dir [path]
+
+Options:
+  -h, --help                   Show help                               [boolean]
+  -v, --version                The version of Electron to build against
+  -f, --force                  Force rebuilding modules, even if we would skip
+                               it otherwise
+  -a, --arch                   Override the target architecture to something
+                               other than your system's
+  -m, --module-dir             The path to the app directory to rebuild
+  -w, --which-module           A specific module to build, or comma separated
+                               list of modules
+  -e, --electron-prebuilt-dir  The path to electron-prebuilt
+  -d, --dist-url               Custom header tarball URL
+  -t, --types                  The types of dependencies to rebuild.  Comma
+                               separated list of "prod", "dev" and "optional".
+                               Default is "prod,optional"
+  -p, --parallel               Rebuild in parallel, this is enabled by default
+                               on macOS and Linux
+  -s, --sequential             Rebuild modules sequentially, this is enabled by
+                               default on Windows
+  -o, --only                   Only build specified module, or comma separated
+                               list of modules. All others are ignored.
+  -b, --debug                  Build debug version of modules
+
+Copyright 2016
+</code></pre>
+<h3>
+<a id="user-content-how-can-i-use-this-with-electron-forge" class="anchor" aria-hidden="true" href="#how-can-i-use-this-with-electron-forge"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How can I use this with <a href="https://github.com/electron-userland/electron-forge">Electron Forge</a>?</h3>
+<p>This package is automatically used with Electron Forge when packaging an Electron app.</p>
+<h3>
+<a id="user-content-how-can-i-integrate-this-into-electron-packager" class="anchor" aria-hidden="true" href="#how-can-i-integrate-this-into-electron-packager"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How can I integrate this into <a href="https://github.com/electron-userland/electron-packager">Electron Packager</a>?</h3>
+<p>electron-rebuild provides a function compatible with the <a href="https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#aftercopy"><code>afterCopy</code> hook</a>
+for Electron Packager. For example:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">packager</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>electron-packager<span class="pl-pds">'</span></span>;
+<span class="pl-k">import</span> <span class="pl-smi">rebuild</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>electron-rebuild<span class="pl-pds">'</span></span>;
+
+<span class="pl-en">packager</span>({
+  <span class="pl-c"><span class="pl-c">//</span> … other options</span>
+  afterCopy<span class="pl-k">:</span> [(<span class="pl-smi">buildPath</span>, <span class="pl-smi">electronVersion</span>, <span class="pl-smi">platform</span>, <span class="pl-smi">arch</span>, <span class="pl-smi">callback</span>) <span class="pl-k">=&gt;</span> {
+    <span class="pl-en">rebuild</span>({ buildPath, electronVersion, arch })
+      .<span class="pl-c1">then</span>(() <span class="pl-k">=&gt;</span> <span class="pl-en">callback</span>())
+      .<span class="pl-c1">catch</span>((<span class="pl-smi">error</span>) <span class="pl-k">=&gt;</span> <span class="pl-en">callback</span>(error));
+  }],
+  <span class="pl-c"><span class="pl-c">//</span> … other options</span>
+});</pre></div>
+<h3>
+<a id="user-content-how-can-i-integrate-this-with-prebuild" class="anchor" aria-hidden="true" href="#how-can-i-integrate-this-with-prebuild"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How can I integrate this with <a href="https://github.com/prebuild/prebuild">prebuild</a>?</h3>
+<p>If your module uses <a href="https://github.com/prebuild/prebuild">prebuild</a> for creating prebuilt binaries it also uses <a href="https://github.com/prebuild/prebuild-install">prebuild-install</a> to download them. If this is the case then <code>electron-rebuild</code> will run <code>prebuild-install</code> to download the correct binaries from github instead of rebuilding them.</p>
+<h3>
+<a id="user-content-how-can-i-integrate-this-into-grunt--gulp--whatever" class="anchor" aria-hidden="true" href="#how-can-i-integrate-this-into-grunt--gulp--whatever"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How can I integrate this into Grunt / Gulp / Whatever?</h3>
+<p>electron-rebuild is also a library that you can just require into your app or
+build process. It has a very simple API:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">rebuild</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>electron-rebuild<span class="pl-pds">'</span></span>;
+
+<span class="pl-c"><span class="pl-c">//</span> Public: Rebuilds a node_modules directory with the given Electron version.</span>
+<span class="pl-c"><span class="pl-c">//</span></span>
+<span class="pl-c"><span class="pl-c">//</span> options: Object with the following properties</span>
+<span class="pl-c"><span class="pl-c">//</span>     buildPath - An absolute path to your app's directory.  (The directory that contains your node_modules)</span>
+<span class="pl-c"><span class="pl-c">//</span>     electronVersion - The version of Electron to rebuild for</span>
+<span class="pl-c"><span class="pl-c">//</span>     arch (optional) - Default: process.arch - The arch to rebuild for</span>
+<span class="pl-c"><span class="pl-c">//</span>     extraModules (optional) - Default: [] - An array of modules to rebuild as well as the detected modules</span>
+<span class="pl-c"><span class="pl-c">//</span>     onlyModules (optional) - Default: null - An array of modules to rebuild, ONLY these module names will be rebuilt.</span>
+<span class="pl-c"><span class="pl-c">//</span>                                              The "types" property will be ignored if this option is set.</span>
+<span class="pl-c"><span class="pl-c">//</span>     force (optional) - Default: false - Force a rebuild of modules regardless of their current build state</span>
+<span class="pl-c"><span class="pl-c">//</span>     headerURL (optional) - Default: atom.io/download/electron - The URL to download Electron header files from</span>
+<span class="pl-c"><span class="pl-c">//</span>     types (optional) - Default: ['prod', 'optional'] - The types of modules to rebuild</span>
+<span class="pl-c"><span class="pl-c">//</span>     mode (optional) - The rebuild mode, either 'sequential' or 'parallel' - Default varies per platform (probably shouldn't mess with this one)</span>
+
+<span class="pl-c"><span class="pl-c">//</span> Returns a Promise indicating whether the operation succeeded or not</span></pre></div>
+<p>A full build process might look something like:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> childProcess <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>child_process<span class="pl-pds">'</span></span>);
+<span class="pl-k">let</span> pathToElectron <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>electron-prebuilt<span class="pl-pds">'</span></span>);
+
+  <span class="pl-en">rebuild</span>({
+    buildPath<span class="pl-k">:</span> <span class="pl-c1">__dirname</span>,
+    electronVersion<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>1.4.12<span class="pl-pds">'</span></span>
+  })
+    .<span class="pl-c1">then</span>(() <span class="pl-k">=&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">info</span>(<span class="pl-s"><span class="pl-pds">'</span>Rebuild Successful<span class="pl-pds">'</span></span>))
+    .<span class="pl-c1">catch</span>((<span class="pl-smi">e</span>) <span class="pl-k">=&gt;</span> {
+      <span class="pl-en">console</span>.<span class="pl-c1">error</span>(<span class="pl-s"><span class="pl-pds">"</span>Building modules didn't work!<span class="pl-pds">"</span></span>);
+      <span class="pl-en">console</span>.<span class="pl-c1">error</span>(e);
+    });</pre></div>
+<h3>
+<a id="user-content-alternatives" class="anchor" aria-hidden="true" href="#alternatives"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alternatives</h3>
+<ul>
+<li>
+<a href="https://github.com/juliangruber/require-rebuild">require-rebuild</a> patches <code>require()</code> to rebuild native node modules on the fly</li>
+</ul>
+</article></div>
+
+      <div id='repository_dependencies' style='display:none;' data-url="/github/electron/electron-rebuild/dependencies"></div>
+    </div>
+
+  <div class='col-md-4'>
+      <h4>Project Statistics</h4>
+      <table class='table table-striped'>
+  <tr>
+    <td>
+      Sourcerank
+    </td>
+    <td>
+      <strong><a href="/github/electron/electron-rebuild/sourcerank">14</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Repository Size
+    </td>
+    <td>
+      <strong>373 KB</strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Stars
+    </td>
+    <td>
+      <strong><a href="https://github.com/electron/electron-rebuild/stargazers">554</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Forks
+    </td>
+    <td>
+      <strong><a href="https://github.com/electron/electron-rebuild/network">111</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Watchers
+    </td>
+    <td>
+      <strong><a href="https://github.com/electron/electron-rebuild/watchers">79</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Open issues
+    </td>
+    <td>
+      <strong><a href="https://github.com/electron/electron-rebuild/issues">49</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Dependencies
+    </td>
+    <td>
+      <strong>313</strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Contributors
+    </td>
+    <td>
+      <strong><a href="/github/electron/electron-rebuild/contributors">39</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Tags
+    </td>
+    <td>
+      <strong><a href="/github/electron/electron-rebuild/tags">48</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Created
+    </td>
+    <td>
+      <strong><time datetime="2015-05-04T08:43:21Z" title="May  4, 2015">May  4, 2015</time></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Last updated
+    </td>
+    <td>
+      <strong><time datetime="2019-08-16T17:55:38Z" title="Aug 16, 2019" data-time-ago="2019-08-16T17:55:38Z">24 days ago</time></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Last pushed
+    </td>
+    <td>
+      <strong><time datetime="2019-08-16T17:53:04Z" title="Aug 16, 2019" data-time-ago="2019-08-16T17:53:04Z">24 days ago</time></strong>
+    </td>
+  </tr>
+</table>
+
+
+        <h4>Top Contributors <small><a href="/github/electron/electron-rebuild/contributors">See all</a></small></h4>
+        <a title="Paul Betts" href="/github/anaisbetts"><img width="60" height="60" alt="Paul Betts" class="pull-left" src="https://avatars.githubusercontent.com/u/1396?size=120" /></a>
+<a title="Samuel Attard" href="/github/MarshallOfSound"><img width="60" height="60" alt="Samuel Attard" class="pull-left" src="https://avatars.githubusercontent.com/u/6634592?size=120" /></a>
+<a title="Mark Lee" href="/github/malept"><img width="60" height="60" alt="Mark Lee" class="pull-left" src="https://avatars.githubusercontent.com/u/11417?size=120" /></a>
+<a title="Zeke Sikelianos" href="/github/zeke"><img width="60" height="60" alt="Zeke Sikelianos" class="pull-left" src="https://avatars.githubusercontent.com/u/2289?size=120" /></a>
+<a title="Ben Ogle" href="/github/benogle"><img width="60" height="60" alt="Ben Ogle" class="pull-left" src="https://avatars.githubusercontent.com/u/69169?size=120" /></a>
+<a title="André Breda" href="/github/abread"><img width="60" height="60" alt="André Breda" class="pull-left" src="https://avatars.githubusercontent.com/u/1618009?size=120" /></a>
+<a title="Mokhtar Naamani" href="/github/mnaamani"><img width="60" height="60" alt="Mokhtar Naamani" class="pull-left" src="https://avatars.githubusercontent.com/u/1621012?size=120" /></a>
+<a title="Max Korp" href="/github/maxkorp"><img width="60" height="60" alt="Max Korp" class="pull-left" src="https://avatars.githubusercontent.com/u/1302526?size=120" /></a>
+<a title="Albin Ekblom" href="/github/albinekb"><img width="60" height="60" alt="Albin Ekblom" class="pull-left" src="https://avatars.githubusercontent.com/u/5027156?size=120" /></a>
+<a title="Félicien FRANCOIS" href="/github/felicienfrancois"><img width="60" height="60" alt="Félicien FRANCOIS" class="pull-left" src="https://avatars.githubusercontent.com/u/988144?size=120" /></a>
+<a title="Winsky" href="/github/wenshiqi0"><img width="60" height="60" alt="Winsky" class="pull-left" src="https://avatars.githubusercontent.com/u/12891758?size=120" /></a>
+<a title="Romain Cointepas" href="/github/romaincointepas"><img width="60" height="60" alt="Romain Cointepas" class="pull-left" src="https://avatars.githubusercontent.com/u/797899?size=120" /></a>
+<a title="Kevin Sawicki" href="/github/kevinsawicki"><img width="60" height="60" alt="Kevin Sawicki" class="pull-left" src="https://avatars.githubusercontent.com/u/671378?size=120" /></a>
+<a title="Seth Fitzsimmons" href="/github/mojodna"><img width="60" height="60" alt="Seth Fitzsimmons" class="pull-left" src="https://avatars.githubusercontent.com/u/45?size=120" /></a>
+<a title="Zhenchao Li" href="/github/fantasticsid"><img width="60" height="60" alt="Zhenchao Li" class="pull-left" src="https://avatars.githubusercontent.com/u/203771?size=120" /></a>
+<a title="mattcollier" href="/github/mattcollier"><img width="60" height="60" alt="mattcollier" class="pull-left" src="https://avatars.githubusercontent.com/u/902041?size=120" /></a>
+<a title="Vadim Macagon" href="/github/enlight"><img width="60" height="60" alt="Vadim Macagon" class="pull-left" src="https://avatars.githubusercontent.com/u/233003?size=120" /></a>
+<a title="Charles Kerr" href="/github/ckerr"><img width="60" height="60" alt="Charles Kerr" class="pull-left" src="https://avatars.githubusercontent.com/u/70381?size=120" /></a>
+<a title="Will Stone" href="/github/will-stone"><img width="60" height="60" alt="Will Stone" class="pull-left" src="https://avatars.githubusercontent.com/u/654103?size=120" /></a>
+<a title="Wang Yue" href="/github/kenan2002"><img width="60" height="60" alt="Wang Yue" class="pull-left" src="https://avatars.githubusercontent.com/u/2618847?size=120" /></a>
+
+
+        <div class="row"></div>
+        <hr>
+        <h4>Packages Referencing this Repo</h4>
+        <div class='project' style="border-color: #2b7489;">
+  <h5>
+    <a href="/npm/electron-rebuild-ln">electron-rebuild-ln</a>
+  </h5>
+
+  <div class="">
+    Electron supporting package to rebuild native node modules against the currently installed electron
+  </div>
+
+  <small>
+      Latest release 0.0.7 -
+      Updated
+      <time datetime="2017-08-01T01:15:00Z" title="Aug  1, 2017">Aug  1, 2017</time>
+       - 554 stars
+  </small>
+</div>
+<div class='project' style="border-color: #2b7489;">
+  <h5>
+    <a href="/npm/electron-rebuild-patched">electron-rebuild-patched</a>
+  </h5>
+
+  <div class="">
+    Electron supporting package to rebuild native node modules against the currently installed electron
+  </div>
+
+  <small>
+      Latest release 1.5.11 -
+      Published
+      <time datetime="2017-05-19T19:49:55Z" title="May 19, 2017">May 19, 2017</time>
+       - 554 stars
+  </small>
+</div>
+<div class='project' style="border-color: #2b7489;">
+  <h5>
+    <a href="/npm/electron-rebuild">electron-rebuild</a>
+  </h5>
+
+  <div class="">
+    Electron supporting package to rebuild native node modules against the currently installed electron
+  </div>
+
+  <small>
+      Latest release 1.8.6 -
+      Updated
+      <time datetime="2019-08-16T17:54:51Z" title="Aug 16, 2019" data-time-ago="2019-08-16T17:54:51Z">24 days ago</time>
+       - 554 stars
+  </small>
+</div>
+<div class='project' style="border-color: #2b7489;">
+  <h5>
+    <a href="/npm/@mojodna%2Felectron-rebuild">@mojodna/electron-rebuild</a>
+  </h5>
+
+  <div class="">
+    Electron supporting package to rebuild native node modules against the currently installed electron
+  </div>
+
+  <small>
+      Latest release 1.5.11 -
+      Updated
+      <time datetime="2017-06-27T20:18:54Z" title="Jun 27, 2017">Jun 27, 2017</time>
+       - 554 stars
+  </small>
+</div>
+<div class='project' style="border-color: #2b7489;">
+  <h5>
+    <a href="/npm/electron-rebuild-ftl">electron-rebuild-ftl</a>
+  </h5>
+
+  <div class="">
+    Electron supporting package to rebuild native node modules against the currently installed electron
+  </div>
+
+  <small>
+      Latest release 1.5.11 -
+      Published
+      <time datetime="2017-06-23T09:54:27Z" title="Jun 23, 2017">Jun 23, 2017</time>
+       - 554 stars
+  </small>
+</div>
+
+
+        <div class="row"></div>
+  <hr>
+  <h4>
+    Recent Tags
+    <small><a href="/github/electron/electron-rebuild/tags">See all</a></small>
+  </h4>
+  <table class='table'>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.6">v1.8.6</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            August 16, 2019
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.6">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.6 and v1.8.5" href="https://github.com/electron/electron-rebuild/compare/v1.8.5...v1.8.6">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.5">v1.8.5</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            May 24, 2019
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.5">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.5 and v1.8.4" href="https://github.com/electron/electron-rebuild/compare/v1.8.4...v1.8.5">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.4">v1.8.4</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            February 06, 2019
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.4">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.4 and v1.8.3" href="https://github.com/electron/electron-rebuild/compare/v1.8.3...v1.8.4">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.3">v1.8.3</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            February 06, 2019
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.3">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.3 and v1.8.2" href="https://github.com/electron/electron-rebuild/compare/v1.8.2...v1.8.3">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.2">v1.8.2</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            July 31, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.2">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.2 and v1.8.1" href="https://github.com/electron/electron-rebuild/compare/v1.8.1...v1.8.2">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.1">v1.8.1</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            July 04, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.1">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.1 and v1.8.0" href="https://github.com/electron/electron-rebuild/compare/v1.8.0...v1.8.1">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.0">v1.8.0</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            July 04, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.8.0">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.8.0 and v1.7.3" href="https://github.com/electron/electron-rebuild/compare/v1.7.3...v1.8.0">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.3">v1.7.3</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            January 12, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.3">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.7.3 and v1.7.2" href="https://github.com/electron/electron-rebuild/compare/v1.7.2...v1.7.3">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.2">v1.7.2</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            January 12, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.2">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.7.2 and v1.7.1" href="https://github.com/electron/electron-rebuild/compare/v1.7.1...v1.7.2">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.1">v1.7.1</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            January 12, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.1">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.7.1 and v1.7.0" href="https://github.com/electron/electron-rebuild/compare/v1.7.0...v1.7.1">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.0">v1.7.0</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            January 12, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.7.0">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.7.0 and v1.6.1" href="https://github.com/electron/electron-rebuild/compare/v1.6.1...v1.7.0">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.6.1">v1.6.1</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            January 11, 2018
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.6.1">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.6.1 and v1.6.0" href="https://github.com/electron/electron-rebuild/compare/v1.6.0...v1.6.1">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.6.0">v1.6.0</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            July 30, 2017
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.6.0">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.6.0 and v1.5.11" href="https://github.com/electron/electron-rebuild/compare/v1.5.11...v1.6.0">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.5.11">v1.5.11</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            May 11, 2017
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.5.11">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.5.11 and v1.5.10" href="https://github.com/electron/electron-rebuild/compare/v1.5.10...v1.5.11">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/electron/electron-rebuild/releases/tag/v1.5.10">v1.5.10</a>
+      </td>
+        <td>
+          <small class='text-muted'>
+            May 09, 2017
+          </small>
+        </td>
+      <td>
+        <small class='text-muted'>
+          <a class="tip" title="Browse source on GitHub" href="https://github.com/electron/electron-rebuild/releases/tag/v1.5.10">
+            <i class="fa fa-tag"></i>
+</a>        </small>
+      </td>
+      <td>
+          <small class='text-muted'>
+            <a class="tip" title="View diff between v1.5.10 and v1.5.9" href="https://github.com/electron/electron-rebuild/compare/v1.5.9...v1.5.10">
+              <i class="fa fa-random"></i>
+</a>          </small>
+      </td>
+    </tr>
+  </table>
+
+
+        <div class="row"></div>
+        <hr>
+        <h4>
+          Interesting Forks
+          <small><a href="/github/electron/electron-rebuild/forks">See all</a></small>
+        </h4>
+        <div class='project' style="border-color: #f1e05a;">
+  <h5>
+    <a href="/github/ryl60007879/electron-rebuild">ryl60007879/electron-rebuild</a>
+    <small>
+      
+      <i class="fa fa-code-fork"></i>
+    </small>
+  </h5>
+
+  <div>
+    Package to rebuild native io.js modules against the currently installed Electron version
+  </div>
+
+  <small>
+    <i class="fa fa-github"></i>
+        <a href="/languages/JavaScript">JavaScript</a> -
+        Updated <time datetime="2016-04-21T11:23:59Z" title="Apr 21, 2016">Apr 21, 2016</time>
+      - 1 stars
+  </small>
+</div>
+
+
+    <div class="row"></div>
+    <br>
+    <p>
+      <i class="fa fa-question-circle"></i>
+      Something wrong with this page?
+      <a href="https://github.com/librariesio/libraries.io/issues/new">Make a suggestion</a>
+    </p>
+      <p>
+        <small class='text-muted'>Last synced: 2019-08-16 17:55:38 UTC</small>
+      </p>
+        <p>
+          <small class='text-muted'>
+            <a href="/login">Login</a> to resync this repository
+          </small>
+        </p>
+  </div>
+</div>
+
+  </div>
+  <footer data-ga-tracked-el='footer'>
+  <div class="container">
+    <div class='row'>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+          <p>
+            <a href="/">Libraries.io</a> helps you find new open source packages, modules and frameworks and keep track of ones you depend upon.
+          </p>
+          <p>
+            <a href="https://twitter.com/librariesio" title='Twitter'><i class="fa fa-twitter"></i></a>&nbsp;
+            <a href="https://github.com/librariesio" title='GitHub'><i class="fa fa-github"></i></a>&nbsp;
+            <a href="https://www.facebook.com/libraries.io" title='Facebook'><i class="fa fa-facebook"></i></a>&nbsp;
+            <a href="mailto:support@libraries.io" title='Email'><i class="fa fa-envelope"></i></a>&nbsp;
+            <a href="https://slack.libraries.io/" title='Slack'><i class="fa fa-slack"></i></a>&nbsp;
+            <a href="https://github.com/librariesio/libraries.io/issues/new" title='Support'><i class="fa fa-question-circle"></i></a>&nbsp;
+          </p>
+          <hr>
+          <p>
+            <a href="https://tidelift.com"><img width="160" src="https://libraries.io/assets/Tidelift_project_logo_white-3059b10519a99d09164236e6fd1dfa65f098a4f87ef59aa38333b5d4c69d1330.svg" /></a>
+          </p>
+          <p class='text-muted'>
+            Copyright © 2019 Tidelift, Inc<br>
+            Code is Open Source under <a href="https://github.com/librariesio/libraries.io/blob/master/LICENSE.txt">AGPLv3</a> license<br>
+            Data is available under <a href="https://libraries.io/data">CC-BY-SA 4.0</a> license
+          </p>
+      </div>
+      <div class="col-xs-12 col-md-2">
+        <strong><a href="/explore">Explore</a></strong>
+        <ul>
+          <li><a href="/platforms">Platforms</a></li>
+          <li><a href="/languages">Languages</a></li>
+          <li><a href="/licenses">Licenses</a></li>
+          <li><a href="/explore/help-wanted">Help Wanted</a></li>
+          <li><a href="/explore/first-pull-request">First Pull Request</a></li>
+          <li><a href="/explore/unlicensed-libraries">Unlicensed Packages</a></li>
+          <li><a href="/github/trending">Trending Repositories</a></li>
+        </ul>
+        <strong><a href="/experiments">Experiments</a></strong>
+        <ul>
+          <li><a href="/experiments/bus-factor">Bus Factor</a></li>
+          <li><a href="/experiments/digital-infrastructure">Digital Infrastructure</a></li>
+          <li><a href="/experiments/unseen-infrastructure">Unseen Infrastructure</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-md-2">
+        <ul class='list-unstyled'>
+          <li><strong><a href="/about">About</a></strong></li>
+          <li><strong><a href="/team">Team</a></strong></li>
+          <li><strong><a href="/terms">Terms and Conditions</a></strong></li>
+          <li><strong><a href="/privacy">Privacy Policy</a></strong></li>
+          <li><strong><a href="/api">API</a></strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script>
+    if (typeof ga === 'function') { ga('send', 'pageview', location.pathname+location.search) }
+  </script>
+</body>
+</html>

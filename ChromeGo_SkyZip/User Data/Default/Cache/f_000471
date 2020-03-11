@@ -1,0 +1,868 @@
+<!DOCTYPE HTML>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>libyuv rgb24 420p - 程序园</title>
+    <meta name="keywords" content="libyuv rgb24 420p" />
+    <meta name="description" content="libyuv rgb24 420p" />
+    <meta name="google-site-verification" content="eVo932LL8QghamZXYXdbvMxZcdr2v6nNXj2f7mfA1cw" />
+    
+    <link rel="shortcut icon" href="http://static02.voidcn.com/voidcn/favicon.ico" type="image/x-icon"/>
+    <link href="http://static02.voidcn.com/voidcn/css/pub.min.css?time=1550311720688" rel="stylesheet">
+    <link href="http://static02.voidcn.com/voidcn/css/application.min.css?time=1550311720688" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="http://static02.voidcn.com/voidcn/css/font-awesome.css?time=1550311720688" rel="stylesheet">
+    
+    <script src="http://static02.voidcn.com/voidcn/script/pub.js?time=1550311720688" type="text/javascript"></script>
+    <script src="http://static02.voidcn.com/voidcn/script/application.js?time=1550311720688" type="text/javascript"></script>
+    
+</head>
+
+<body>
+
+<div id="header" class="navbar-fixed-top">
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a href="http://www.voidcn.com/" class="brand">程序园</a>
+                <nav class="nav-collapse collapse">
+                    <ul class="nav navbar primary-nav">
+                        <li class="">
+                            <a href="http://www.voidcn.com/column">栏目</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/tag">标签</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/cata">分类</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/course">教程</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/code">代码</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-left" action="/gsearch">
+						<input type="text" class="search-query span2" name="q" placeholder="搜索">
+					</form>
+                    <ul class="nav pull-right">
+                        <li><a href="javascript:void()"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+
+<div class="span9 contant">
+    <div id="topic_head">
+        <div class="topic_head_logo">
+            <img class="round_img" src="http://static02.voidcn.com/voidcn/images/default/1.png" alt="libyuv rgb24 420p"/>
+        </div>
+        <div class="topic_head_name">
+            <span>libyuv rgb24 420p</span>
+            <div class="desc">libyuv rgb24 420p</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="javascript:void()">全部</a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="list_article" class="list_article home_list_article">
+    <div><div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页及栏目页广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="5171151513"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div></div>
+
+<div style="margin-top:10px;">
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/libyuv" title="libyuv"> <span class="new-label">libyuv</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/RGB24" title="RGB24"> <span class="new-label">RGB24</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/libyuv-dev" title="libyuv-dev"> <span class="new-label">libyuv-dev</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/libyuv+depot+tool" title="libyuv depot tool"> <span class="new-label">libyuv depot tool</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/yuv420%E8%BD%ACrgb24" title="yuv420转rgb24"> <span class="new-label">yuv420转rgb24</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/YUV422%E8%BD%ACRGB24" title="YUV422转RGB24"> <span class="new-label">YUV422转RGB24</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/RGB24+%E6%97%8B%E8%BD%AC" title="RGB24 旋转"> <span class="new-label">RGB24 旋转</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/tag/RGB565%E5%88%B0RGB24%E8%BD%AC%E6%8D%A2" title="RGB565到RGB24转换"> <span class="new-label">RGB565到RGB24转换</span></a>
+			<a class="side-relative-a" target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+</div>
+    
+	<style>
+		#searchService{
+			display:block;
+			float:left;
+			width:120px;
+			height:40px;
+			line-height:40px;
+			font-size:17px;
+		}
+		
+		#searchInput{
+			display:block;
+			float:left;
+			width:42%;
+			min-width:210px;
+		}
+		
+		.searchBtn{
+			display:block;
+			float:left;
+			margin-left:30px;
+			text-align:center;
+			width:80px;
+			height:40px;
+			line-height:40px;
+			background-color:#0aa284;
+			font-size:17px;
+			color: #fff;
+			border-top-left-radius: 4px;
+		    border-top-right-radius: 4px;
+		    border-bottom-right-radius: 4px;
+		    border-bottom-left-radius: 4px;
+		    cursor:pointer;
+		}
+		
+		.searchBtn:hover{
+			background-color:#0ab392;
+		}
+		
+		.searchDiv form{
+			margin : 0px;
+		}
+		
+		.searchDiv input{
+			margin: 0px;
+		}
+	</style>
+
+
+    <div style="margin-top: 10px;" class="searchDiv">
+    	
+    	<span id="searchService">
+    		更多相关搜索:
+    	</span>
+    
+    	<span id="searchInput">
+    		<form action="/gsearch" id="sform_one">
+            	<input type="text" style="height:30px;line-height:30px;width:98%;" class="sec-input" name="q" id="sinput_one" maxlength="100" autocomplete="off" value="libyuv rgb24 420p" placeholder="请输入关键词"/>
+            </form>
+        </span>
+        
+        <span id="sbtn_one" class="searchBtn">
+        	搜索
+        </span>
+    </div>
+    
+    <script>
+    	$("#sbtn_one").click(function(){
+	    	var query = $("#sinput_one").val();
+	    	if(query == null || query == ""){
+	    		return;
+	    	}
+	    	$("#sform_one").submit();
+	    });
+    </script>
+    
+    <div class="clear"></div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-zptlsdmf-bao.html" class="article-list-title" target="_blank" title="420p转RGB">420p转RGB</a>
+        </div>
+        <div class="tip">
+            <span>2016-10-19</span>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-gouikyss-nc.html" class="article-list-title" target="_blank" title="RGB565 to RGB24, RGB555 & RGB24">RGB565 to RGB24, RGB555 & RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2011-12-12</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/byte" title="byte"> <span class="new-label">byte</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/image" title="image"> <span class="new-label">image</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/c" title="c"> <span class="new-label">c</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-hoflkngj-bbw.html" class="article-list-title" target="_blank" title="RGB565 to RGB24, RGB555 & RGB24">RGB565 to RGB24, RGB555 & RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2011-10-09</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/byte" title="byte"> <span class="new-label">byte</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/image" title="image"> <span class="new-label">image</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/c" title="c"> <span class="new-label">c</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-newryiuz-bq.html" class="article-list-title" target="_blank" title="The Chromium Projects -- libyuv">The Chromium Projects -- libyuv</a>
+        </div>
+        <div class="tip">
+            <span>2013-01-17</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/depot+tool" title="depot tool"> <span class="new-label">depot tool</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-mxdqxdrc-tk.html" class="article-list-title" target="_blank" title="libyuv转换">libyuv转换</a>
+        </div>
+        <div class="tip">
+            <span>2016-12-10</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            <div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-hm-t-9-6v+mm"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="9612648871"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-atrhmmiv-sd.html" class="article-list-title" target="_blank" title="ffmpeg jpeg 转yuv422p(420p)">ffmpeg jpeg 转yuv422p(420p)</a>
+        </div>
+        <div class="tip">
+            <span>2014-03-12</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-rijarmfb-va.html" class="article-list-title" target="_blank" title="libyuv库的使用">libyuv库的使用</a>
+        </div>
+        <div class="tip">
+            <span>2015-12-16</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-edrcauqs-wn.html" class="article-list-title" target="_blank" title="yuv420sp-rgb24">yuv420sp-rgb24</a>
+        </div>
+        <div class="tip">
+            <span>2014-08-05</span>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-keczfvgh-cp.html" class="article-list-title" target="_blank" title="YUV 420P IOS中的呈现">YUV 420P IOS中的呈现</a>
+        </div>
+        <div class="tip">
+            <span>2014-02-25</span>
+				<a target='_blank' href="http://www.voidcn.com/column/ios
+" title="iOS"> <span class="new-label">iOS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-mvnwqnvs-yw.html" class="article-list-title" target="_blank" title="YUV 420P IOS中的呈现">YUV 420P IOS中的呈现</a>
+        </div>
+        <div class="tip">
+            <span>2014-06-06</span>
+				<a target='_blank' href="http://www.voidcn.com/column/ios
+" title="iOS"> <span class="new-label">iOS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-nbkytskh-ee.html" class="article-list-title" target="_blank" title="android libyuv库的使用">android libyuv库的使用</a>
+        </div>
+        <div class="tip">
+            <span>2016-09-22</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/libyuv" title="libyuv"> <span class="new-label">libyuv</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/android
+" title="Android"> <span class="new-label">Android</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-sucxsfgw-he.html" class="article-list-title" target="_blank" title="libyuv在windows下的编译。">libyuv在windows下的编译。</a>
+        </div>
+        <div class="tip">
+            <span>2013-11-26</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/libyuv+depot+tool" title="libyuv depot tool"> <span class="new-label">libyuv depot tool</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/windows
+" title="Windows"> <span class="new-label">Windows</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-puqcskxt-th.html" class="article-list-title" target="_blank" title="YV12转RGB24">YV12转RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2011-12-28</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/%E6%B5%8B%E8%AF%95" title="测试"> <span class="new-label">测试</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-sglcymim-xx.html" class="article-list-title" target="_blank" title="RGB16转换RGB24">RGB16转换RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2013-05-12</span>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-kfnjnfxt-um.html" class="article-list-title" target="_blank" title="RGB16转换RGB24">RGB16转换RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2012-11-13</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/RGB16" title="RGB16"> <span class="new-label">RGB16</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/RGB24" title="RGB24"> <span class="new-label">RGB24</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86" title="图像处理"> <span class="new-label">图像处理</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-alxlosot-bmd.html" class="article-list-title" target="_blank" title="RGB24转YUV420P">RGB24转YUV420P</a>
+        </div>
+        <div class="tip">
+            <span>2014-04-05</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/ffmpeg" title="ffmpeg"> <span class="new-label">ffmpeg</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/rgb" title="rgb"> <span class="new-label">rgb</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/c%2B%2B" title="c++"> <span class="new-label">c++</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/yuv" title="yuv"> <span class="new-label">yuv</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-ybkyfkfg-ys.html" class="article-list-title" target="_blank" title="RGB565,RGB24,YUV">RGB565,RGB24,YUV</a>
+        </div>
+        <div class="tip">
+            <span>2016-09-22</span>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-gkqvzvha-bao.html" class="article-list-title" target="_blank" title="YV12转RGB24">YV12转RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2016-10-19</span>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-ghfhriow-ua.html" class="article-list-title" target="_blank" title="Yuv12 轉 RGB24">Yuv12 轉 RGB24</a>
+        </div>
+        <div class="tip">
+            <span>2012-08-02</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/table" title="table"> <span class="new-label">table</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/byte" title="byte"> <span class="new-label">byte</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/filter" title="filter"> <span class="new-label">filter</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/windows" title="windows"> <span class="new-label">windows</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/mobile" title="mobile"> <span class="new-label">mobile</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/dll" title="dll"> <span class="new-label">dll</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+            
+
+    
+<div class="list_article_item">
+    <div class="article_thumb_image">
+    		<img src="http://static02.voidcn.com/voidcn/images/default_content_cover.jpg" />
+    </div>
+    <div class="aricle_item_info">
+        <div class="title">
+        		<a href="http://www.voidcn.com/article/p-zzexmmur-bhk.html" class="article-list-title" target="_blank" title="RGB24的缩放">RGB24的缩放</a>
+        </div>
+        <div class="tip">
+            <span>2011-07-11</span>
+					<a target='_blank' href="http://www.voidcn.com/tag/float" title="float"> <span class="new-label">float</span></a>
+					<a target='_blank' href="http://www.voidcn.com/tag/%E7%AE%97%E6%B3%95" title="算法"> <span class="new-label">算法</span></a>
+				<a target='_blank' href="http://www.voidcn.com/column/css
+" title="CSS"> <span class="new-label">CSS</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+
+
+    <div style="margin-top: 10px;" class="searchDiv">
+    	
+    	<span id="searchService">
+    		更多相关搜索:
+    	</span>
+    
+    	<span id="searchInput">
+    		<form action="/gsearch" id="sform_two">
+            	<input type="text" style="height:30px;line-height:30px;width:98%;" class="sec-input" name="q" id="sinput_two" maxlength="100" autocomplete="off" value="libyuv rgb24 420p" placeholder="请输入关键词"/>
+            </form>
+        </span>
+        
+        <span id="sbtn_two" class="searchBtn">
+        	搜索
+        </span>
+    </div>
+    
+    <script>
+    	$("#sbtn_two").click(function(){
+	    	var query = $("#sinput_two").val();
+	    	if(query == null || query == ""){
+	    		return;
+	    	}
+	    	$("#sform_two").submit();
+	    });
+    </script>
+    
+    <div class="clear"></div>
+
+    <div><div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页及栏目页广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="5171151513"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div></div>
+    </div>
+
+    <div class="margin-top-20"></div>
+    
+<div class="page-list">
+        <div id="page">
+            <a href="
+
+        
+        http://www.voidcn.com/search/ghdven
+
+
+"
+               class="extend" title="跳转到首页">«</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven
+
+
+"
+                       class="current">1</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-2.html
+
+
+">2</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-3.html
+
+
+">3</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-4.html
+
+
+">4</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-5.html
+
+
+">5</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-6.html
+
+
+">6</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-7.html
+
+
+">7</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-8.html
+
+
+">8</a>
+                    <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-9.html
+
+
+">9</a>
+            <a href="
+
+        
+        http://www.voidcn.com/search/ghdven/list-15.html
+
+
+"
+               title="跳转到尾页"> »</a>
+        </div>
+</div>
+
+    <div class="margin-top-20"></div>
+
+</div>
+<div class="span3">
+	<div class="right_top">
+	    <div id="right_site_articles" class="article_detail_bg">
+    <div class="article-part-title">
+        <span>每日一句</span>
+    </div>
+    <ul class="side_article_list">
+    	每一个你不满意的现在，都有一个你没有努力的曾经。
+    </ul>
+</div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 侧边栏 自适应 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="8798382113"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>    </div>
+    
+    <div class="operate_zone">
+<div id="right_site_articles" class="article_detail_bg margin-top10">
+    <div class="article-part-title">
+        <span><a href="/contact" target="_blank">本站公众号</a></span>
+    </div>
+    <div class="side_article_list user-head">
+    	<span style="color: #5ba607;font-size:14px;">&nbsp;&nbsp;&nbsp;欢迎关注本站公众号,获取更多程序园信息</span><br/>
+    	<img src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院" />
+    </div>
+</div>
+	<div id="right_site_articles">
+        <div class="article-part-title">
+            <span>相关搜索</span>
+        </div>
+	    <ul class="side_article_list">
+		    	<li class="side_article_list_item">1. <a href="http://www.voidcn.com/search/chfnwv" target="_blank" title="libyuv 420p"> libyuv 420p </a>
+	            </li>
+		    	<li class="side_article_list_item">2. <a href="http://www.voidcn.com/search/tyijxq" target="_blank" title="libyuv 420p转rgb"> libyuv 420p转rgb </a>
+	            </li>
+		    	<li class="side_article_list_item">3. <a href="http://www.voidcn.com/search/sukanz" target="_blank" title="biSizeImage mediaType RGB24"> biSizeImage mediaType RGB24 </a>
+	            </li>
+		    	<li class="side_article_list_item">4. <a href="http://www.voidcn.com/search/babihf" target="_blank" title="LibYuv"> LibYuv </a>
+	            </li>
+		    	<li class="side_article_list_item">5. <a href="http://www.voidcn.com/search/hnempb" target="_blank" title="libyuv"> libyuv </a>
+	            </li>
+		    	<li class="side_article_list_item">6. <a href="http://www.voidcn.com/search/hgekmz" target="_blank" title="libYUV"> libYUV </a>
+	            </li>
+		    	<li class="side_article_list_item">7. <a href="http://www.voidcn.com/search/ymdbyf" target="_blank" title="libyuv:"> libyuv: </a>
+	            </li>
+		    	<li class="side_article_list_item">8. <a href="http://www.voidcn.com/search/duprnv" target="_blank" title="Libyuv"> Libyuv </a>
+	            </li>
+		    	<li class="side_article_list_item">9. <a href="http://www.voidcn.com/search/xcoqla" target="_blank" title="android libyuv"> android libyuv </a>
+	            </li>
+		    	<li class="side_article_list_item">10. <a href="http://www.voidcn.com/search/qopsyr" target="_blank" title="libyuv linux"> libyuv linux </a>
+	            </li>
+		</ul>
+	</div>
+	</div>
+</div>    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner" style="padding-top: 50px;padding-bottom: 50px">
+        <a href="http://www.voidcn.com/contact" target="_blank">意见反馈</a>
+        <a href="http://www.voidcn.com/search">最近搜索</a>
+        <a href="http://www.voidcn.com/recent">最新文章</a>
+       	<script src="https://s4.cnzz.com/z_stat.php?id=1258680759&web_id=1258680759" language="JavaScript"></script>
+        <a href="http://cn.voidcc.com/" target="_blank">程序问答</a>
+        <a href="http://hk.voidcc.com/" target="_blank">程序問答</a>
+
+    </div>
+    <div style="display:none;">
+		<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?05fb07b91f60527211b85c9c9b431b73";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+		</script>
+	</div>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-77509369-1');
+    </script>
+</div>
+
+<script type="text/javascript" src="http://static02.voidcn.com/voidcn/script/tip.js?time=1550311720688" async></script>
+
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE HTML>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>librtmp发送AVC,AAC数据包 - 程序园</title>
+    <meta name="keywords" content="librtmp,发送,avc,aac,数据,包" />
+    <meta name="description" content="1. libRTMP的包结构   typedef struct RTMPPacket
+  {
+    uint8_t  m_headerType;   
+    uint8_t  m_packetType;
+    uint8_t  m_hasAbsTimestamp;	
+    int      m_nChannel;
+    uint32_t m_nTimeStamp;	
+    int32_" />
+    <meta name="google-site-verification" content="eVo932LL8QghamZXYXdbvMxZcdr2v6nNXj2f7mfA1cw" />
+    
+    <link rel="shortcut icon" href="http://static02.voidcn.com/voidcn/favicon.ico" type="image/x-icon"/>
+    <link href="http://static02.voidcn.com/voidcn/css/pub.min.css?time=1570180656227" rel="stylesheet">
+    <link href="http://static02.voidcn.com/voidcn/css/application.min.css?time=1570180656227" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="http://static02.voidcn.com/voidcn/css/font-awesome.css?time=1570180656227" rel="stylesheet">
+    
+    <script src="http://static02.voidcn.com/voidcn/script/pub.js?time=1570180656227" type="text/javascript"></script>
+    <script src="http://static02.voidcn.com/voidcn/script/application.js?time=1570180656227" type="text/javascript"></script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6208739752673518",
+                enable_page_level_ads: true
+        });
+    </script>
+    
+</head>
+
+<body>
+
+<div id="header" class="navbar-fixed-top">
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a href="http://www.voidcn.com/" class="brand">程序园</a>
+                <nav class="nav-collapse collapse">
+                    <ul class="nav navbar primary-nav">
+                        <li class="">
+                            <a href="http://www.voidcn.com/column">栏目</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/tag">标签</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/cata">分类</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/course">教程</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/code">代码</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-left" action="/gsearch">
+						<input type="text" class="search-query span2" name="q" placeholder="搜索">
+					</form>
+                    <ul class="nav pull-right">
+                        <li><a href="javascript:void()"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div><link href="http://static02.voidcn.com/voidcn/css/share.css?time=1570180656227" rel="stylesheet">
+<link href="http://static02.voidcn.com/voidcn/css/fontello.css?time=1570180656227" rel="stylesheet">
+
+<div class="container-fluid">
+	<div class="row-fluid article_row_fluid">
+
+<div class="span9 contant article_detail_bg">
+
+	<h1>librtmp发送AVC,AAC数据包</h1>
+	
+    <div class="article_meta">
+        <div style="margin-bottom: 2px;">
+    		<span class="timestamp">时间&nbsp;&nbsp;2016-01-21</span>
+        </div>
+
+			<div style="margin-bottom: 2px;">
+		            <span>标签</span>
+						<a target='_blank' href="http://www.voidcn.com/tag/rtmp" title="rtmp"> <span class="new-label">rtmp</span></a>
+						<a target='_blank' href="http://www.voidcn.com/tag/flv" title="flv"> <span class="new-label">flv</span></a>
+						<a target='_blank' href="http://www.voidcn.com/tag/librtmp" title="librtmp"> <span class="new-label">librtmp</span></a>
+						<a target='_blank' href="http://www.voidcn.com/tag/AAC" title="AAC"> <span class="new-label">AAC</span></a>
+						<a target='_blank' href="http://www.voidcn.com/tag/AVC" title="AVC"> <span class="new-label">AVC</span></a>
+	        </div>
+        
+	        <div>
+	        	<span class="source">
+	            	<i style="float:left;">原文</i>&nbsp;&nbsp;
+	            	<a id="originfo" class="cut cut70" href="javascript:void()" target="_blank" tyle="display:inline-block;" rel="nofollow">原文链接</a>
+	    		</span>
+	        </div>
+    </div>
+    <div class="article_body" id="nei">
+	    	<div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 正文顶部广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="8264218718"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+        <div>
+           <p>1. libRTMP的包结构</p> 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_1_7186759" name="code" class="cpp">  typedef struct RTMPPacket
+  {
+    uint8_t  m_headerType;   
+    uint8_t  m_packetType;
+    uint8_t  m_hasAbsTimestamp;	
+    int      m_nChannel;
+    uint32_t m_nTimeStamp;	
+    int32_t  m_nInfoField2;	
+    uint32_t m_nBodySize;
+    uint32_t m_nBytesRead;
+    RTMPChunk *m_chunk;
+    char    *m_body;
+  } RTMPPacket;</pre> 
+<br> packet-&gt;m_headerType： 可以定义如下： 
+<br> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_2_6805857" name="code" class="cpp">#define RTMP_PACKET_SIZE_LARGE    0
+#define RTMP_PACKET_SIZE_MEDIUM   1
+#define RTMP_PACKET_SIZE_SMALL    2
+#define RTMP_PACKET_SIZE_MINIMUM  3</pre>一般定位为 RTMP_PACKET_SIZE_MEDIUM 
+<br> 
+<br> packet-&gt;m_packetType： 音频、视频包类型 
+<br> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_3_3882899" name="code" class="cpp">#define RTMP_PACKET_TYPE_AUDIO    0x08
+#define RTMP_PACKET_TYPE_VIDEO    0x09
+#define RTMP_PACKET_TYPE_INFO     0x12 </pre>还有其他更多类型，但一般都是 音频或视频 
+<br> 
+<br> packet-&gt;m_hasAbsTimestamp： 是否使用绝对时间戳，一般定义为0。 
+<br> 
+<br> packet-&gt;m_nChannel：音视频通道号码，音视频不要写错， 
+<br> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_4_120908" name="code" class="cpp">#define STREAM_CHANNEL_METADATA  0x03
+#define STREAM_CHANNEL_VIDEO     0x04
+#define STREAM_CHANNEL_AUDIO     0x05</pre> 
+<br> packet-&gt;m_nTimeStamp：时间戳 
+<br> 一般视频时间戳可以从0开始计算，每帧时间戳 + 1000/fps (25fps每帧递增25；30fps递增33) 
+<br> 音频时间戳也可以从0开始计算，48K采样每帧递增21；44.1K采样每帧递增23。 
+<br> 
+<br> packet-&gt;m_nInfoField2 = rtmp-&gt;m_stream_id 
+<br> 
+<br> packet-&gt;m_nBodySize：数据包长度 = NALU包长度 + 包头长度 
+<br> 
+<br> packet-&gt;m_nBytesRead：不用管 
+<br> packet-&gt;m_chunk： 不用管 
+<br> packet-&gt;m_body：包头数据 + NALU数据，其长度为packet-&gt;m_nBodySize。 
+<br> 
+<p></p> 
+<p><br> </p> 
+<p>2. 发送视频SPS，PPS包<br> </p> 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_5_2770867" name="code" class="cpp">int rtmp_write_video_header(RTMP *rtmp) {
+    int size = 10 + 3 + sps_pps.sps_length + 3 + sps_pps.pps_length;
+
+    RTMPPacket packet;
+    RTMPPacket_Reset(&amp;packet);
+    RTMPPacket_Alloc(&amp;packet, size);
+    unsigned char *body = packet.m_body;
+
+    int i = 0;
+    body[i++] = 0x17;
+    body[i++] = 0x00;
+
+    body[i++] = 0x00;
+    body[i++] = 0x00;
+    body[i++] = 0x00;
+
+    //AVCDecoderConfigurationRecord
+    body[i++] = 0x01;
+    body[i++] = sps_pps.sps_data[1];
+    body[i++] = sps_pps.sps_data[2];
+    body[i++] = sps_pps.sps_data[3];
+    body[i++] = 0xFF;
+
+    //sps
+    body[i++] = 0xE1;
+    body[i++] = (sps_pps.sps_length &gt;&gt; 8) &amp; 0xFF;
+    body[i++] =  sps_pps.sps_length       &amp; 0xFF;
+    memcpy(&amp;body[i], sps_pps.sps_data, sps_pps.sps_length);  // 复制sps数据
+    i +=  sps_pps.sps_length;
+
+    // pps
+    body[i++] = 0x01;
+    body[i++] = (sps_pps.pps_length &gt;&gt; 8) &amp; 0xFF;
+    body[i++] =  sps_pps.pps_length       &amp; 0xFF;
+    memcpy(&amp;body[i], sps_pps.pps_data, sps_pps.pps_length);  // 复制pps数据
+    i +=  sps_pps.pps_length;
+
+    packet-&gt;m_headerType  = RTMP_PACKET_SIZE_MEDIUM;
+    packet-&gt;m_packetType = RTMP_PACKET_TYPE_VIDEO;
+    packet-&gt;m_hasAbsTimestamp = 0;
+    packet-&gt;m_nChannel   = STREAM_CHANNEL_VIDEO;
+    packet-&gt;m_nTimeStamp = 0;
+    packet-&gt;m_nInfoField2 = rtmp-&gt;m_stream_id;
+    packet-&gt;m_nBodySize  = size;
+
+    //调用发送接口
+    int nRet = RTMP_SendPacket(rtmp, packet, TRUE);
+    RTMPPacket_Free(&amp;packet);
+    return nRet;
+}</pre> 
+<p></p> 
+<p>在最开始发送一次即可。<br> <br> </p> 3. 发送视频数据包 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_6_3468978" name="code" class="cpp">&lt;pre name="code" class="cpp"&gt;int rtmp_write_video_frame(RTMP *rtmp, const BYTE *nalu_data, int slice_count, int nTimestamp){
+    int n;
+    int nRet =0;
+    int size = 0;
+    for(n=0; n&lt;slice_count; n++)
+        size += (slice[n].slice_length + 4);  // 每个slice数据前要加4字节的slice长度
+
+    size += 5;                                // 5字节头
+    RTMPPacket packet;
+    RTMPPacket_Reset(&amp;packet);
+    RTMPPacket_Alloc(&amp;packet, size);
+    unsigned char *body = packet.m_body;
+
+    // NALU size
+    int i=0;
+    body[0] = ((slice[0].slice_type&amp;0x1F) == 0x5) ? 0x17 : 0x27;
+    body[1] = 0x01;  // AVC NALU
+    body[2] = 0x00;
+    body[3] = 0x00;
+    body[4] = 0x00;
+    i=5;
+
+    //包体内存
+    packet.m_headerType  = RTMP_PACKET_SIZE_LARGE;
+    packet.m_packetType = RTMP_PACKET_TYPE_VIDEO;
+    packet.m_hasAbsTimestamp = 0;
+    packet.m_nChannel   = STREAM_CHANNEL_VIDEO;
+    packet.m_nTimeStamp = nTimestamp;
+    packet.m_nInfoField2 = rtmp-&gt;m_stream_id;
+    packet.m_nBodySize  = size;
+
+    for(n=0; n&lt;slice_count; n++) {
+        int len = slice[n].slice_length;
+        int_to_bytes(len, &amp;body[i], 4);
+        i+=4;
+        memcpy(&amp;body[i], nalu_data + slice[n].start_address, len);
+        i += len;
+    }
+
+    //发送
+    if (RTMP_IsConnected(rtmp)){
+        nRet = RTMP_SendPacket(rtmp, &amp;packet, TRUE); //TRUE为放进发送队列,FALSE是不放进发送队列,直接发送
+        if(nRet &lt;= 0) {
+            printf("RTMP_SendPacket Error\n");
+        }
+    }
+
+    //释放内存
+    RTMPPacket_Free(&amp;packet);
+    return nRet;
+}</pre> 
+<p></p> 
+<pre></pre> 
+<br> 4. 发送音频头包 
+<p></p> 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_7_2215242" name="code" class="cpp">int rtmp_write_audio_header(RTMP *rtmp){
+    RTMPPacket packet;
+    RTMPPacket_Reset(&amp;packet);
+    RTMPPacket_Alloc(&amp;packet, 4);
+
+    packet.m_body[0] = 0xAF;  // MP3 AAC format 48000Hz
+    packet.m_body[1] = 0x00;
+    packet.m_body[2] = 0x11;
+    packet.m_body[3] = 0x90;//0x10修改为0x90,2016-1-19
+
+    packet.m_headerType  = RTMP_PACKET_SIZE_MEDIUM;
+    packet.m_packetType = RTMP_PACKET_TYPE_AUDIO;
+    packet.m_hasAbsTimestamp = 0;
+    packet.m_nChannel   = STREAM_CHANNEL_AUDIO;
+    packet.m_nTimeStamp = 0;
+    packet.m_nInfoField2 = rtmp-&gt;m_stream_id;
+    packet.m_nBodySize  = 4;
+
+    //调用发送接口
+    int nRet = RTMP_SendPacket(rtmp, &amp;packet, TRUE);
+    RTMPPacket_Free(&amp;packet);//释放内存
+    return nRet;
+}</pre>在最开始发送一次即可。 
+<p></p> 
+<p><br> 5. 发送音频包</p> 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_8_3436741" name="code" class="cpp">int rtmp_write_audio_data(RTMP *rtmp, const BYTE *nalu_data, int nalu_size, int audio_TimeStamp){
+    //rtmp包结构
+    int size = nalu_size + 2;
+    RTMPPacket packet;
+    RTMPPacket_Reset(&amp;packet);
+    RTMPPacket_Alloc(&amp;packet, size);
+
+    int i=0;
+    // MP3 AAC format 48000Hz
+    packet.m_body[i++] = 0xAF;
+    packet.m_body[i++] = 0x01;
+    memcpy(&amp;packet.m_body[i], nalu_data, nalu_size);
+
+    packet.m_headerType  = RTMP_PACKET_SIZE_MEDIUM;
+    packet.m_packetType = RTMP_PACKET_TYPE_AUDIO;
+    packet.m_hasAbsTimestamp = 0;
+    packet.m_nChannel   = STREAM_CHANNEL_AUDIO;
+    packet.m_nTimeStamp = audio_TimeStamp;
+    packet.m_nInfoField2 = rtmp-&gt;m_stream_id;
+    packet.m_nBodySize  = size;
+
+    //调用发送接口
+    int nRet = RTMP_SendPacket(rtmp, &amp;packet, TRUE);
+    RTMPPacket_Free(&amp;packet);//释放内存
+    return nRet;
+}</pre> 
+<br> 6. 本地存储packet 
+<p></p> 
+<p></p> 
+<pre code_snippet_id="1560894" snippet_file_name="blog_20160121_9_8769678" name="code" class="cpp">int RTMP_SendPacket_wrap(RTMP_ *rtmp, RTMPPacket *packet, int queue){
+#if OUTPUT_FLV
+    uint8_t data[] = {0x09,
+        0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00 };
+    if(packet-&gt;m_packetType == RTMP_PACKET_TYPE_VIDEO){
+        data[0] = 0x09;
+    } else if(packet-&gt;m_packetType == RTMP_PACKET_TYPE_AUDIO){
+        data[0] = 0x08;
+    }
+    int len = 0;
+    int_to_bytes(packet-&gt;m_nBodySize,  &amp;data[1], 3);  // 3字节 包内容长度
+    int_to_bytes(packet-&gt;m_nTimeStamp, &amp;data[4], 3);  // 3字节 时间戳，没用第4字节，太长的文件会溢出
+    len += fwrite(data, 1, 11, flv_fp);               // 写入包头11字节
+    len += fwrite(packet-&gt;m_body, 1, packet-&gt;m_nBodySize, flv_fp); // 写入数据包体
+    int_to_bytes(len, &amp;data[0], 4);                   // 写入的总字节长度
+    fwrite(data, 1, 4, flv_fp);                       // 等于前Tag总长度
+#endif
+    return RTMP_SendPacket(rtmp, packet, queue);
+}</pre>
+        </div>
+            <div class="margin-top-20"></div>
+        	<div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 正文底部广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="9020893119"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+    </div>
+		<div>
+	    	<div class="relative">相关文章</div>
+	    	<ul class="relative_list">
+		                <li>
+		                    1. <a href="http://www.voidcn.com/article/p-qyxajqiu-gn.html" target="_blank" title="librtmp发送AVC,AAC数据包"> librtmp发送AVC,AAC数据包 </a>
+		                </li>
+		                <li>
+		                    2. <a href="http://www.voidcn.com/article/p-dllbwjvd-yz.html" target="_blank" title="使用librtmp推送AVC数据"> 使用librtmp推送AVC数据 </a>
+		                </li>
+		                <li>
+		                    3. <a href="http://www.voidcn.com/article/p-pdlkslpo-bew.html" target="_blank" title="通过LIBRTMP发送H264和AAC"> 通过LIBRTMP发送H264和AAC </a>
+		                </li>
+		                <li>
+		                    4. <a href="http://www.voidcn.com/article/p-osjpqxjc-beu.html" target="_blank" title="AVC和AAC"> AVC和AAC </a>
+		                </li>
+		                <li>
+		                    5. <a href="http://www.voidcn.com/article/p-nliyeopz-bmd.html" target="_blank" title="librtmp发送阻塞"> librtmp发送阻塞 </a>
+		                </li>
+		                <li>
+		                    6. <a href="http://www.voidcn.com/article/p-rqonjfid-bgv.html" target="_blank" title="利用LIBRTMP直播时 更改发送数据的包大小"> 利用LIBRTMP直播时 更改发送数据的包大小 </a>
+		                </li>
+		                <li>
+		                    7. <a href="http://www.voidcn.com/article/p-gnqhylrt-nh.html" target="_blank" title="发送数据包："> 发送数据包： </a>
+		                </li>
+		                <li>
+		                    8. <a href="http://www.voidcn.com/article/p-whvmbual-sk.html" target="_blank" title="发送数据包"> 发送数据包 </a>
+		                </li>
+		                <li>
+		                    9. <a href="http://www.voidcn.com/article/p-hnlennlz-bqe.html" target="_blank" title="android librtmp 推送h264流 aac流 基本过程总结一 移植librtmp"> android librtmp 推送h264流 aac流 基本过程总结一 移植librtmp </a>
+		                </li>
+		                <li>
+		                    10. <a href="http://www.voidcn.com/article/p-roajvokx-bcx.html" target="_blank" title="数据包的发送"> 数据包的发送 </a>
+		                </li>
+	            <li><a href='http://www.voidcn.com/relative/p-qpqvvbew-bhq.html' target='_blank' title="librtmp发送AVC,AAC数据包 的相关文章"> 更多相关文章...</a></li>
+	        </ul>
+
+                <div class="margin-top-20"></div>
+                <div>
+                    <div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="3534271784"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+                </div>
+            <div class="margin-top-20"></div>
+
+	        <div class="relative">相关标签/搜索</div>
+	        <ul>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/AAC+H264+LIBRTMP" title="AAC H264 LIBRTMP"> <span class="new-label">AAC H264 LIBRTMP</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85" title="发送数据包"> <span class="new-label">发送数据包</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%8F%91%E9%80%81" title="数据包发送"> <span class="new-label">数据包发送</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/librtmp%E6%8E%A8%E9%80%81%E6%92%AD" title="librtmp推送播"> <span class="new-label">librtmp推送播</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE" title="发送数据"> <span class="new-label">发送数据</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%95%B0%E6%8D%AE%E5%8F%91%E9%80%81" title="数据发送"> <span class="new-label">数据发送</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%8F%91%E9%80%81%E6%B5%81%E7%A8%8B" title="数据包发送流程"> <span class="new-label">数据包发送流程</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/AVC" title="AVC"> <span class="new-label">AVC</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/librtmp" title="librtmp"> <span class="new-label">librtmp</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/TCP%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE" title="TCP发送数据"> <span class="new-label">TCP发送数据</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/2314313" title="librtmp"> <span class="new-label">librtmp</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/6473400" title="librtmp"> <span class="new-label">librtmp</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/7162971" title="librtmp"> <span class="new-label">librtmp</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1776037" title="libRTMP"> <span class="new-label">libRTMP</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1230667" title="AVC"> <span class="new-label">AVC</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/2924305" title="aac"> <span class="new-label">aac</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1116319" title="aac"> <span class="new-label">aac</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/6062793" title="aac"> <span class="new-label">aac</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/6768953" title="AAC"> <span class="new-label">AAC</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/6877460" title="AAC"> <span class="new-label">AAC</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/vsykgh"><span class="new-label">c#数据拆包发送</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/azhzce"><span class="new-label">使用librtmp发布AAC</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/rjjfcc"><span class="new-label">librtmp h264 aac</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/vdyhjz"><span class="new-label">flash librtmp AAC</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/nvsikv"><span class="new-label">nanohttpd 发送数据</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/ocncrg"><span class="new-label">NanoHTTPD发送数据</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/mofcmj"><span class="new-label">stm32uart1发送数据</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/bieiph"><span class="new-label">QRunnable 发送 数据</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/pbayso"><span class="new-label">librtmp h264 发送 关键帧</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/kemtik"><span class="new-label">librtmp 发送 关键帧</span></a>
+	        </ul>
+	    </div>
+    
+    <div class="article_social">
+        <div class="article_like">
+            <div class="circle circle-like" id="my_zan" data_id="eEvIVb6"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="share">
+			<span class="share-left bdsharebuttonbox" data-tag="share_1">
+				<a href="#" class="bds_more icon-share" data-cmd="more">
+					<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>
+				</a>
+			</span>
+			<div class="share-right action action-share bdsharebuttonbox" data-tag="share_1">
+				<span class="bdshare">
+					<a href="#" class="bds_sinaweibo icon-weibo" data-cmd="tsina" title="分享到新浪微博">分享到微博</a>
+					<a href="#" class="bds_weixin icon-wechat" data-cmd="weixin" title="分享到微信">分享到微信</a>
+					<a href="#" class="bds_qq icon-qq" data-cmd="sqq" title="分享到QQ好友">分享到QQ</a>
+				</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+    <div class="bottom_plink huodong-detail-plink-banner clearfix">
+        </div>
+    </div>
+
+
+
+	<script>
+		$(function () {
+		    $("#originfo").text("http://blog.csdn.net/huibailingyu/article/details/50554315");
+		    $("#originfo").hover(function(){
+		        $("#originfo").attr("href" , "/link?url=http://blog.csdn.net/huibailingyu/article/details/50554315");
+			},function(){
+		        $("#originfo").attr("href" , "javascript:void()");
+			});
+		});
+	</script>
+	
+    <script src="http://static02.voidcn.com/voidcn/script/article.js?time=1570180656227" type="text/javascript"></script>
+
+</div>
+<div class="span3 article_right_side">
+    <div class="right_top">
+    	<div id="right_site_articles" class="article_detail_bg">
+    <div class="article-part-title">
+        <span>每日一句</span>
+    </div>
+    <ul class="side_article_list">
+    	每一个你不满意的现在，都有一个你没有努力的曾经。
+    </ul>
+</div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 侧边栏 自适应 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="8798382113"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>最新文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.voidcn.com/article/p-ctuwjdpj-byz.html" target="_blank"
+	                       title="LeetCode.1207-唯一的元素出现次数(Unique Number of Occurrences)"> LeetCode.1207-唯一的元素出现次数(Unique Number of Occurrences) </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.voidcn.com/article/p-hkqdkhny-byz.html" target="_blank"
+	                       title="每天3分钟操作系统修炼秘籍（2）：并行的假象和分时系统"> 每天3分钟操作系统修炼秘籍（2）：并行的假象和分时系统 </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.voidcn.com/article/p-ohsvmqqe-byz.html" target="_blank"
+	                       title="PHP 日历函数手册"> PHP 日历函数手册 </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.voidcn.com/article/p-ygvyisiz-byz.html" target="_blank"
+	                       title="新人报到~~~不知道写什么。先分享一个登录页面。"> 新人报到~~~不知道写什么。先分享一个登录页面。 </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.voidcn.com/article/p-dankyzdn-byz.html" target="_blank"
+	                       title="JS多线程WebWorker"> JS多线程WebWorker </a>
+	                </li>
+	                <li class="side_article_list_item">6.
+	                    <a href="http://www.voidcn.com/article/p-advbwfwv-byz.html" target="_blank"
+	                       title="How to Use Convolutional Neural Networks for Time Series Classification"> How to Use Convolutional Neural Networks for Time Series Classification </a>
+	                </li>
+	                <li class="side_article_list_item">7.
+	                    <a href="http://www.voidcn.com/article/p-xdvmvqle-byz.html" target="_blank"
+	                       title="社交网络分析与挖掘 第六课：网页排序"> 社交网络分析与挖掘 第六课：网页排序 </a>
+	                </li>
+	                <li class="side_article_list_item">8.
+	                    <a href="http://www.voidcn.com/article/p-ztavzaix-byz.html" target="_blank"
+	                       title="关于用户在输入url以后，浏览器都做了什么的分析"> 关于用户在输入url以后，浏览器都做了什么的分析 </a>
+	                </li>
+	                <li class="side_article_list_item">9.
+	                    <a href="http://www.voidcn.com/article/p-kburwoqw-byz.html" target="_blank"
+	                       title="微信小程序文件预览源码（实用--打开pdf）"> 微信小程序文件预览源码（实用--打开pdf） </a>
+	                </li>
+	                <li class="side_article_list_item">10.
+	                    <a href="http://www.voidcn.com/article/p-pazuhqzs-byz.html" target="_blank"
+	                       title="minio白皮书"> minio白皮书 </a>
+	                </li>
+        </ul>
+        
+        
+    </div>
+
+    </div>
+
+    <div class="operate_zone">
+<div id="right_site_articles" class="article_detail_bg margin-top10">
+    <div class="article-part-title">
+        <span><a href="/contact" target="_blank">本站公众号</a></span>
+    </div>
+    <div class="side_article_list user-head">
+    	<span style="color: #5ba607;font-size:14px;">&nbsp;&nbsp;&nbsp;欢迎关注本站公众号,获取更多程序园信息</span><br/>
+    	<img src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院" />
+    </div>
+</div>
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>相关文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.voidcn.com/article/p-qyxajqiu-gn.html" target="_blank"
+	                       title="librtmp发送AVC,AAC数据包"> librtmp发送AVC,AAC数据包 </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.voidcn.com/article/p-dllbwjvd-yz.html" target="_blank"
+	                       title="使用librtmp推送AVC数据"> 使用librtmp推送AVC数据 </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.voidcn.com/article/p-pdlkslpo-bew.html" target="_blank"
+	                       title="通过LIBRTMP发送H264和AAC"> 通过LIBRTMP发送H264和AAC </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.voidcn.com/article/p-osjpqxjc-beu.html" target="_blank"
+	                       title="AVC和AAC"> AVC和AAC </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.voidcn.com/article/p-nliyeopz-bmd.html" target="_blank"
+	                       title="librtmp发送阻塞"> librtmp发送阻塞 </a>
+	                </li>
+	                <li class="side_article_list_item">6.
+	                    <a href="http://www.voidcn.com/article/p-rqonjfid-bgv.html" target="_blank"
+	                       title="利用LIBRTMP直播时 更改发送数据的包大小"> 利用LIBRTMP直播时 更改发送数据的包大小 </a>
+	                </li>
+	                <li class="side_article_list_item">7.
+	                    <a href="http://www.voidcn.com/article/p-gnqhylrt-nh.html" target="_blank"
+	                       title="发送数据包："> 发送数据包： </a>
+	                </li>
+	                <li class="side_article_list_item">8.
+	                    <a href="http://www.voidcn.com/article/p-whvmbual-sk.html" target="_blank"
+	                       title="发送数据包"> 发送数据包 </a>
+	                </li>
+	                <li class="side_article_list_item">9.
+	                    <a href="http://www.voidcn.com/article/p-hnlennlz-bqe.html" target="_blank"
+	                       title="android librtmp 推送h264流 aac流 基本过程总结一 移植librtmp"> android librtmp 推送h264流 aac流 基本过程总结一 移植librtmp </a>
+	                </li>
+	                <li class="side_article_list_item">10.
+	                    <a href="http://www.voidcn.com/article/p-roajvokx-bcx.html" target="_blank"
+	                       title="数据包的发送"> 数据包的发送 </a>
+	                </li>
+        </ul>
+        
+        	<div style='padding-left:10px;font-size:14px;padding-bottom:10px;'>
+        		<a href='http://www.voidcn.com/relative/p-qpqvvbew-bhq.html' target='_blank' title="librtmp发送AVC,AAC数据包 的相关文章"> >>更多相关文章<< </a>
+    		</div>
+        
+    </div>
+
+    </div>
+</div>
+
+	</div>
+
+	<script type="text/javascript">
+        $('table').each(function (i) {
+            var size = $(this).children().size();
+            if (size > 1) {
+                $(this).attr('class', "table table-bordered");
+            } else if (size == 1) {
+                var e11 = $(this).children(":first");
+                var e1 = e11[0];
+                var name = e1.nodeName.toLowerCase();
+                if ("tbody" == name) {
+                    if (e1.children.length > 1) {
+                        $(this).attr('class', "table table-bordered");
+                    } else if (e1.children.length == 1) {
+                        var e12 = e1.children[0];
+                        var name2 = e12.nodeName.toLowerCase();
+                        if ("tr" == name2) {
+                            if (e12.children.length > 1) {
+                                $(this).attr('class', "table table-bordered");
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        window.page = 0;
+        window.last = 0;
+        window.first = true;
+        resize_article_image('#nei', 550);
+        
+        
+        
+		+ (function($){
+			window._bd_share_config = {
+				common: {
+					"bdText": "【" + $("title").text() + "】" + $(".post-content p:lt(2)").text(),
+					"bdMini": "2",
+					"bdMiniList": false,
+					"bdPic": $(".post-content img:first") ? $(".post-content img:first").attr("src") : "",
+					"bdStyle": "0",
+					"bdSize": "24"
+				},
+				share: [{
+					bdCustomStyle: 'http://static02.voidcn.com/voidcn/css/share.css'
+				}],
+			};
+			with(document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=" + ~ ( - new Date() / 36e5)];
+		})(window.jQuery);
+    </script>
+</div>
+<script type="text/javascript" src="http://static02.voidcn.com/voidcn/plugin/highlight/highlight.pack.js"></script>
+<link href="http://static02.voidcn.com/voidcn/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="footer">
+    <div class="footer-inner" style="padding-top: 50px;padding-bottom: 50px">
+        <a href="http://www.voidcn.com/contact" target="_blank">意见反馈</a>
+        <a href="http://www.voidcn.com/search">最近搜索</a>
+        <a href="http://www.voidcn.com/recent">最新文章</a>
+       	<script src="https://s4.cnzz.com/z_stat.php?id=1258680759&web_id=1258680759" language="JavaScript"></script>
+
+            <a href="http://www.voidme.com/" target="_blank">小白教程</a>
+            <a href="http://cn.voidcc.com/" target="_blank">程序问答</a>
+            <a href="http://hk.voidcc.com/" target="_blank">程序問答</a>
+            <a href="http://ja.voidcc.com/" target="_blank">プログラムの質問と回答</a>
+            <a href="http://ko.voidcc.com/" target="_blank">프로그램 질문 및 답변 </a>
+
+
+       		<div style="display:none;"><script src="https://s4.cnzz.com/z_stat.php?id=1261868352&web_id=1261868352" language="JavaScript"></script></div>
+    </div>
+    <div style="display:none;">
+		<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?05fb07b91f60527211b85c9c9b431b73";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+		</script>
+	</div>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-77509369-1');
+    </script>
+</div>
+
+<script type="text/javascript" src="http://static02.voidcn.com/voidcn/script/tip.js?time=1570180656227" async></script>
+
+</body>
+</html>

@@ -1,0 +1,434 @@
+﻿
+$(document).ready(function () {
+    $("#TBComment").focus(function () {
+        if ($(this).val().trim() == "期待你的评论...") {
+            $(this).val("");
+            $(this).removeClass("colorgray");
+        }
+    });
+    $("#TBComment").blur(function () {
+        if ($(this).val().trim() == "") {
+            $(this).val("期待你的评论...");
+            $(this).addClass("colorgray");
+        }
+    });
+
+
+    $(".detail>.detailcon>.vote>.votecon>ul>li>.optionradio").click(function () {
+        if ($(this).hasClass("after") || $(this).hasClass("out") || $(this).hasClass("active")) { return false; }
+        $(this).parents("ul").children("li").children(".optionradio").removeClass("active");
+        $(this).addClass("active");
+
+        var Stu = true;
+        $(".votecon>ul").each(function () {
+            if ($(this).children("li").children(".active").length < 1) { Stu = false; return false; }
+        });
+        if (Stu) { $(".btnvote").addClass("active"); }
+
+    });
+
+    $(".detail>.detailcon>.vote>.votecon>ul>li>.optioncheck").click(function () {
+        if ($(this).hasClass("after") || $(this).hasClass("out") || $(this).hasClass("active")) { return false; }
+        $(this).parents("ul").children("li").children(".optionradio").removeClass("active");
+        $(this).addClass("active");
+
+        var Stu = true;
+        $(".votecon>ul").each(function () {
+            if ($(this).children("li").children(".active").length < 1) { Stu = false; return false; }
+        });
+        if (Stu) { $(".btnvote").addClass("active"); }
+    });
+
+    if ($(".artlist").length > 0&&$(".artlist>li").length==0) {
+        $(".artlist").parent().append("<span class=\"nodata\">暂无相关内容！</span>");
+    }
+
+    if (typeof (_ArtFrom) != "undefined" && _ArtFrom && _ArtFrom == "FromCSDN") {
+        $("head").append("<link href=\"/CX_CSDN/content_toolbar.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_CSDN/markdown_views-258a4616f7.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_CSDN/ck_htmledit_views-f57960eb32.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_CSDN/CX_CSDN.css\" rel=\"stylesheet\"/>");
+        $(".list-paddingleft-2 li p").css("padding", "0px");//防止数字列表 水平无法对其问题
+    }
+    else if (typeof (_ArtFrom) != "undefined" && _ArtFrom && _ArtFrom == "FromJianshu") {
+        $("head").append("<link href=\"/CX_Jianshu/entry-aa75deb505b1b600256a.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_Jianshu/web-08da6f1d2a1b70a3f58e.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_Jianshu/CX_JS.css\" rel=\"stylesheet\"/>");
+    }
+    else if (typeof (_ArtFrom) != "undefined" && _ArtFrom && _ArtFrom == "FromCnblogs") {
+        $("head").append("<link href=\"/CX_Cnblogs/CX_Cnblogs.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_Cnblogs/blog-common.css\" rel=\"stylesheet\"/>");
+    }
+    else if (typeof (_ArtFrom) != "undefined" && _ArtFrom && _ArtFrom == "FromOSChina") {
+        $("head").append("<link href=\"/CX_OSChina/space.f5c12dec.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_OSChina/CX_OSChina.css\" rel=\"stylesheet\"/>");
+    }
+    else if (typeof (_ArtFrom) != "undefined" && _ArtFrom == "From51CTO") {
+        $("head").append("<link href=\"/CX_51CTO/article_layout.css\" rel=\"stylesheet\"/>");
+    }
+    else if (typeof (_ArtFrom) != "undefined" && _ArtFrom == "FromJB51") {
+        $("head").append("<link href=\"/CX_JB51/common.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_JB51/shCore.css\" rel=\"stylesheet\"/>");
+        $("head").append("<link href=\"/CX_JB51/shThemeDefault.css\" rel=\"stylesheet\"/>");
+    }
+
+});
+
+function UserArtOperation(ArtID,OperType,OperStu,obj)
+{    
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/UserArtOperation",
+        data: {
+            ArtID: ArtID,
+            OperType: OperType,
+            OperStu: OperStu
+        },
+        success: function (data) {
+            switch (data) {
+                case "success":
+                    if (OperStu == "add") {
+                        $(obj).addClass("active"); $(obj).html(parseInt($(obj).html()) + 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserArtOperation(ArtID, OperType, 'cancel', obj); });
+
+                    }
+                    else if (OperStu == "cancel") {
+                        $(obj).removeClass("active"); $(obj).html(parseInt($(obj).html()) - 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserArtOperation(ArtID, OperType, 'add', obj); });
+                    }
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("操作失败！", 5, 1000); return; break;
+                default: showMess("操作失败！", 5, 1000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function UserArtReplyOperation(ReplyID, OperType, OperStu, obj)
+{
+
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/UserArtReplyOperation",
+        data: {
+            ReplyID: ReplyID,
+            OperType: OperType,
+            OperStu: OperStu
+        },
+        success: function (data) {
+            switch (data) {
+                case "success":
+                    if (OperStu == "add") {
+                        $(obj).addClass("active"); $(obj).html(parseInt($(obj).html()) + 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserArtReplyOperation(ReplyID, OperType, 'cancel', obj); });
+                    }
+                    else if (OperStu == "cancel") {
+                        $(obj).removeClass("active"); $(obj).html(parseInt($(obj).html()) - 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserArtReplyOperation(ReplyID, OperType, 'add', obj); });
+                    }
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("操作失败！", 5, 1000); return; break;
+                default: showMess("操作失败！", 5, 1000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function SubmitCommentByArt(ArtID)
+{
+    if ($("#TBComment").hasClass("colorgray")) { showMess("请输入您的评论！", 5, 1000); return; }
+
+    var Comcon = $("#TBComment").val();
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/SubmitCommentByArt",
+        data: {
+            ArtID: ArtID,
+            Commcon: Comcon
+        },
+        success: function (data) {
+            data = eval("(" + data + ")");
+            switch (data.Stu) {
+                case "success":
+                    $("#NewComments ul").prepend(data.ObjStr); $("#TBComment").val(""); showMess("评论发表成功！", 6, 2000);
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("操作失败！", 5, 2000); return; break;
+                default: showMess("操作失败！", 5, 2000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function ShowReply2Con(ReplyID,ToUserNickName,obj)
+{
+    if ($(obj).parents(".comlike").siblings(".replymcon2").children().length <= 0) {
+        var replyconstr = "<div>";
+        replyconstr += "<textarea onfocus=\"Reply2conFocus(this)\" onblur=\"Reply2conBlur(this)\" class=\"colorgray\" title=\"回复@" + ToUserNickName + "\">回复@" + ToUserNickName + "</textarea>";
+        replyconstr += "<span class=\"btn right\" onclick=\"SubmitComment2ByReplyID('" + ReplyID + "',this)\">评论</span>";
+        replyconstr += "</div>";
+        $(obj).parents(".comlike").siblings(".replymcon2").html(replyconstr);
+    }
+
+    if ($(obj).parents(".comlike").siblings(".replymcon2").hasClass("hide")) {
+        $(obj).parents(".comlike").siblings(".replymcon2").removeClass("hide");
+    }
+    else
+    {
+        $(obj).parents(".comlike").siblings(".replymcon2").addClass("hide");
+    }
+}
+
+function ShowReply2List(obj)
+{
+    if ($(obj).html().indexOf("查看") >= 0) {
+        $(obj).siblings(".replycom2items").children(".ritem").removeClass("hide");
+        $(obj).html($(obj).html().replace("查看","隐藏"));
+    }
+    else 
+    {
+        $(obj).siblings(".replycom2items").children(".ritem:gt(1)").addClass("hide");
+        $(obj).html($(obj).html().replace("隐藏", "查看"));
+    }
+}
+
+function Reply2conFocus(obj)
+{
+    if ($(obj).hasClass("colorgray")) { $(obj).removeClass("colorgray"); $(obj).val(""); }
+}
+
+function Reply2conBlur(obj)
+{
+    if ($(obj).val() == "") {
+        $(obj).addClass("colorgray");
+        $(obj).val($(obj).attr("title"));
+    }
+}
+
+function SubmitComment2ByReplyID(ReplyID,obj) {
+    if ($(obj).siblings("textarea").hasClass("colorgray")) { showMess("请输入评论内容！", 5, 1000); return; }
+
+    var Comcon = $(obj).siblings("textarea").val();
+    if (Comcon=="") { showMess("请输入评论内容！", 5, 1000); return; }
+
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/SubmitComment2ByReplyID",
+        data: {
+            ReplyID: ReplyID,
+            T:"Art",
+            Commcon: Comcon
+        },
+        success: function (data) {
+            data = eval("(" + data + ")");
+            switch (data.Stu) {
+                case "success":
+                    $(obj).parents(".replymcon2").siblings(".replycom2items").prepend(data.ObjStr);
+                    $(obj).siblings("textarea").val("");
+                    showMess("评论发表成功！", 6, 2000);
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("操作失败！", 5, 2000); return; break;
+                default: showMess("操作失败！", 5, 2000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function UserReply2Like(ReplyID, OperStu, obj) {
+
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/UserReply2Like",
+        data: {
+            ReplyID: ReplyID,
+            OperType: "Art",
+            OperStu: OperStu
+        },
+        success: function (data) {
+            switch (data) {
+                case "success":
+                    if (OperStu == "add") {
+                        $(obj).addClass("active"); $(obj).html(parseInt($(obj).html()) + 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserReply2Like(ReplyID, 'cancel', obj); });
+
+                    }
+                    else if (OperStu == "cancel") {
+                        $(obj).removeClass("active"); $(obj).html(parseInt($(obj).html()) - 1);
+                        $(obj).attr('onclick', '').unbind('click').click(function () { UserReply2Like(ReplyID, 'add', obj); });
+                    }
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("操作失败！", 5, 1000); return; break;
+                default: showMess("操作失败！", 5, 1000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function UserVote(Url)
+{
+    var Stu = true;
+    $(".votecon>ul").each(function () {
+        if ($(this).children("li").children(".active").length < 1) {  Stu = false; return false; }
+    });
+    if (!Stu) { return; }
+
+    var VoteStr = "";
+
+    $(".votecon>ul>li>.optionradio.active,.votecon>ul>li>.optioncheck.active").each(function () {
+        VoteStr += $(this).attr("id") + "#";
+    });
+
+    if (VoteStr == "") { showMess("请选择您的投票！", 5, 2000); return; }
+
+
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/UserVote",
+        data: {
+            VoteStr: VoteStr
+        },
+        success: function (data) {
+            data = eval("(" + data + ")");
+            switch (data.Stu) {
+                case "success":
+                    showMess("投票成功！", 6, 1200);
+                    setTimeout(function () { window.location.href = Url; }, 1500);
+                    break;
+                case "after":
+                    showMess("你已投过票！", 6, 1200);
+                    setTimeout(function () { window.location.href = Url; }, 1500);
+                    break;
+                case "timeout": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } return; break;
+                case "error": showMess("投票失败！", 5, 2000); return; break;
+                default: showMess("操作失败！", 5, 2000); return; break;
+            }
+        },
+        error: function (a, b, c) {
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+
+}
+
+function ShowAdve(ID, URL) {
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/SaveAdveShowInfo",
+        data: {
+            ID: ID
+        },
+        success: function (data) {
+        },
+        error: function (a, b, c) {
+        }
+    });
+}
+
+function FileDownLoad(ArtID, obj) {
+    var UserID = getUserInfo("UserID");
+    if (UserID == "" || isNaN(UserID) || UserID == undefined) {
+        if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); }
+        return;
+    }
+    var LoadTimer = setTimeout(function () { showLoading("请求中..."); }, 1000);
+    $.ajax({
+        type: "POST",
+        url: "/Ajax/CheckFileDownLoad",
+        data: {
+            ArtID: ArtID
+        },
+        success: function (data) {
+            clearTimeout(LoadTimer);
+            layer.closeAll();
+            switch (data) {
+                case "-1": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } break;
+                case "-2": showMess("资源已被作者删除！", 5, 2000); break;
+                case "-3": showMess("当前积分不够下载该文件！", 5, 2000); break;
+                case "1":
+                    window.location.href="/Ajax/ResourceDownLoad?ArtID=" + ArtID;
+                    break;
+            }
+        },
+        error: function (a, b, c) {
+            clearTimeout(LoadTimer);
+            layer.closeAll();
+            showMess("操作失败" + c, 5, 1000); return;
+        }
+    });
+}
+
+function FileOpend(ArtID, obj) {
+    if ($(".downloadbtn.blue").length == 0) {
+        var UserID = getUserInfo("UserID");
+        if (UserID == "" || isNaN(UserID) || UserID == undefined) {
+            if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); }
+            return;
+        }
+        var LoadTimer = setTimeout(function () { showLoading("请求中..."); }, 1000);
+        $.ajax({
+            type: "POST",
+            url: "/Ajax/CheckFileOpen",
+            data: { ArtID: ArtID },
+            success: function (data) {
+                clearTimeout(LoadTimer);
+                layer.closeAll();
+                if (data == "") { showMess("资源文件有误！", 5, 2000); return; }
+                data = eval("(" + data + ")");
+                switch (data["Stu"]) {
+                    case "-1": if (IsWechat()) { GetWeChatUserInfo(); } else { ShowLoginWind(); } break;
+                    case "-2": showMess("资源文件有误！", 5, 2000); break;
+                    case "-3": showMess("当前积分不够下载该文件！", 5, 2000); break;
+                    case "1":
+                        //$(".downloadbtn").addClass("hide");
+                        $(obj).after("<a target=\"_blank\" class=\"downloadbtn blue\" href=\"" + data["ResURL"] + "\">立即下载</a>");
+                        layer.tips('下载链接已生成！', '.downloadbtn.blue', { tips: [1, '#4AB2FF'], time: 3000 }); return;
+                        break;
+                }
+            },
+            error: function (a, b, c) {
+                clearTimeout(LoadTimer);
+                layer.closeAll();
+                showMess("操作失败" + c, 5, 1000); return;
+            }
+        });
+    }
+    else {
+        layer.tips('点我下载！', '.downloadbtn.blue', { tips: [1, '#4AB2FF'], time: 3000 }); return;
+    }
+}
+
+function Vkeydown(e) {
+    if (e.keyCode == 13) { Search(); }
+}
+
+function Search() {
+    var Kw = $("#TBKeyword").val().trim();
+    if (Kw == "") {
+        layer.tips('请输入关键词！', '#TBKeyword', { tips: [1, '#EC4040'], time: 2000 }); return;
+    }
+    var TechFieldID = $("#TBTechFieldID").val().trim();
+    if (TechFieldID == "") { TechFieldID = "All"; }
+
+    var Url = window.location.href;
+    if (Url.indexOf("Download") > -1) { window.location.href = "/Download/" + TechFieldID + "/1/" + encodeURI(Kw); }
+    else if (Url.indexOf("Hottech") > -1) { window.location.href = "/Hottech/" + TechFieldID + "/1/" + encodeURI(Kw); }
+}

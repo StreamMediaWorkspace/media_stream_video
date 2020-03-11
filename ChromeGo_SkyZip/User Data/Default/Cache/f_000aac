@@ -1,0 +1,1977 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/pc2020v5/cx.css">
+
+<!-- "adovbs.inc" Must place in the same directory-->
+
+<!--同主題閱讀文章列表-->
+    
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<TITLE>(Directshow)pMoniker-&gt;BindToObject產生Memory leak問題 / DirectX  / 程式設計俱樂部</TITLE>
+<META NAME="GENERATOR" Content="Microsoft Visual Studio 6.0">
+<script language="JavaScript">
+<!--
+function openWindow2(){
+	window.open('/pc2020v5/board_rule.asp', "", "width=400,height=350,scrollbars=yes");
+}
+function OpenWindowx(theURL) { //v2.0
+  window.open(theURL,'Name','width=700, height=520,scrollbars=yes');
+}
+
+function GiveEva(authoruid, boardName, ParentDocId, DocId){
+	var bEv = window.confirm('您確定給要給予這位作者一個「讚」嗎 ?');
+	if (bEv) {
+		formEv.authoruid.value = authoruid;
+		formEv.boardName.value = boardName;
+		formEv.ParentDocId.value = ParentDocId;
+		formEv.DocId.value = DocId;
+		formEv.submit();
+	}	
+}
+
+function GiveMark(mode, authoruid, boardName, ParentDocId, DocId, id){	
+	var bEv;
+	switch (mode) {
+	case '1':
+		bEv = window.confirm('將此篇回應設為最佳解答 確定嗎 ? ');
+		break;
+	case '2':
+		bEv = window.confirm('這則回應很有道理 確定嗎 ? ');		
+		break;					
+	case '3':
+		bEv = window.confirm('您將全部回饋點數給這篇回答 確定嗎 ? \n\n請注意 : 您一但選擇「確定」後就不可更改!!');		
+		break;
+	case '4':
+		bEv = window.confirm('您要將回饋點數分配給一篇以上回答 確定嗎 ? \n請按「確定」來進入下一個畫面作設定');
+		formEv.action = "/pc2020v5/forum/showsametitleN.asp"
+		break;
+	case '0':
+		bEv = window.confirm('確定取消您對這則回應的評語嗎 ?');		
+		break;
+	}		 	
+	if (bEv) {
+		formEv.authoruid.value = authoruid;
+		formEv.boardName.value = boardName;
+		formEv.ParentDocId.value = ParentDocId;
+		formEv.DocId.value = DocId;
+		formEv.id.value = id;
+		formEv.board_pc2020.value = 'directx';
+		formEv.mode.value = mode;		
+		formEv.submit();
+	}
+}
+
+function ChangeCSS(sty){
+	var bC = window.confirm("確定更改字型大小 ?");
+	if (bC){
+			location.href = "/pc2020v5/forum/showsametitleN.asp?board_pc2020=directx&id=7515&CSS=" + sty;
+	}
+}
+
+
+//-->
+</script>
+<style>
+<!--
+.c3          { font-family: Century Gothic; font-size: 10pt }
+.c4          { font-family: Century Gothic; font-size: 10pt; TEXT-DECORATION: none}
+-->
+</style>
+</HEAD>
+<BODY  leftmargin=0 topmargin=5 width="100%" align=center>
+<div align="center">
+<table border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<table border=0 cellspacing="0" cellpadding="0">
+				
+<table border="0" cellspacing="0" cellpadding="0" width=1000>
+    <tr> 
+      <td colspan="3">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr> 
+            <td width="221" rowspan="2"><a href="http://www.programmer-club.com.tw"><img src="/pc2020v5/images/LOGO-v6_20090908.gif" alt="" width="170" height="60" border=0></a></td>
+            <td width="779" height="1"> 
+            <!--
+              <table width="744" border="0" cellspacing="0" cellpadding="0">
+                <tr> 
+                  <td width="422" height="1">&nbsp;</td>
+                  <td width="63" valign="bottom" class="button2"></td>
+                  <td width="66" valign="bottom" class="button2"></td>
+                  <td width="66" valign="bottom" class="button2"></td>
+                  <td width="66" valign="bottom" class="button2"></td>
+                  <td width="61" valign="bottom" class="faq"></td>
+                </tr>
+                </table>
+                -->
+              </td>
+          </tr>
+          <tr> 
+            <td height="59" valign="top"> <table width="87%" border="0" align="right" cellpadding="0" cellspacing="0">
+                <tr> 
+                  <td width="435" height="50" valign="bottom">
+                  <iframe src="/SiteSearch_Google.asp" marginwidth=0 marginheight=0 frameborder=0 width=600 height=70></iframe>
+                  </td>
+                  <td width="243" height="50" valign="middle"><table width="208" border="0" cellspacing="0" cellpadding="0">
+                      <form name="formchangearea" method="post" action="">
+                        <tr> 
+                          <td width="208"> 
+                              <div align="left" valign=middle> 
+                              <font color="#0000CC">討論區快速選單</font>
+                              </div>
+                              <div align="right" valign=middle> 
+                                                            <select onchange="javascript:location.href=formchangearea.changearea.options[formchangearea.changearea.selectedIndex].value;" size="1" name="changearea" style="font-family: Century Gothic;FONT-SIZE: 13px">
+                                <option value="nochange" selected>討論區快速選單</option>
+                                <option value="nochange" style="color: #0000FF;">= Programming =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=asp" >- 
+                                ASP</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=assembly"  >- 
+                                Assembly</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=c"  >- 
+                                C++</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=cb"  >- 
+                                C++ Builder</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=cobol"  >- 
+                                COBOL</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=delphi"  >- 
+                                Delphi</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=lingo"  >- 
+                                Director</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=flash"  >- 
+                                Flash</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=fortran"  >- 
+                                Fortran</option>                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=javascript"  >- JavaScript</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=j2se"  >- J2SE</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=j2me"  >- J2ME</option>                                                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=jsp"  >- J2EE/Servlet/JSP</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=jbuilder"  >- JBuilder</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=java"  >- Java入門一般區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=kylix"  >- 
+                                Kylix</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=mac"  >- 
+                                Mac</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=palm"  >- 
+                                Palm</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=perl"  >- 
+                                Perl</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=php"  >- 
+                                PHP</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=pb"  >- 
+                                Power Builder</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=unix"  >- 
+                                UNIX/Linux</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vb"  >- 
+                                Visual Basic/VBA</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vbscript"  >- 
+                                VBScript</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vc"  >- 
+                                Visual C++</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=evb"  >- 
+                                WinCE/eVB</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=evc"  >- 
+                                WinCE/eVC</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=wml"  >- 
+                                WML</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=xml"  >- 
+                                XML</option>
+
+                                <option value="nochange" style="color: #0000FF;">= Mobile Programming =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=android"  style="color: #FF0000">- Android</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=meego" >- Intel AppUp</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=iphone"  style="color: #FF0000">- iPhone</option>                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=wp7" >- Windows Phone 7</option>                                
+
+                                <option value="nochange" style="color: #0000FF">= Database =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=db"  >- 
+                                資料庫設計與應用</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=sqllanguage"  >- 
+                                SQL Language</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=access"  >- 
+                                Access</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=db2"  >- 
+                                DB2</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=sqlserver2008"   style="color: #FF0000">- 
+                                <font color="FF0000">SQL Server 2008</font></option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=sqlserver2005"  >- 
+                                <font color="FF0000">SQL Server 2005</font></option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=sqlserver"  >- 
+                                SQL Server 7/2K</option>                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=mysql"  >- 
+                                MySQL</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=foxpro"  >- 
+                                Visual Foxpro</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=oracle"  >- 
+                                Oracle</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=informix"  >- 
+                                Informix</option>
+                                <option value="nochange" style="color: #0000FF">= .NET =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vs2010"   style="color: #FF0000">- Visual Studio 2010</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vs2008"  >- Visual Studio 2008</option>                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=silverlight"   style="color: #FF0000">- Silverlight技術</option>                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=netframework"  >- 
+                                .NET Framework</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=adodotnet"  >- 
+                                ADO.NET</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=aspdotnet"  >- 
+                                ASP.NET</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=csharp"  >- 
+                                C#</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vbdotnet"  >- 
+                                VB.NET/VB 2005</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=vcdotnet"  >- 
+                                VC++.NET</option>
+                                <option value="nochange" style="color: #0000FF">= Game =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=game"  >- 
+                                遊戲人的天空</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=gameprogram"  >- 
+                                遊戲程式設計</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=msxna"   style="color: #FF0000">- Microsoft XNA</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=directx"  selected>- 
+                                DirectX</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=opengl"  >- 
+                                OpenGL</option>
+                                <option value="nochange" style="color: #0000FF">= Web Server =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=iis"  >- 
+                                IIS</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=apache"  >- 
+                                Apache Server</option>
+                                <option value="nochange" style="color: #0000FF">= 資訊工程與科學 =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=csce"  >- 
+                                資訊工程與科學一般區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=csexam"  >- 
+                                資訊類系所入學考試</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=imageprocess"  >- 
+                                影像處理與機算機圖學</option>
+                                <option value="nochange" style="color: #0000FF">= General =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=general"  >- 
+                                一般討論區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=com"  >- 
+                                COM/DCOM</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=driver"  >- 
+                                驅動程式</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=embedded"  >- 
+                                嵌入式系統(Embedded System)</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=exam_ms"  >- 微軟系列認證考試區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=exam_java"  >- Java系列認證考試區</option>                                                                
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=exam"  >- 教育訓練與專業認證一般區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=mycareer"  >- 我的職涯規劃</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=exp"  >-程式設計甘苦談</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=html"  >- 
+                                HTML</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=nettech"  >- 
+                                網路技術漫談</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=newuser"  >- 
+                                新手入門</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=oop"  >- 
+                                物件導向</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=sdsa"  >- 
+                                系統分析與設計</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=homework"  >- 
+                                資訊類作業</option>
+                                <option value="nochange" style="color: #0000FF">= Windows =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=win7"   style="color: #FF0000">- 
+                                Windows 7</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=winvista"  >- 
+                                Windows Vista</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=winxp"  >- 
+                                Windows XP</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=win2kserver"  >- 
+                                Win2K Sevrer</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=win2kpro"  >- 
+                                Win2K Pro.</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=winnt"  >- 
+                                Windows NT</option>
+                                <option value="nochange" style="color: #0000FF">= IT硬話題 =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=h_core" >- 電腦核心組件</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=h_vcard" >- 電腦顯示週邊</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=h_hd" >- 電腦儲存裝置</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=h_nb" >- Notebook</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=nettech" >- 網路技術與產品</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=h_computer" >- 電腦綜合討論區</option>                                
+                                <option value="nochange" style="color: #0000FF">= Jobs =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=caseexp"  >- 
+                                外包接案經驗談</option>
+                                <option value="http://programmer.eforum2000.net/pc2020v5/getcase/">- 
+                                個人工作室登錄</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=people"  >- 
+                                企業人力需求</option>
+                                <option value="/pc2020v5/case/case2.asp?board_pc2020=job"  >- 
+                                企業外包案件</option>
+                                <option value="nochange" style="color: #0000FF">= Others =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=hard"  >- 
+                                高手過招區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=hsing"  >- 
+                                科學園區停看聽</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=twohandbook"  >- 
+                                二手電腦書</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=book"  >- 
+                                好書推薦</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=career"  >- 
+                                上班族哈拉園地</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=comm"  >- 
+                                通訊網路</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=internet"  >- 關於Web 2.0</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=conference"   style="color: #FF0000">- IT 類研討會</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=joke"  >- 
+                                電腦相關笑話</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=msgboard"  >- 
+                                站務討論區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=software"  >- 
+                                資訊軟體產業討論</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=igoogle"  >- 
+                                關於Google的兩三事</option>                                                                
+                                <option value="nochange" style="color: #0000FF">= 熱門元件 =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=component"  >- 
+                                熱門元件一般區</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=CrystalReports"  >- 
+                                Crystal Reports</option>
+                                <!--<option value="nochange">= 活動專區 =</option>
+                                <option value="/pc2020v5/forum/forumN.asp?board_pc2020=MS_DotNet_Forum">- 
+                                .NET程式設計高手大賽</option>
+                                <option value="/pc2020v5/forum/forum.asp?board_pc2020=MS_conference">- 
+                                2005年開發技術研討會專區</option>                                
+                                -->
+                              </select>
+                              </div>
+                              <div align="left" valign=middle> 
+                              <font color="#006600">知識庫快速選單</font>
+                              </div>
+                              <div align="right" valign=middle> 
+                                                            <select onchange="javascript:location.href=formchangearea.changearea2.options[formchangearea.changearea2.selectedIndex].value;" size="1" name="changearea2" style="font-family: Century Gothic;FONT-SIZE: 13px">
+                                <option value="nochange" selected>知識庫快速選單</option>
+                                <option value="nochange" style="color: #0000FF;">= Programming =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=asp" >- 
+                                ASP</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=assembly"  >- 
+                                Assembly</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=c"  >- 
+                                C++</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=cb"  >- 
+                                C++ Builder</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=cobol"  >- 
+                                COBOL</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=delphi"  >- 
+                                Delphi</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=lingo"  >- 
+                                Director</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=flash"  >- 
+                                Flash</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=fortran"  >- 
+                                Fortran</option>                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=javascript"  >- JavaScript</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=j2se"  >- J2SE</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=j2me"  >- J2ME</option>                                                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=jsp"  >- J2EE/Servlet/JSP</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=jbuilder"  >- JBuilder</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=java"  >- Java入門一般區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=kylix"  >- 
+                                Kylix</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=mac"  >- 
+                                Mac</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=palm"  >- 
+                                Palm</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=perl"  >- 
+                                Perl</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=php"  >- 
+                                PHP</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=pb"  >- 
+                                Power Builder</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=unix"  >- 
+                                UNIX/Linux</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vb"  >- 
+                                Visual Basic/VBA</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vbscript"  >- 
+                                VBScript</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vc"  >- 
+                                Visual C++</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=evb"  >- 
+                                WinCE/eVB</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=evc"  >- 
+                                WinCE/eVC</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=wml"  >- 
+                                WML</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=xml"  >- 
+                                XML</option>
+
+                                <option value="nochange" style="color: #0000FF;">= Mobile Programming =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=android"  style="color: #FF0000">- Android</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=meego" >- Intel AppUp</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=iphone"  style="color: #FF0000">- iPhone</option>                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=wp7" >- Windows Phone 7</option>                                
+
+                                <option value="nochange" style="color: #0000FF">= Database =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=db"  >- 
+                                資料庫設計與應用</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=sqllanguage"  >- 
+                                SQL Language</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=access"  >- 
+                                Access</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=db2"  >- 
+                                DB2</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=sqlserver2008"   style="color: #FF0000">- 
+                                <font color="FF0000">SQL Server 2008</font></option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=sqlserver2005"  >- 
+                                <font color="FF0000">SQL Server 2005</font></option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=sqlserver"  >- 
+                                SQL Server 7/2K</option>                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=mysql"  >- 
+                                MySQL</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=foxpro"  >- 
+                                Visual Foxpro</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=oracle"  >- 
+                                Oracle</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=informix"  >- 
+                                Informix</option>
+                                <option value="nochange" style="color: #0000FF">= .NET =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vs2010"   style="color: #FF0000">- Visual Studio 2010</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vs2008"  >- Visual Studio 2008</option>                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=silverlight"   style="color: #FF0000">- Silverlight技術</option>                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=netframework"  >- 
+                                .NET Framework</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=adodotnet"  >- 
+                                ADO.NET</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=aspdotnet"  >- 
+                                ASP.NET</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=csharp"  >- 
+                                C#</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vbdotnet"  >- 
+                                VB.NET/VB 2005</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=vcdotnet"  >- 
+                                VC++.NET</option>
+                                <option value="nochange" style="color: #0000FF">= Game =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=game"  >- 
+                                遊戲人的天空</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=gameprogram"  >- 
+                                遊戲程式設計</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=msxna"   style="color: #FF0000">- Microsoft XNA</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=directx"  selected>- 
+                                DirectX</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=opengl"  >- 
+                                OpenGL</option>
+                                <option value="nochange" style="color: #0000FF">= Web Server =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=iis"  >- 
+                                IIS</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=apache"  >- 
+                                Apache Server</option>
+                                <option value="nochange" style="color: #0000FF">= 資訊工程與科學 =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=csce"  >- 
+                                資訊工程與科學一般區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=csexam"  >- 
+                                資訊類系所入學考試</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=imageprocess"  >- 
+                                影像處理與機算機圖學</option>
+                                <option value="nochange" style="color: #0000FF">= General =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=general"  >- 
+                                一般討論區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=com"  >- 
+                                COM/DCOM</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=driver"  >- 
+                                驅動程式</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=embedded"  >- 
+                                嵌入式系統(Embedded System)</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=exam_ms"  >- 微軟系列認證考試區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=exam_java"  >- Java系列認證考試區</option>                                                                
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=exam"  >- 教育訓練與專業認證一般區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=mycareer"  >- 我的職涯規劃</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=exp"  >-程式設計甘苦談</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=html"  >- 
+                                HTML</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=nettech"  >- 
+                                網路技術漫談</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=newuser"  >- 
+                                新手入門</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=oop"  >- 
+                                物件導向</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=sdsa"  >- 
+                                系統分析與設計</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=homework"  >- 
+                                資訊類作業</option>
+                                <option value="nochange" style="color: #0000FF">= Windows =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=win7"   style="color: #FF0000">- 
+                                Windows 7</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=winvista"  >- 
+                                Windows Vista</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=winxp"  >- 
+                                Windows XP</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=win2kserver"  >- 
+                                Win2K Sevrer</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=win2kpro"  >- 
+                                Win2K Pro.</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=winnt"  >- 
+                                Windows NT</option>
+                                <option value="nochange" style="color: #0000FF">= IT硬話題 =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=h_core" >- 電腦核心組件</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=h_vcard" >- 電腦顯示週邊</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=h_hd" >- 電腦儲存裝置</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=h_nb" >- Notebook</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=nettech" >- 網路技術與產品</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=h_computer" >- 電腦綜合討論區</option>                                
+                                <option value="nochange" style="color: #0000FF">= Jobs =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=caseexp"  >- 
+                                外包接案經驗談</option>
+                                <option value="http://programmer.eforum2000.net/pc2020v5/getcase/">- 
+                                個人工作室登錄</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=people"  >- 
+                                企業人力需求</option>
+                                <option value="/pc2020v5/case/case2.asp?board_pc2020=job"  >- 
+                                企業外包案件</option>
+                                <option value="nochange" style="color: #0000FF">= Others =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=hard"  >- 
+                                高手過招區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=hsing"  >- 
+                                科學園區停看聽</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=twohandbook"  >- 
+                                二手電腦書</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=book"  >- 
+                                好書推薦</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=career"  >- 
+                                上班族哈拉園地</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=comm"  >- 
+                                通訊網路</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=internet"  >- 關於Web 2.0</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=conference"   style="color: #FF0000">- IT 類研討會</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=joke"  >- 
+                                電腦相關笑話</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=msgboard"  >- 
+                                站務討論區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=software"  >- 
+                                資訊軟體產業討論</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=igoogle"  >- 
+                                關於Google的兩三事</option>                                                                
+                                <option value="nochange" style="color: #0000FF">= 熱門元件 =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=component"  >- 
+                                熱門元件一般區</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=CrystalReports"  >- 
+                                Crystal Reports</option>
+                                <!--<option value="nochange">= 活動專區 =</option>
+                                <option value="/pc2020v5/kb/kb_default.asp?board_pc2020=MS_DotNet_Forum">- 
+                                .NET程式設計高手大賽</option>
+                                <option value="/pc2020v5/forum/forum.asp?board_pc2020=MS_conference">- 
+                                2005年開發技術研討會專區</option>                                
+                                -->
+                              </select>
+                              </div>
+                            </td>
+                        </tr>
+                      </form>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table>
+        </td>
+    </tr>
+    <tr> 
+      <td height="34" colspan="3"> 
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+             
+  <style type="text/css">#cssMenu{display:none}</style>
+
+  <link type="text/css" href="/deluxe-css-menu.files/style.css" rel="stylesheet"/>
+  
+
+  <!-- Deluxe Css Menu -->
+
+<ul id="cssMenu" class="topmenu">
+	<li class="topmenu"><a class="topmenu" href="testlink.html"><span>l 開發技術</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+		<li><a href="#"><span>程式語言</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/asp.html">ASP</a></li>
+			<li><a href="/forum/assembly.html">Assembly</a></li>
+			<li><a href="/forum/c.html">C</a></li>
+			<li><a href="/forum/cb.html">C++ Builder</a></li>
+			<li><a href="/forum/cobol.html">COBOL</a></li>
+			<li><a href="/forum/delphi.html">Delphi</a></li>
+			<li><a href="/forum/lingo.html">Director/Lingo</a></li>
+			<li><a href="/forum/flash.html">Flash/ActionScript</a></li>
+			<li><a href="/forum/fortran.html">Fortran</a></li>
+			<li><a href="/forum/java.html">Java入門一般區</a></li>
+			<li><a href="/forum/javascript.html">JavaScript</a></li>
+			<li><a href="/forum/j2se.html">J2SE</a></li>
+			<li><a href="/forum/j2me.html">J2ME</a></li>
+			<li><a href="/forum/j2ee.html">J2EE</a></li>
+			<li><a href="/forum/kylix.html">Kylix</a></li>
+			<li><a href="/forum/jbuilder.html">Jbuilder</a></li>
+			<li><a href="/forum/perl.html">Perl</a></li>
+			<li><a href="/forum/php.html">PHP</a></li>
+			<li><a href="/forum/pb.html">Power Builder</a></li>
+			<li><a href="/forum/vb.html">Visual Basic 6.0/VBA</a></li>
+			<li><a href="/forum/vc.html">Visual C++</a></li>
+			<li><a href="/forum/vbscript.html">VB Script</a></li>
+			<li><a href="/forum/evb.html">WinCE/eVB</a></li>
+			<li><a href="/forum/evc.html">WinCE/eVC</a></li>
+			<li><a href="/forum/wml.html">WML</a></li>
+			<li><a href="/forum/xml.html">XML</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>行動裝置</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/android.html">Android</a></li>
+			<li><a href="/forum/iphone.html">iPhone</a></li>
+			<li><a href="/forum/meego.html">MeeGo</a></li>
+			<li><a href="/forum/wp7.html">Windows Phone 7</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>Database</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/db.html">資料庫設計與應用</a></li>
+			<li><a href="/forum/access.html">Access</a></li>
+			<li><a href="/forum/db2.html">DB2</a></li>
+			<li><a href="/forum/sqlserver.html">SQL Server 7/2000</a></li>
+			<li><a href="/forum/sqlserver2005.html">SQL Server 2005</a></li>
+			<li><a href="/forum/sqlserver2008.html">SQL Server 2008</a></li>
+			<li><a href="/forum/mysql.html">mySQL</a></li>
+			<li><a href="/forum/foxpro.html">Visual Foxpro</a></li>
+			<li><a href="/forum/oracle.html">Oracle</a></li>
+			<li><a href="/forum/sqllanguage.html">SQL Language</a></li>
+			<li><a href="/forum/informix.html">Informix</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>.NET</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/vs2008.html">VS2008</a></li>
+			<li><a href="vs2010">VS2010</a></li>
+			<li><a href="/forum/netframework.html">.NET Framework</a></li>
+			<li><a href="/forum/adodotnet.html">ADO.NET</a></li>
+			<li><a href="/forum/aspdotnet.html">ASP.NET</a></li>
+			<li><a href="/forum/csharp.html">C#</a></li>
+			<li><a href="/forum/vbdotnet.html">VB.NET</a></li>
+			<li><a href="/forum/vcdotnet.html">VC++.NET</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>Game</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/game.html">遊戲人的天空</a></li>
+			<li><a href="/forum/gameprogram.html">遊戲程式設計</a></li>
+			<li><a href="/forum/directx.html">DirectX</a></li>
+			<li><a href="/forum/opengl.html">OpenGL</a></li>
+			<li><a href="/forum/xna.html">MS XNA</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>OS</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/palm.html">Palm OS程式設計</a></li>
+			<li><a href="/forum/mac.html">Mac程式設計</a></li>
+			<li><a href="/forum/vista.html">Windows Vista</a></li>
+			<li><a href="/forum/xp.html">Windows XP</a></li>
+			<li><a href="/forum/win2kserver.html">Win2k Server</a></li>
+			<li><a href="/forum/win2kpro.html">Windows 2000 pro</a></li>
+			<li><a href="/forum/winnt.html">Windows NT 4.0</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="#"><span>Web Server</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>
+			<li><a href="/forum/apache.html">Apache Server</a></li>
+			<li><a href="/forum/iis.html">IIS Server</a></li>
+		</ul>
+
+		<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+		<li><a href="/forum/html.html">HTML/DHTML</a></li>
+		<li><a href="/forum/com.html">COM/DCOM</a></li>
+		<li><a href="/forum/driver.html">驅動程式</a></li>
+		<li><a href="/forum/embedded.html">嵌入式系統</a></li>
+	</ul>
+
+	<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+	<li class="topmenu"><a class="topmenu" href="#"><span>l IT熱門話題</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+		<li><a href="/forum/csce.html">資訊工程與科學</a></li>
+		<li><a href="/forum/csexam.html">資訊類系所入學考試</a></li>
+		<li><a href="/forum/imageprocess.html">影像處理與計算機圖學</a></li>
+		<li><a href="/forum/homework.html">資訊類作業</a></li>
+		<li class="sep"><img src="deluxe-css-menu.files/sep_sub.gif" alt=""/></li>
+		<li><a href="/forum/exam.html">教育訓練與專業認證一般區</a></li>
+		<li><a href="/forum/exam_ms.html">微軟認證</a></li>
+		<li><a href="/forum/exam_java.html">Java認證</a></li>
+		<li class="sep"><img src="deluxe-css-menu.files/sep_sub.gif" alt=""/></li>
+		<li><a href="/forum/newuser.html">新手入門</a></li>
+		<li><a href="/forum/exp.html">程式設計甘苦談</a></li>
+		<li><a href="/forum/career.html">我的職涯規劃</a></li>
+		<li class="sep"><img src="deluxe-css-menu.files/sep_sub.gif" alt=""/></li>
+		<li><a href="/forum/oop.html">物件導向程式設計</a></li>
+		<li><a href="/forum/sasd.html">系統分析與設計</a></li>
+		<li><a href="/forum/conference.html">IT研討會</a></li>
+	</ul>
+
+	<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+	<li class="topmenu"><a class="topmenu" href="#"><span>l 輕鬆話題</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+		<li><a href="/forum/general.html">一般不分類區</a></li>
+		<li><a href="/forum/igoogle.html">關於Google的兩三事</a></li>
+		<li><a href="/forum/hard.html">高手過招區</a></li>
+		<li><a href="/forum/twohandbook.html">二手電腦書買賣交換</a></li>
+		<li><a href="/forum/book.html">好書推薦</a></li>
+		<li><a href="/forum/career.html">上班族的哈拉園地</a></li>
+		<li><a href="/forum/caseexp.html">外包接案經驗談</a></li>
+		<li><a href="/forum/internet.html">關於Web 2.0</a></li>
+		<li><a href="/forum/joke.html">電腦相關笑話</a></li>
+		<li><a href="/forum/comm.html">通訊網路</a></li>
+		<li><a href="/forum/software.html">資訊軟體產業</a></li>
+		<li><a href="/forum/messageboard.html">站務留言板</a></li>
+	</ul>
+
+	<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/TitleList.asp">l 知識庫</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://blog.programmer-club.com.tw/" target="_blank">l 部落格</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/outsource/1.html">l 外包案件</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/pc2020v5/getcase/">l 接案人才</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/forum/people.html">l 找工作</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/forum/conference.html">l IT研討會</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/itcareer.asp">l 職涯規劃</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/newuser.asp">l 初學入門</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/book/">l 好書票選</a></li>
+	<li class="topmenu"><a class="topmenu" href="http://www.programmer-club.com.tw/pc2020v5/memberlogon.asp">l 會員中心 l</a></li>
+</ul>
+
+
+
+  <!-- (c) 2011, Deluxe-Menu.com -->
+
+
+        </table>
+      </td>
+    </tr>
+    <!--
+		<tr> 
+		  <td align=center bgcolor="#FFFFFF">			
+              <iframe src="/AdBanner_728_90.asp" marginwidth=0 marginheight=0 frameborder=0 width=750 height=105></iframe>
+		  </td>
+		</tr>
+-->
+		
+    <tr width="1000" align=center> 
+      <td width="1000" height="31" bgcolor="#E3E3E3">
+		<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+          <tr valign="bottom"> 
+            <td width="33%" align="center" bgcolor="#FFFFFF"><img src="/images/icon.jpg" width="18" height="19" border="0"> 
+				<FONT SIZE=2>
+	    <a href="https://www.facebook.com/JammyPhoto2014" target="_blank"><font size=3 color="#0066FF" face="Lucida Sans">傑米的攝影旅遊筆記</a>	
+    
+            </td>
+            <!--Write ADText 2-->
+            <td align="center" width="34%" bgcolor="#FFFFFF">
+				<FONT SIZE=2>
+	    <a href="/pc2020v5/Tools/ADRedirect.asp?code=uuu20150213_top3&p=all" target="_blank"><font size=3 color="#0066FF" face="Lucida Sans">軟體開發過程中有哪些資安漏洞?</a>	
+    
+			</td>
+            <!--Write ADText 3-->
+            <td align="center" width="33%" bgcolor="#FFFFFF">
+				<FONT SIZE=2>
+	    <a href="http://www.facebook.com/pages/cheng-shi-she-ji-ju-le-bu-Programmer-Club/121913604515788" target="_blank"><font size=3 color="#0066FF" face="Lucida Sans">程式設計俱樂部Facebook粉絲團</a>	
+    
+			</td>
+        </table>
+      </td>
+      <iframe src="/google-analytics_topmenu2007.asp" marginwidth=0 marginheight=0 frameborder=0 width=1 height=1></iframe>
+    </tr>
+  
+     
+</table>
+			</table>
+		</td>
+	</tr>
+</table>
+<table width="1004" align=center bgColor="#FFFFFF">
+	<tr>
+      <td width="0" valign="top" align=right>
+		<!--include virtual=/pc2020v5/ForumN_Left2.asp-->
+      </td>     
+	<td valign="top">       
+		<table class=font3 width="95%" align=left bgColor="#FFFFFF">
+			<tr>
+				<td bgColor="#FFFFFF">
+                <iframe allowtransparency="true" src="http://ads.doublemax.net/delivery/?iframe&amp;z=2445&color=3333CC&size=15px&bgcolor=FFFFFF" width="230" height="17" framespacing="0" frameborder="no" scrolling="no"></iframe>                
+
+				</td>
+      <td align="right" vAlign="top" class=font3><!--
+      [發表新主題] [回覆文章] [友善列印] [轉寄文章]-->
+      [ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</font></a> ] [ <a href="javascript:openWindow2();" class=cx><font color="#000000">討論區發言規則</font></a> ]
+      </td>				
+			</tr>
+		</table>
+		<table class=font4 width="100%" align=center bgColor="#FFFFFF">
+			<tr>
+				<td bgColor="#FFFFFF">
+				<!--
+					<img src="/pc2020v5/images/AdArrow.gif">
+					<a href="/pc2020v5/Tools/ADRedirect.asp?code=wst200507&p=t2" target="_blank">
+					<font color="red"><b>職場鍍金之路帶你走向成功大道</b></font></a><b>
+					-->
+					      <!--20050711 1M-->      
+				</td>
+			</tr>
+            <tr> 
+		    <td align=center bgcolor="#FFFFFF">			
+                <iframe src="/AdBanner_728_90.asp" marginwidth=0 marginheight=0 frameborder=0 width=750 height=105></iframe>
+		    </td>
+		    </tr>
+		</table>		
+		
+      
+      
+      <!--
+
+        <img src="/images/mem_icon/info_24_hot.jpg" align='left'>
+        
+		<a href="/pc2020v5/Tools/ADRedirect.asp?code=uuu20110515_top&p=forumn" target=_blank>
+		<font color="blue" face=verdana size=3pt  align=left>不景氣也能讓你異軍突起的黃金認證</font></a><BR>            
+	
+        
+        <img src="/images/mem_icon/info_24_hot.jpg" align='left'>
+        
+		<a href="/pc2020v5/Tools/ADRedirect.asp?code=uuu20110515_hpaget&p=forumn" target=_blank>
+		<font color="#CC0000" face=verdana  size=3pt  align=left>免費索取熱門IT趨勢完整解讀手冊</font></a><BR>
+
+-->        
+
+<table border="0" width="100%" cellspacing="1" cellpadding="0" bgcolor="#8995B8" align=center>
+  <tr>
+    <td width="100%" bgcolor="#C0C0C0">
+		<table bgcolor="#FFFFFF" width=100% align=left>
+			<tr>
+				<td class=font4  align=left>
+					<b>
+					<FONT color='#000000' size=4>(Directshow)pMoniker-&gt;BindToObject產生Memory leak問題</FONT></b>
+                    <br>
+                    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://www.programmer-club.com.tw/ShowSameTitleN/directx/7515.html" show_faces="false" width="450" font="verdana"></fb:like>	                                        
+                    <!--<br>										-->
+					
+					<!--<br>-->
+					
+					<!--<font color="#666666" class=c2>回饋點數 : </font>-->
+					
+				</td>
+				<td class=c2><font color="#666666">
+					更改我的閱讀文章字型大小<input type="radio"  checked  onclick="javascript:ChangeCSS('font4');"><font color="#666666" class=c2>大</font>
+					 <input type="radio"   onclick="javascript:ChangeCSS('c3');"><font color="#666666" class=c2>小</font>
+				</td>				
+			</tr>
+		</table>
+
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="0" cellpadding="0">          
+            <tr>			  
+			  <td height="1" >
+              </td>
+            </tr>
+        </table>			  
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=wushing" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>wushing(小無)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<br><span class=c1>[  <Font color=black>貼文</font> 5 | <Font color=black>人氣</font> 1 | <font color=BLUE>評價</font> 0 | <font color=#000000>評價/貼文</font> 0 | 送出評價 2 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('wushing', 'directx', '7515', '7515', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('wushing', 'directx', '7515', '7515', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7515><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 上午 09:58:30</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color='#000000'>各位好<br>&nbsp;&nbsp;&nbsp;&nbsp;  小弟透過pMoniker-&gt;BindToObject的方式，想把找到的影像裝置綁定到Filter，但總會有memory leak的問題產生<BR>，尋找之下才知道是這BindToObject造成的，下面列出部分小弟使用的程式，想請前輩指導，有任何問題請多多指導，謝謝！<BR><BR><BR><BR><BR>// Create the system device enumerator<br>&nbsp;&nbsp;&nbsp;&nbsp;hr = CoCreateInstance (CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC,<br>&nbsp;&nbsp;&nbsp;&nbsp;                       IID_ICreateDevEnum, (void **) &pDevEnum);<br>&nbsp;&nbsp;&nbsp;&nbsp;if (FAILED(hr))<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;    //Msg(TEXT("Couldn't create system enumerator!  hr=0x%x"), hr);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><br>&nbsp;&nbsp;&nbsp;&nbsp;// Create an enumerator for the video capture devices<BR><BR>	if (SUCCEEDED(hr))<BR>	{<BR>	    hr = pDevEnum-&gt;CreateClassEnumerator(CLSID_VideoInputDeviceCategory, &pClassEnum, 0);<BR>		if (FAILED(hr))<BR>		{<BR>			//Msg(TEXT("Couldn't create class enumerator!  hr=0x%x"), hr);<BR>	    }<BR>	}<BR><BR>	if (SUCCEEDED(hr))<BR>	{<BR>		// If there are no enumerators for the requested type, then <BR>		// CreateClassEnumerator will succeed, but pClassEnum will be NULL.<BR>		if (pClassEnum == NULL)<BR>		{<BR><BR>			hr = E_FAIL;<BR>		}<BR>	}<BR><BR>	if (SUCCEEDED(hr))<BR>	{<BR>		hr = pClassEnum-&gt;Next(1, &pMoniker, NULL);<BR>		if (hr == S_FALSE)<BR>		{<BR>	        //Msg(TEXT("Unable to access video capture device!"));   <BR>			hr = E_FAIL;<BR>		}<BR>	}<BR><BR>	if (SUCCEEDED(hr))<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;    // Bind Moniker to a filter object<br>&nbsp;&nbsp;&nbsp;&nbsp;    hr = pMoniker-&gt;BindToObject(0,0,IID_IBaseFilter, (void**)&pSrc);<br>&nbsp;&nbsp;&nbsp;&nbsp;    if (FAILED(hr))<br>&nbsp;&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;        //Msg(TEXT("Couldn't bind moniker to filter object!  hr=0x%x"), hr);<BR>			hr = E_FAIL;<br>&nbsp;&nbsp;&nbsp;&nbsp;    }<br>&nbsp;&nbsp;&nbsp;&nbsp;}</FONT>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	  
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="0" cellpadding="0">          
+            <tr>			  
+			  <td height="1" >
+              </td>
+            </tr>
+        </table>			  
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=ozzy123" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>ozzy123(ozzy)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<img src="/images/mem_icon/7.jpg" width="36" height="35" align="absmiddle" border=0 alt="VC++優秀好手"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="資訊類作業求救卓越專家"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="C++卓越專家"><img src='/images/mem_icon/doc_4k.jpg' border=0 alt='貼文超過4000則' align='absmiddle'><img src='/images/mem_icon/hot_30k.jpg' border=0 alt='人氣指數超過30000點' align='absmiddle'><br><span class=c1>[  <Font color=black>貼文</font> 4499 | <Font color=black>人氣</font> 37262 | <font color=BLUE>評價</font> 11100 | <font color=#000000>評價/貼文</font> 2.47 | 送出評價 49 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7516', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7516', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7516><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 上午 10:14:56</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color='#000000'>would you please post your error message ?</FONT>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	  
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="0" cellpadding="0">          
+            <tr>			  
+			  <td height="1" >
+              </td>
+            </tr>
+        </table>			  
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=wushing" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>wushing(小無)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<br><span class=c1>[  <Font color=black>貼文</font> 5 | <Font color=black>人氣</font> 1 | <font color=BLUE>評價</font> 0 | <font color=#000000>評價/貼文</font> 0 | 送出評價 2 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('wushing', 'directx', '7515', '7517', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('wushing', 'directx', '7515', '7517', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7517><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 上午 11:59:37</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color='#000000'>I got no ErrorMessage.<BR>I find this memory leak problem ,by using https://vld.codeplex.com/<BR><BR>I read the remarks on msdn<BR><BR>The moniker calls this method in its implementations of the IMoniker::BindToObject and IMoniker::BindToStorage methods to obtain information about the specific bind operation.<BR>Asynchronous moniker clients should be aware that a moniker might call this method multiple times during a bind operation. A correct implementation of IBindStatusCallback::GetBindInfo should prepare for this possibility. If returning data in the pbindinfo parameter, the implementation should allocate the appropriate data (szExtraInfo and stgmedData) at the time of each call. In this manner, if the callback is never called, data is never allocated; if the callback is called multiple times, it will work correctly. The first time this callback is received by the asynchronous moniker client is before the call to IMoniker::BindToStorage or IMoniker::BindToObject.<BR>Even when the value of grfBindInfoF is BINDF_ASYNCHRONOUS, it is possible that the original call to IMoniker::BindToStorage or IMoniker::BindToObject might return synchronously instead of returning the MK_S_ASYNCHRONOUS flag. Clients of asynchronous monikers should always prepare for this possibility. Specifically, to avoid memory leaks, you must make sure that you release the pointer returned by a call to either method.<BR>One way to deal with this case is to call your own implementation of IBindStatusCallback::OnDataAvailable or IBindStatusCallback::OnObjectAvailable to use the same code path, regardless of whether you bind synchronously or asynchronously.<BR>If the BINDF_PULLDATA value is not set in the grfBindInfoF parameter, Urlmon.dll sets the BINDF_NEEDFILE value. If BINDF_NEEDFILE is set, binding of resources that cannot be cached (such as an HTTPS resource) will fail.<BR><BR>I thnk maybe this will help.<BR></FONT>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	  
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="1" cellpadding="0">          
+            <tr>              
+              <td height="62" bgcolor="#FFFFFF" align=center>
+	
+<script type="text/javascript"><!--
+/*
+google_language = "zh-TW";
+google_ad_client = "pub-6662095938662551";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text";
+//2007-03-03: 全站正下方728x90
+google_ad_channel = "6211512440";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_text = "000000";
+google_color_url = "008000";
+*/
+//--></script>
+<!--<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">-->
+</script>
+
+	<a href=/pc2020v5/Tools/ADRedirect.asp?code=uuu20120318_2  target=blank><img src=/images/uuu/11月份PclubBanner(IT).jpg border=1 style='border-style: solid; border-color: #000000' width=728 height=90></a>
+		<iframe src="/ga/google-analytics_46860_1.asp" marginwidth=0 marginheight=0 frameborder=0 width=1 height=1></iframe>
+		
+				</td>
+            </tr>
+        </table>
+
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=ozzy123" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>ozzy123(ozzy)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<img src="/images/mem_icon/7.jpg" width="36" height="35" align="absmiddle" border=0 alt="VC++優秀好手"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="資訊類作業求救卓越專家"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="C++卓越專家"><img src='/images/mem_icon/doc_4k.jpg' border=0 alt='貼文超過4000則' align='absmiddle'><img src='/images/mem_icon/hot_30k.jpg' border=0 alt='人氣指數超過30000點' align='absmiddle'><br><span class=c1>[  <Font color=black>貼文</font> 4499 | <Font color=black>人氣</font> 37262 | <font color=BLUE>評價</font> 11100 | <font color=#000000>評價/貼文</font> 2.47 | 送出評價 49 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7518', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7518', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7518><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 下午 01:55:31</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color='#000000'>you may launch Vc++ debugger or add some exception handling codes for them.  <BR></FONT>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	  
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="0" cellpadding="0">          
+            <tr>			  
+			  <td height="1" >
+              </td>
+            </tr>
+        </table>			  
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=ozzy123" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>ozzy123(ozzy)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<img src="/images/mem_icon/7.jpg" width="36" height="35" align="absmiddle" border=0 alt="VC++優秀好手"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="資訊類作業求救卓越專家"><img src="/images/mem_icon/4.jpg" width="36" height="35" align="absmiddle" border=0 alt="C++卓越專家"><img src='/images/mem_icon/doc_4k.jpg' border=0 alt='貼文超過4000則' align='absmiddle'><img src='/images/mem_icon/hot_30k.jpg' border=0 alt='人氣指數超過30000點' align='absmiddle'><br><span class=c1>[  <Font color=black>貼文</font> 4499 | <Font color=black>人氣</font> 37262 | <font color=BLUE>評價</font> 11100 | <font color=#000000>評價/貼文</font> 2.47 | 送出評價 49 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7519', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('ozzy123', 'directx', '7515', '7519', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7519><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					<img src='/pc2020v5/images/Mark/158.gif' alt='主題發起人wushing註記此篇回應為很有道理'>
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 下午 02:04:17</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color=#000000><font color='#000000'>http://msdn.microsoft.com/en-us/library/Aa293901(VS.60).aspx</FONT></font>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	  
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+<table border="0" cellPadding="0" cellSpacing="0" width=100%>
+    <tr>
+      <td bgColor="#C0C0C0">
+
+
+        <table border="0" cellPadding="0" border="0" width="100%" bgcolor="#C0C0C0" cellspacing="0" cellpadding="0">          
+            <tr>			  
+			  <td height="1" >
+              </td>
+            </tr>
+        </table>			  
+
+      </td>
+    </tr>
+</table>
+
+<!--<table bgColor="#F3F1EC" width=100%>-->
+<table bgColor="#EBE8E1" width=100% >
+
+	<tr width=100%>
+		<td class=C4 width="" bgColor="#EBE8E1" align=left>
+	作者 :
+<a class="c4" href="/member2012.asp?uid=gmailjoey" blank=_blank class=font4 TEXT-DECORATION: none>
+<!--<font color="#D80404">-->
+<Font face=verdana><b>gmailjoey(建中)</b></font></font></a>
+
+<!--<img src="/images/mem_icon/bm.jpg" border=0 align='absmiddle'>-->
+<!--人氣指數--> 
+<img src='/images/mem_icon/doc_200.jpg' border=0 alt='貼文超過200則' align='absmiddle'><br><span class=c1>[  <Font color=black>貼文</font> 206 | <Font color=black>人氣</font> 0 | <font color=BLUE>評價</font> 190 | <font color=#000000>評價/貼文</font> 0.92 | 送出評價 13 次 ]</font>&nbsp;
+
+		</td>
+		<td align=right width="">
+		</td>
+	</tr>
+	
+	<tr>
+		<td align=Right class=C2 colspan=2>
+
+
+		[ <a href="javascript:GiveEva('gmailjoey', 'directx', '7515', '7520', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href="javascript:GiveEva('gmailjoey', 'directx', '7515', '7520', '');"><font color="BLUE">給個讚</font></a> ]&nbsp;
+		
+		[ <a href=/pc2020v5/forum/replyN.asp?board_pc2020=directx&id=7520><font color="#000000">回應本文</a> ]&nbsp;
+		
+		[ <a href="/pc2020v5/forum/postform.asp?board_pc2020=directx" target="_top"><B><font color="#000000">發表新文</b></a> ]&nbsp;							        
+			
+		
+
+		[ <a href="javascript:history.go(-1);" class=cx><font color="#000000">回上頁</a> ]
+		[ <a href="/forum/directx.html" class=cx><font color="#000000">回討論區列表</a> ]
+		[ <a href="/pc2020v5/kb/kb_default.asp?board_pc2020=directx" class=cx><font color="#000000">回知識入口</a> ]
+		</td>
+	</tr>
+</table>
+
+<table width="100%" bgColor="#FFFFFF" align=center>
+    <tr bgColor="#FFFFFF">
+		<td width="100%" class=font4 bgColor="#FFFFFF">
+			<table width=100% align=center>
+			
+				<tr>
+					<td  width="10" align=left valign=top class=font4>
+
+					<img src='/pc2020v5/images/Mark/I039.gif' alt='主題發起人wushing註記此篇回應為最佳解答'>
+					</td>
+					<td class=font4 valign=top  align=left width=>
+						<font face="Georgia, Trebuchet MS" color="#808080" size="1">2014/11/20 下午 02:54:15</font><br>
+					
+<div name="iclickAdBody_Start" id="iclickAdBody_Start"></div>
+	<font color=#000000><font color='#000000'>加入微軟規定的除錯程式碼可以關掉Runtime Check，<BR>關掉Runtime Check以後可以確實呼叫出堆疊毀損的視窗。<BR><BR>請把下面的微軟程式碼加到你的程式:<BR>//------加入下面這一個MyErrorHandler函式<BR><BR>#pragma runtime_checks("", off)<BR><BR>// RTC Error Handler<BR>int MyErrorHandler(int errType, const char* file, int line,<br>&nbsp;&nbsp;&nbsp;&nbsp;const char* module, const char* format, ...)<BR>{<br>&nbsp;&nbsp;&nbsp;&nbsp;// 1. Prevent re-entrance<br>&nbsp;&nbsp;&nbsp;&nbsp;static long IsRunning = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;while ( InterlockedExchange(&IsRunning, 1) )<br>&nbsp;&nbsp;&nbsp;&nbsp;    Sleep(1);<BR><br>&nbsp;&nbsp;&nbsp;&nbsp;// 2. Get the RTC error number from the var_arg list<br>&nbsp;&nbsp;&nbsp;&nbsp;va_list ArgList;<br>&nbsp;&nbsp;&nbsp;&nbsp;va_start(ArgList, format);<br>&nbsp;&nbsp;&nbsp;&nbsp;_RTC_ErrorNumber ErrorNumber = va_arg(ArgList, _RTC_ErrorNumber);<br>&nbsp;&nbsp;&nbsp;&nbsp;va_end(ArgList);<BR><br>&nbsp;&nbsp;&nbsp;&nbsp;char s[1024];<br>&nbsp;&nbsp;&nbsp;&nbsp;// 3. Get the error description<br>&nbsp;&nbsp;&nbsp;&nbsp;const char* ErrorDesc = _RTC_GetErrDesc(ErrorNumber);<br>&nbsp;&nbsp;&nbsp;&nbsp;sprintf_s(s, sizeof(s), "%s occured.\nLine: %i\nFile: %s\nModule: %s\nClick OK to break into debugger.",<br>&nbsp;&nbsp;&nbsp;&nbsp;    ErrorDesc, line, file ? file : "Unknown",<br>&nbsp;&nbsp;&nbsp;&nbsp; module ? module : "Unknown");<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;// 4. Display message box<br>&nbsp;&nbsp;&nbsp;&nbsp;MessageBoxA(NULL, s, "Run-Time Error", MB_OK);<br>&nbsp;&nbsp;&nbsp;&nbsp;// 5. Go ahead and break into the debugger<br>&nbsp;&nbsp;&nbsp;&nbsp;return 1;<BR>}<BR>#pragma runtime_checks("", restore)<BR><BR>//-----加入的程式碼到此為止<BR><BR>//-----並且修改int _tmain<BR><BR>int _tmain(...)<BR>{<BR>...<BR><BR>if (SUCCEEDED(hr))<br>&nbsp;&nbsp;&nbsp;{<BR><br>&nbsp;&nbsp;&nbsp;&nbsp; //<br>&nbsp;&nbsp;&nbsp;&nbsp; _RTC_error_fn OldHandler;     	//&lt;----加入這一行除錯程式碼<br>&nbsp;&nbsp;&nbsp;&nbsp; OldHandler = _RTC_SetErrorFunc(&MyErrorHandler);	//&lt;----加入這一行除錯程式碼<BR><BR><br>&nbsp;&nbsp;&nbsp;&nbsp; // Bind Moniker to a filter object下面這一行需要除錯<br>&nbsp;&nbsp;&nbsp;&nbsp; hr = pMoniker-&gt;BindToObject(0,0,IID_IBaseFilter, (void**)&pSrc);<br>&nbsp;&nbsp;&nbsp;&nbsp; if (FAILED(hr))<br>&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; //Msg(TEXT("Couldn't bind moniker to filter object! hr=0x%x"), hr);<BR>hr = E_FAIL;<br>&nbsp;&nbsp;&nbsp;&nbsp; }<BR><br>&nbsp;&nbsp;&nbsp;&nbsp; _RTC_SetErrorFunc(OldHandler);	//&lt;----加入這一行除錯程式碼<br>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><BR><BR><BR>}<BR><BR>照著以上的方式修改好程式以後可以關掉Runtime Check，<BR>就可以正確找出堆疊毀損或是memory leak的錯誤訊息了。<BR>全部除錯完成以後再把除錯程式碼移除就可以了。</FONT></font>
+
+<div name="iclickAdBody_End" id="iclickAdBody_End"></div>
+	
+              
+				    </td>				    
+					<td width="" align=right valign="top">
+						<table valign="top">
+   							<!--include virtual="/pc2020v5/Product_Banner/AD_GNumber.asp"-->							                            
+                            <!--include virtual="/pc2020v5/Product_Banner/GoogleAdSense_300x250.asp"-->
+							<!--<iframe src="/pc2020v5/Product_Banner/GoogleAdSense_300x250.asp" marginwidth=0 marginheight=0 frameborder=0 width=320 height=270></iframe>-->
+							<!--include virtual="/pc2020v5/Conference2006/promo2.asp"-->
+							<table>
+
+							<tr>
+								<td>
+
+								</td>   
+							</tr> 
+							
+							</table>                   							
+						</table>	
+      
+    <!--
+					</td>-->
+				</tr>
+				
+			</table>
+		</td> 
+	</tr>     
+    
+		</table>		
+            <iframe src="/pc2020v5/forum/GoogleAD_Bottom.asp" marginwidth=0 marginheight=0 frameborder=0 width=828 height=150></iframe>				
+	</td>
+	
+<style>
+<!--
+.c2          { font-family: Century Gothic; font-size: 10pt }
+.c99          { font-family: Century Gothic; font-size: 11pt }
+-->
+</style>
+                <td width="190" valign="top">
+                  <table border="0" height="100%" width="100%" cellspacing="0" bgcolor="#FFFFFF" valign="top">                  
+					<tr>
+					  <td width="100%" bgcolor="#FFFFFF">
+						
+						<!--<a href=/pc2020v5/Tools/ADRedirect.asp?code=mix08_20080708&p=top target=blank><img src=/images/MS/MIX08/220X60.gif border=0  width=220 height=60></a>&nbsp;-->
+					  </td>
+					</tr>
+								                        
+                    <tr width=100%>
+                      <td valign="top">                                              
+                        
+                        <table valign="top"  width=100%>
+                        
+						  <tr>
+						    <td width="100%" align=center>
+
+								<tr>
+								  <td width="100%" align="center" bgcolor="#5A67AA">
+								    <table border="0" width="100%" cellspacing="0" cellpadding="0" class=font4>
+								      <tr>
+								        <td width="100%" bgcolor="#FFFFFF" height=23  align=left>
+                                        &nbsp;&gt;  <a href="/forum/directx.html" class=font4><font color="#0000CC">DirectX  - 討論區</font></a>                                        
+                                        </td>
+								      </tr>
+
+								      <tr>
+								        <td width="100%" bgcolor="#FFFFFF">
+								          <table border="0" width="100%" cellpadding="0" cellspacing="3">
+								            <tr>
+								              <td width="100%" bgcolor="#EEEEEE">
+								                <table border="0" width="100%" cellspacing="0" cellpadding="0" class=C1>
+								                  <tr>
+								                    <td width="1%"></td>
+								                    <td width="99%" height="21"  align=left>&nbsp;- <a href="/kb_QA_List/directx/recent.html" class=font4><font color="#000000">最近熱門問答精華集</font></a></td>
+								                  </tr>
+								                  <tr>
+								                    <td width="1%"></td>
+								                    <td width="99%" height="21"  align=left>&nbsp;- <a href="/kb_QA_List/directx/all.html" class=font4><font color="#000000">全部歷史問答精華集</font></a></td>
+								                  </tr>
+								                  <!--
+								                  <tr>
+								                    <td width="1%"></td>
+								                    <td width="99%" height="21">&nbsp;- <a href="/kb_forum/40/.html"><font color="#000000">尚待高手回應的問題</font></a></td>
+								                  </tr>
+								                  -->
+								                  <tr>
+								                    <td width="1%"></td>
+								                    <td width="99%" height="21"  align=left>&nbsp;- 
+								                    <!--<a href="/pc2020v5/forum/forumN.asp?board_pc2020="><font color="#0066FF">討論區</font></a>-->
+								                    <a href="/kb/directx.html" class=font4><font color="#006600">DirectX  - 知識庫</font></a>
+								                    </td>
+								                  </tr>
+								                </table>
+
+								                <table border="0" width="100%" cellspacing="0" cellpadding="0" class=c2>						  						  
+                                                    <tr>
+                                                      <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;<a href="/pc2020v5/RecentDocList.asp" class="font4"><font color="#0066FF">全站最新Post列表</b></a></td>
+                                                    </tr>
+		                                            <tr>
+			                                              <td align="center" bgcolor="#C0C0C0"></td>
+		                                            </tr>		       
+                                                    <tr>
+                                                      <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;<a href="/pc2020v5/myFavorites/myFavorites.asp" class="font4"><font color="#2D723D">我的文章收藏</b></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;<a href="/pc2020v5/myFavorites/myAuthor.asp" class="font4"><font color="#0000FF">我最愛的作者</b></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;<a href="/pc2020v5/myFavorites/myFavorites_Rank.asp" class="font4"><font color="#2D723D">全站文章收藏排行榜</b></a></td>
+                                                    </tr>                
+                                                    <tr>
+                                                      <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;<a href="/pc2020v5/myFavorites/myAuthor_Rank.asp" class="font4"><font color="#0000FF">全站最愛作者排行榜</b></a></td>
+                                                    </tr>        
+								                    </td>
+								                  </tr>								    
+                                              </table> 
+
+								              </td>
+								            </tr>
+								          </table>
+								        </td>
+								      </tr>
+								    </table>
+
+						    </td>
+						  </tr>
+					<tr>
+					  <td width="250" bgcolor="#FFFFFF" align=center>
+                            <tr>
+                                <td>			
+                                		  
+                                <!--Banner_300x250 CF-->
+                                <!--
+                                      <table width="" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td>
+                                                <iframe
+                                allowtransparency="true"
+                                src="http://ads.doublemax.net/delivery/?iframe&amp;z=1128"
+                                width="300" height="250"
+                                framespacing="0" frameborder="no" scrolling="no">
+                                </iframe>
+                                          </td>
+                                        </tr>
+                                      </table>         
+                                -->
+                                <!--Banner_160x400-->                                
+                                <table width="170" border="0" cellspacing="0" cellpadding="0" align=center>
+                                        <tr>
+                                          <td>
+                                            <iframe src="/pc2020v5/forum/banner_160x400.asp" marginwidth=0 marginheight=0 frameborder=0 width=165 height=610 align=center></iframe>
+                                        </td>
+                                        </tr>
+                                      </table>  
+                                </td>
+                            </tr>
+                                      <!--MSDN Block-->
+                                      <!--include virtual="/rss_block/rss_block.asp" -->              
+              					  
+								<tr>
+								  <td width="100%" align="center" bgcolor="#5A67AA">
+								    <table border="0" width="100%" cellspacing="0" cellpadding="0" class=item>						  
+						  
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/forum/forumN.asp?type_PC2020=sametitle&amp;board_pc2020=directx&amp;mode=month" class="font4">
+          <font color=#EC5800>月熱門主題</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/forum/forumN.asp?type_PC2020=sametitle&amp;board_pc2020=directx&amp;mode=quarter" class="font4"><font color=#FF9A10>季熱門主題</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/forum/forumN.asp?type_PC2020=sametitle&amp;board_pc2020=directx&amp;mode=top20" class="font4"><font color=#00A652>熱門主題Top 20</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/forum/ranklist.asp?board_pc2020=directx&amp;mode=RankList_Post');" class="font4">
+          <font color=#000080>本區Post排行榜</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/forum/ranklist.asp?board_pc2020=directx&amp;mode=RankList_Eva');" class="font4">
+          <font color=#000080>本區評價排行榜</b></a></td>
+        </tr> 						  
+		<tr>
+			  <td align="center" bgcolor="#C0C0C0"></td>
+		</tr>         
+		
+        <tr>
+          <td width="" align="Left"  bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/default_ExpertRank.asp');" class="font4"><font color="#CC6666">全站專家名人榜</b></a></td>          
+        </tr>		
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/forum/ranklist2.asp?board_pc2020=directx&amp;mode=AllRankList_Post');" class="font4">
+          <font color="#2D2D2D">全站Post排行榜</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/forum/ranklist2.asp?board_pc2020=directx&amp;mode=AllRankList_Eva');" class="font4">
+          <font color="#2D2D2D">全站評價排行榜</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="javascript:OpenWindow('/pc2020v5/forum/ranklist2.asp?board_pc2020=directx&amp;mode=AllRankList_Hot');" class="font4">
+          <font color="#2D2D2D">全站人氣排行榜</b></a></td>
+        </tr>
+		<tr>
+			  <td align="center" bgcolor="#C0C0C0"></td>
+		</tr>
+
+        <!--
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/RecentDocList.asp" class="font4"><font color="#0066FF">全站最新Post列表</b></a></td>
+        </tr>
+		<tr>
+			  <td align="center" bgcolor="#C0C0C0"></td>
+		</tr>
+		       
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/myFavorites/myFavorites.asp" class="font4"><font color="#2D723D">我的文章收藏</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/myFavorites/myFavorites_Rank.asp" class="font4"><font color="#2D723D">文章收藏排行榜</b></a></td>
+        </tr>                
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/myFavorites/myAuthor.asp" class="font4"><font color="#0000FF">我最愛的作者</b></a></td>
+        </tr>
+        <tr>
+          <td width="" align="Left" bgcolor="#FFFFFF">　&nbsp;■&nbsp;
+          <a href="/pc2020v5/myFavorites/myAuthor_Rank.asp" class="font4"><font color="#0000FF">最愛作者排行榜</b></a></td>
+        </tr>        
+        -->
+								        </td>
+								      </tr>
+								    </table>       
+                                     
+        
+						  
+<tr>
+    <td width="100%" align="center" >
+		<table width="100%">
+		  <tr>
+		    <td width="100%" align="center" bgcolor="#5A67AA">		    
+		      <table class="c2" cellpadding="0" width="100%" border="0" cellspacing="0">
+		      <form name=formSearch method=post action="/pc2020v5/forum/SaveKeywordN.asp">
+		        <tbody bgcolor="white">
+		            <tr>
+		              <td bgcolor="#FFFFFF">&nbsp;請輸入關鍵字&nbsp; <!--<a href="HotKeyword.asp?board_pc2020=directx">熱門查詢</a>-->
+					  </td>
+					</tr>
+					<tr>
+						<td>&nbsp;
+							<input name="keyword" size="12" class="c2" value="">
+							<a href="javascript:formSearch.submit();"><img name="Image22" border="0" src="/pc2020v5/images/searchup.gif" alt="開始搜尋" align="absMiddle"></a>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;
+							<select name="selectmethod" class=c2>
+								<option value="subject" >標題</option>
+								<option value="content" >內文</option>
+								<!--<option value="both" >內文+標題</option>-->
+								<option value="DocId" >文章ID</option>
+								<option value="author" >作者暱稱</option>
+							</select>
+		              </td>
+		            </tr>
+		            <tr>
+						<td>
+							
+						</td>
+					</tr>								
+		        <input type=hidden name=board_pc2020 value="directx">
+		        <input name="type_PC2020" type="hidden" value="keyword">
+		        </form>
+		          </tbody>
+		        </table>
+		      </center></td>
+		  </tr>
+		</table>
+  </td>
+</tr>                        
+&nbsp;<font align=left class=font4>板主 : <font color=#000080 face='Century Gothic'>
+	<a href="/member2012.asp?uid=ma_hty&title=directx" class=font4><b><font color="#000080" face=verdana>白老鼠(Gary)</b></font></a>
+	
+
+								      
+                          <tr>
+                            <td width="100%" align="center" bgcolor="#5A67AA">
+                              <table border="0" width="100%" cellspacing="0" cellpadding="0" class=font3>
+                                <tr>
+                                  <td width="100%" class="c2"  bgcolor="#FFFFFF">
+
+										<table border="0" width="100%" cellspacing="0" cellpadding="0" class=c2>
+										  <tr>
+										    <td width="45%" align=center><b>Top 10</b> <br>評價排行</td>
+										    <td width="26"><img src="/pc2020v5/images/mark/048.gif"></td>
+										    <td  align=center>DirectX </td>
+										  </tr>
+										</table>									
+										                                    
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td width="100%" bgcolor="#FFFFFF">
+									<table border="0" width="100%" cellspacing="1" cellpadding="0"  class="c2">
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  color=red><i>1</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=dorkas" class=c2><font color="#0066EE">aming</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>4010</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  color=red><i>2</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=pernghy" class=c2><font color="#0066EE">pernghy</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>1780</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  color=red><i>3</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=ma_hty" class=c2><font color="#0066EE">白老鼠(Gary)</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>1120</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  color=red><i>4</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=akira32" class=c2><font color="#0066EE">Akira</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>1020</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  color=red><i>5</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=daniel" class=c2><font color="#0066EE">冷眼</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>980</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  ><i>6</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=PLAYER" class=c2><font color="#0066EE">PLAYER</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>690</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  ><i>7</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=asoedarren" class=c2><font color="#0066EE">阿西德倫</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>480</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  ><i>8</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=andrechen" class=c2><font color="#0066EE">andre</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>450</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  ><i>9</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=lloperylou" class=c2><font color="#0066EE">小弦</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>430</font>&nbsp;</td>
+									  </tr>
+									
+									  <tr>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <font size="1"  ><i>10</td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=center>
+									    <a href="/member2012.asp?uid=lancelotchen" class=c2><font color="#0066EE">藍斯洛</font></a></td>
+									    <td width="" bgcolor="#EEEEEE" height="12" align=right><font size="1" color="#333333"><i>410</font>&nbsp;</td>
+									  </tr>
+									
+									</table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          <center>
+                          
+                          <tr>
+                            <td width="100%"></td>
+                          </tr>
+                          <tr>
+                            <td width="100%">
+
+	<tr>
+	<td width="100%" >
+		<tr>
+		  <td width="" align=center>
+              <!--Google AD-->
+                <table width="" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <iframe src="/pc2020v5/Product_Banner/GoogleAdSense_300x250_2.asp" marginwidth=0 marginheight=0 frameborder=0 width=320 height=270></iframe>
+                    </td>
+                </tr>
+                </table>  
+		  </td>
+		</tr>				
+	</td>
+	</tr>
+
+                            </td>
+                          </tr>
+                          </table>
+                        </center></td>
+                    </tr>
+                    <tr>
+						<td>
+							<table border="0" width="100%" cellspacing="0" cellpadding="0">
+							  <tr>
+							    <td width="100%"></td>
+							  </tr>
+<tr>
+    <td width="250" align="center" >
+		<table>
+		  <tr>
+		    <td width="250" align="center" bgcolor="#5A67AA">
+		      <table class="c99" cellpadding="0" width="100%" border="0" cellspacing="0">
+		        <tbody bgcolor="white">
+		          <tr>
+		            <td width="" bgcolor="#FFFFFF" colspan="4">
+		              <div align="center">
+		                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+		                  <tr>
+		                    <td width="" ALIGN=CENTER><font size="2" color="#333333">DirectX </font></td>
+		                    <td width="" align=left><img border="0" src="/pc2020v5/images/mark/048.gif"></td>
+		                    </tr>
+		                  </table>
+		                </center>
+		              </div>
+		            </td>		            
+		          </tr>
+		            <tr>
+		              <td bgcolor="#FFFFFF">　</td>
+		              <td bgcolor="#FFFFFF"><b>專家等級</b></td>
+		              <td align="right" bgcolor="#FFFFFF"><b>評價</b></td>
+		              <td bgcolor="#FFFFFF">　</td>
+		            </tr>	
+		            <tr>
+		              <td bgcolor="#FFFFFF">　</td>
+		              <td align="left" bgcolor="#FFFFFF"><font color="#0033CC"><b>一代宗師</td>
+		              <td align="right" bgcolor="#FFFFFF"><font color="#CC0000"><i>10000</td>
+		              <td bgcolor="#FFFFFF">　</td>
+		            </tr>		            		            	          
+		            <tr>
+		              <td bgcolor="#FFFFFF">　</td>
+		              <td align="left" bgcolor="#FFFFFF"><font color="#0033CC"><b>曠世奇才</td>
+		              <td align="right" bgcolor="#FFFFFF"><font color="#CC0000"><i>5000</td>
+		              <td bgcolor="#FFFFFF">　</td>
+		            </tr>		            
+		            <tr>
+		              <td bgcolor="#FFFFFF">　</td>
+		              <td align="left" bgcolor="#FFFFFF"><font color="#0033CC"><b>頂尖高手</td>
+		              <td align="right" bgcolor="#FFFFFF"><font color="#CC0000"><i>3000</td>
+		              <td bgcolor="#FFFFFF">　</td>
+		            </tr>
+		            <tr>
+		              <td bgcolor="#FFFFFF">　</td>
+		              <td  align="left" bgcolor="#FFFFFF"><font color="#0033CC"><b>卓越專家</td>
+		              <td align="right" bgcolor="#FFFFFF"><font color="#CC0000"><i>1500</td>
+		              <td bgcolor="#FFFFFF">　</td>
+		            </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF">　</td>
+		            <td  align="left" bgcolor="#FFFFFF"><font color="#0033CC"><b>優秀好手</td>
+		            <td align="right" bgcolor="#FFFFFF"><font color="#CC0000"><i>750</font></td>		            
+		            <td width="80" bgcolor="#FFFFFF">　</td>
+		            </tr>
+		          </tbody>
+		        </table>
+		      </center></td>
+		  </tr>
+		</table>
+  </td>
+</tr>
+
+	<tr>
+	<td width="100%" >
+		<tr>
+		  <td width="" align=center>
+              <!--Google AD-->
+                <table width="" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <iframe src="/pc2020v5/Product_Banner/GoogleAdSense_300x250_2.asp" marginwidth=0 marginheight=0 frameborder=0 width=320 height=270></iframe>
+                    </td>
+                </tr>
+                </table>  
+		  </td>
+		</tr>				
+	</td>
+	</tr>
+							</table>
+
+						</td>
+                    </tr>
+                  </table>
+                </td>
+
+
+<SCRIPT LANGUAGE=javascript>
+<!--
+function OpenWindows(theURL) { //v2.0
+  window.open(theURL,'_blank','width=720,height=550,scrollbars=yes');
+}
+
+function OpenWindow(URL){
+	window.open(URL, "", "width=720,height=550,scrollbars=yes");
+}
+//-->
+</SCRIPT>
+
+  </tr>
+</table>
+<table width=768 align=center border="0" cellspacing="0" cellpadding="0">      
+	<tr>
+		<td align=center class=c2>
+			    <tr> 
+      <td height="47" colspan="2" background="/images/club_121.jpg"><div align="center" class=item>
+      <a href="/">回首頁</a>│<a href="/diary.asp">本站大事記</a>│<!--<a href="/pc2020v5/media/media.asp">媒體採訪</a>│--><a href="/award.asp">得獎記錄</a>│<a href="/pc2020v5/about.asp">站長的話</a>│<a href="/pc2020v5/bmList.asp">本站板主群</a>│<a href="/pc2020v5/addhelp.asp">贊助本站</a>│<a href="/pc2020v5/webemail.asp?type=1">意見信箱</a>│<a href="/pc2020v5/memberlogon.asp">板主登入</a>│<a href="/pc2020v5/conference2006/conference_01_20051015/">2006研討會</a>│<a href="/pc2020v5/conference/5End.asp">2005研討會</a>│<a href="/intro.asp">認識本站</a>│<a href="/pc2020v5/ad.asp">廣告刊登</a> 
+        </div></td>
+    </tr>
+		</td>
+	</tr>
+    <tr> 
+      <td height="62" background="/images/club_122.jpg"><div align="right"> 
+          <table width="578" border="0" cellspacing="0" cellpadding="0">
+            <tr> 
+              <td width="577"><div align="center">Microsoft Internet Explorer 
+                  6.0. Screen 1024x768 pixel. High Color (16 bit).<br>
+                  2000-2019 程式設計俱樂部 http://www.programmer-club.com.tw/</div></td>
+            </tr>
+          </table>
+        </div></td>
+    </tr>
+</table>
+
+</td>
+</tr>
+</table>
+<form name=formEv method=post action="/pc2020v5/forum/AddEvaN.asp">
+	<input type=hidden name=authoruid>
+	<input type=hidden name=boardName>
+	<input type=hidden name=ParentDocId>
+	<input type=hidden name=DocId>
+	<input type=hidden name=id>
+	<input type=hidden name=board_pc2020>	
+	<input type=hidden name=mode>
+</form>
+
+<iframe src="/google-analytics_showsametitlen.asp" marginwidth=0 marginheight=0 frameborder=0 width=1 height=1></iframe>
+</BODY>
+
+</HTML>
+
+<SCRIPT LANGUAGE=javascript>
+<!--
+function deldoc(url){
+	var rtn;
+	rtn = window.confirm('確定刪除此篇文章 ?');
+	if (rtn) location.href = url;
+}
+
+function AddMyAuthor(uid, name){
+	if (window.confirm("確定將網友" + uid + "(" + name + ")加入我喜愛的作者嗎 ?")){
+		location.href = "AddMyAuthor.asp?AuthorUID=" + uid;
+	}
+}
+function addMyFavorites(DocID){
+	if (window.confirm("您確定要將此主題加入我的文章收藏嗎 ?")) {
+		location.href = "addMyFavorites.asp?DocID=" + DocID + "&board_pc2020=directx";
+	}
+}
+
+function delMyFavorites(DocID){
+	if (window.confirm("您確定要將此主題自我的文章收藏移除嗎 ?")) {
+		location.href = "delMyFavorites.asp?DocID=" + DocID + "&board_pc2020=directx";
+	}
+}
+//-->
+</SCRIPT>
+<!--include virtual="/pc2020v5/Tools/BoardPageView.asp" -->
+0.0625

@@ -1,0 +1,902 @@
+<!DOCTYPE HTML>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nood.js C++ 模块 addon插件（四） - 程序园</title>
+    <meta name="keywords" content="nood.js,nood,js,c++,模块,addon,插件,四" />
+    <meta name="description" content="  官方node手册 一篇重量级的：    1   return 函数    执行函数返回hello world：    #define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+
+using namespace v8;//命名空间
+
+Handle&lt;Value&gt; MyFunction(const Arguments& args) {//定义一个C++函数，" />
+    <meta name="google-site-verification" content="eVo932LL8QghamZXYXdbvMxZcdr2v6nNXj2f7mfA1cw" />
+    
+    <link rel="shortcut icon" href="http://static02.voidcn.com/voidcn/favicon.ico" type="image/x-icon"/>
+    <link href="http://static02.voidcn.com/voidcn/css/pub.min.css?time=1550311720688" rel="stylesheet">
+    <link href="http://static02.voidcn.com/voidcn/css/application.min.css?time=1550311720688" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="http://static02.voidcn.com/voidcn/css/font-awesome.css?time=1550311720688" rel="stylesheet">
+    
+    <script src="http://static02.voidcn.com/voidcn/script/pub.js?time=1550311720688" type="text/javascript"></script>
+    <script src="http://static02.voidcn.com/voidcn/script/application.js?time=1550311720688" type="text/javascript"></script>
+    
+</head>
+
+<body>
+
+<div id="header" class="navbar-fixed-top">
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a href="http://www.voidcn.com/" class="brand">程序园</a>
+                <nav class="nav-collapse collapse">
+                    <ul class="nav navbar primary-nav">
+                        <li class="">
+                            <a href="http://www.voidcn.com/column">栏目</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/tag">标签</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/cata">分类</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/course">教程</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.voidcn.com/code">代码</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-left" action="/gsearch">
+						<input type="text" class="search-query span2" name="q" placeholder="搜索">
+					</form>
+                    <ul class="nav pull-right">
+                        <li><a href="javascript:void()"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div><link href="http://static02.voidcn.com/voidcn/css/share.css?time=1550311720688" rel="stylesheet">
+<link href="http://static02.voidcn.com/voidcn/css/fontello.css?time=1550311720688" rel="stylesheet">
+
+<div class="container-fluid">
+	<div class="row-fluid article_row_fluid">
+
+<div class="span9 contant article_detail_bg">
+
+	<h1>Nood.js C++ 模块 addon插件（四）</h1>
+	
+    <div class="article_meta">
+        <div style="margin-bottom: 2px;">
+    		<span class="timestamp">时间&nbsp;&nbsp;2014-04-03</span>
+        </div>
+
+			<div style="margin-bottom: 2px;">
+					<span>栏目</span>
+					<a target='_blank' href="http://www.voidcn.com/column/javascript
+" title="JavaScript"> <span class="new-label">JavaScript</span></a>
+	        </div>
+        
+	        <div>
+	        	<span class="source">
+	            	<i style="float:left;">原文</i>&nbsp;&nbsp;
+	            	<a id="originfo" class="cut cut70" href="javascript:void()" target="_blank" tyle="display:inline-block;" rel="nofollow">原文链接</a>
+	    		</span>
+	        </div>
+    </div>
+    <div class="article_body" id="nei">
+	    	<div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 正文顶部广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="8264218718"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+        <div>
+           <p>&nbsp; 官方node手册 一篇重量级的：</p> 
+<p><br> </p> 
+<p>&nbsp;&nbsp; 1&nbsp;&nbsp; return 函数</p> 
+<p>&nbsp;&nbsp; 执行函数返回hello world：</p> 
+<p>&nbsp;&nbsp; </p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_1_9016500" class="cpp" name="code">#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+
+using namespace v8;//命名空间
+
+Handle&lt;Value&gt; MyFunction(const Arguments&amp; args) {//定义一个C++函数，返回hello world
+  HandleScope scope;
+  return scope.Close(String::New("hello world"));
+}
+
+Handle&lt;Value&gt; CreateFunction(const Arguments&amp; args) { //定义一个方法，用来return函数myfunction
+  HandleScope scope;
+
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(MyFunction);//创建一个函数模版对象
+  Local&lt;Function&gt; fn = tpl-&gt;GetFunction(); //得到local对象，就是js需要的函数对象
+  fn-&gt;SetName(String::NewSymbol("theFunction")); // omit this to make it anonymous//个这个函数起别名，如果省略就是匿名函数
+
+  return scope.Close(fn);//将此函数作为返回值返回出去
+}
+
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol("createFunction"),
+      FunctionTemplate::New(CreateFunction)-&gt;GetFunction());
+}
+
+NODE_MODULE(addon, Init)我们着重看下面两行代码
+</pre> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_2_7664487" class="cpp" name="code"> Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(MyFunction);
+  Local&lt;Function&gt; fn = tpl-&gt;GetFunction(); 
+  fn-&gt;SetName(String::NewSymbol("theFunction")); 
+</pre> 
+<p>FunctionTemplate用来创建函数的，在一个上下文中仅能创建一个FunctionTemplate</p> 
+<p>创建的函数声明周期等于这个上下文存在的声明周期，一个FunctionTemplate可以拥有属性，当你创建它后，这些属性可以加给他。</p> 
+<p>一个FunctionTemplate可以由原型模板，这个原型模板是用来创建原型链对象。</p> 
+<p>下面是V8官网的代码示例：</p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_3_140506" class="cpp" name="code">  v8::Local&lt;v8::FunctionTemplate&gt; t = v8::FunctionTemplate::New(); //创建一个函数模版
+    t-&gt;Set("func_property", v8::Number::New(1)); //设置这个函数模版的属性 func_property 为number型1
+</pre> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_4_1503709" class="cpp" name="code">v8::Local&lt;v8::Template&gt; proto_t = t-&gt;PrototypeTemplate(); //定义proto_t指向t的原形链的函数模版，也就是function类，每个函数对象都是function类的实例
+    proto_t-&gt;Set("proto_method", v8::FunctionTemplate::New(InvokeCallback)); //在t的原形链上定义proto_method方法，等于调用InvokeCallback
+    proto_t-&gt;Set("proto_const", v8::Number::New(2));//在function的原形链上增加静态属性2
+
+    v8::Local&lt;v8::ObjectTemplate&gt; instance_t = t-&gt;InstanceTemplate(); //获得t的实例模版
+    instance_t-&gt;SetAccessor("instance_accessor", InstanceAccessorCallback); //设置访问器
+    instance_t-&gt;SetNamedPropertyHandler(PropertyHandlerCallback, ...);
+    instance_t-&gt;Set("instance_property", Number::New(3));
+
+    v8::Local&lt;v8::Function&gt; function = t-&gt;GetFunction();//将t转化为js的function对象
+    v8::Local&lt;v8::Object&gt; instance = function-&gt;NewInstance();//实例化t，赋值给instance
+</pre> 
+<p>下面是js代码：</p> 
+<p><br> </p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_5_6454962" class="javascript" name="code">func_property in function == true;
+   function.func_property == 1;
+
+   function.prototype.proto_method() invokes 'InvokeCallback'
+   function.prototype.proto_const == 2;
+
+   instance instanceof function == true;
+   instance.instance_accessor calls 'InstanceAccessorCallback'
+   instance.instance_property == 3;
+</pre> 
+<p><br> <br> 具体的我们如何利用c++函数给node，我们的大致思路是：</p> 
+<p>先写C++函数，然后里哟个函数模板转化成js模板函数，接着为这个函数模板做一些属性设置，比如原型链或者静态属性等，</p> 
+<p>最后调用这个函数模板指针的GetFunction方法，转化成local&lt;function&gt;类型，供node使用</p> 
+<p><br> </p> 
+<p>2&nbsp;&nbsp; 包裹c++对象 </p> 
+<p><br> </p> 
+<p>官网接下来的例子是用c++的类Myobjet输出给js，然后js通过new的操作来获取它。</p> 
+<p>先看代码：</p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_6_4404838" class="cpp" name="code">#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+#include "myobject.h" //加载myobject文件
+
+using namespace v8;
+
+void InitAll(Handle&lt;Object&gt; target) {
+  MyObject::Init(target);//将target转递给Myobject类下的静态方法Init
+}
+
+NODE_MODULE(addon, InitAll)
+</pre> 
+<p><br> <br> myobject.h的代码；</p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_7_9007427" class="cpp" name="code">#ifndef MYOBJECT_H   //如果没有定义 MYOBJECT_H   
+#define MYOBJECT_H
+
+#include &lt;node.h&gt;
+
+class MyObject : public node::ObjectWrap {//声明类Myobject，public继承自node命名空间的ObjectWrap基类
+ public:
+  static void Init(v8::Handle&lt;v8::Object&gt; target); //声明静态方法Init
+
+ private:
+  MyObject(); //声明构造函数
+  ~MyObject(); //声明析构函数
+
+  static v8::Handle&lt;v8::Value&gt; New(const v8::Arguments&amp; args);//声明New方法
+  static v8::Handle&lt;v8::Value&gt; PlusOne(const v8::Arguments&amp; args);//声明PlusOne方法
+  double counter_;
+};
+
+#endif
+</pre> 
+<p><br> </p> 
+<p>myobject.cc：</p> 
+<p></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_8_894018" class="cpp" name="code">#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+#include "myobject.h"
+
+using namespace v8;
+
+MyObject::MyObject() {};
+MyObject::~MyObject() {};
+
+void MyObject::Init(Handle&lt;Object&gt; target) {
+  // Prepare constructor template
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(New);//定义一个函数模版tpl
+  tpl-&gt;SetClassName(String::NewSymbol("MyObject")); //设置函数模版的类名 MyObject
+  tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);//设置这个对象模版内部字段的数量
+  // Prototype
+  tpl-&gt;PrototypeTemplate()-&gt;Set(String::NewSymbol("plusOne"),
+      FunctionTemplate::New(PlusOne)-&gt;GetFunction());//设置tpl的原形链上的方法，名叫plusOne
+
+  Persistent&lt;Function&gt; constructor = Persistent&lt;Function&gt;::New(tpl-&gt;GetFunction()); //获得构造函数
+//Persistent类表示需要明确的调用Persistent::Dispose才回去GC
+  target-&gt;Set(String::NewSymbol("MyObject"), constructor); //设置Myobject为构造函数
+}
+
+Handle&lt;Value&gt; MyObject::New(const Arguments&amp; args) { //对外的new函数
+  HandleScope scope;
+
+  MyObject* obj = new MyObject();//实例化一个Myobject对象，用obj指针指向
+  obj-&gt;counter_ = args[0]-&gt;IsUndefined() ? 0 : args[0]-&gt;NumberValue(); //私有属性counter_初始化
+  obj-&gt;Wrap(args.This());//包裹 args对象
+
+  return args.This();
+}
+
+Handle&lt;Value&gt; MyObject::PlusOne(const Arguments&amp; args) {
+  HandleScope scope;
+
+  MyObject* obj = ObjectWrap::Unwrap&lt;MyObject&gt;(args.This());//指针变量指向arg对象
+  obj-&gt;counter_ += 1; //obj对象的属性counter_加上了1
+
+  return scope.Close(Number::New(obj-&gt;counter_));//函数返回obj的counter属性
+}
+</pre> 
+<br> 
+<p></p> 
+<p><br> <span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:'微软雅黑','sans-serif'"><span style="font-size:14px">这里有几个需要我们仔细消化下：</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US"><span style="">&nbsp;</span>tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);//</span></span><span style="font-family:'微软雅黑','sans-serif'">设置从这个模版实例化的数量</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">InstanceTemplate</span></span><span style="font-family:'微软雅黑','sans-serif'">方法用来获得</span><span style="font-family:Tahoma"><span lang="EN-US">tpl</span></span><span style="font-family:'微软雅黑','sans-serif'">模版的实例的模版，返回</span><span style="font-family:Tahoma"><span lang="EN-US">Local&lt;ObjectTemplate&gt;</span></span><span style="font-family:'微软雅黑','sans-serif'">而</span><span style="font-family:Tahoma"><span lang="EN-US">SetInternalFieldCount</span></span><span style="font-family:'微软雅黑','sans-serif'">方法用来对这个对象模版设置内部字段的数量，这里设置为</span><span style="font-family:Tahoma"><span lang="EN-US">1.</span></span><span style="font-family:'微软雅黑','sans-serif'">这里我也不是很明白，起初以为是只能设置对象的一个属性，后来发现不是那样的，谷歌查询之后发现是映射关系的参数。</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US"><span style="">&nbsp;</span>Persistent&lt;Function&gt; constructor =Persistent&lt;Function&gt;::New(tpl-&gt;GetFunction()); //</span></span><span style="font-family:'微软雅黑','sans-serif'">获得构造函数</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">//Persistent</span></span><span style="font-family:'微软雅黑','sans-serif'">类表示需要明确的调用</span><span style="font-family:Tahoma"><span lang="EN-US">Persistent::Dispose</span></span><span style="font-family:'微软雅黑','sans-serif'">才回去</span></span><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">GC<br> <span style="">&nbsp;</span>target-&gt;Set(String::NewSymbol("MyObject"), constructor); //</span></span><span style="font-family:'微软雅黑','sans-serif'">设置</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">为构造函数</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">Persistent</span></span><span style="font-family:'微软雅黑','sans-serif'">这个类型不同于</span><span style="font-family:Tahoma"><span lang="EN-US">local</span></span><span style="font-family:'微软雅黑','sans-serif'">，他不会自动的去</span><span style="font-family:Tahoma"><span lang="EN-US">GC</span></span><span style="font-family:'微软雅黑','sans-serif'">，而要求用户手动去</span><span style="font-family:Tahoma"><span lang="EN-US">Dispose</span></span><span style="font-family:'微软雅黑','sans-serif'">，所以这里就等于声明了全局变量，但是在</span><span style="font-family:Tahoma"><span lang="EN-US">node</span></span><span style="font-family:'微软雅黑','sans-serif'">端这里用</span><span style="font-family:Tahoma"><span lang="EN-US">Local</span></span><span style="font-family:'微软雅黑','sans-serif'">替换</span><span style="font-family:Tahoma"><span lang="EN-US">Persistent</span></span><span style="font-family:'微软雅黑','sans-serif'">是一样的。</span></span></p> 
+<p><span style="font-family:宋体; font-size:14px"></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">Javascript</span></span><span style="font-family:'微软雅黑','sans-serif'">中的</span><span style="font-family:Tahoma"><span lang="EN-US">this</span></span><span style="font-family:'微软雅黑','sans-serif'">指针可以通过</span><span style="font-family:Tahoma"><span lang="EN-US">Arguments::This()</span></span><span style="font-family:'微软雅黑','sans-serif'">得到</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">js代码：</span></span></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_9_8320506" class="javascript" name="code">var addon = require('./build/Release/addon');
+
+var obj = new addon.MyObject(10);
+console.log( obj.plusOne() ); // 11
+console.log( obj.plusOne() ); // 12
+console.log( obj.plusOne() ); // 13
+</pre> 
+<br> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'"></span></span><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3</span></span><span style="font-family:'微软雅黑','sans-serif'">、官网接下来一个例子是用</span><span style="font-family:Tahoma"><span lang="EN-US">createObject</span></span><span style="font-family:'微软雅黑','sans-serif'">方法来代替</span><span style="font-family:Tahoma"><span lang="EN-US">new</span></span><span style="font-family:'微软雅黑','sans-serif'">关键字，和上面代码区别只有一块：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span lang="EN-US"><span style="font-family:Tahoma; font-size:14px"></span></span></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_10_7731862" class="cpp" name="code">Handle&lt;Value&gt; MyObject::NewInstance(const Arguments&amp; args) {
+  HandleScope scope;
+
+  const unsigned argc = 1;
+  Handle&lt;Value&gt; argv[argc] = { args[0] };
+  Local&lt;Object&gt; instance = constructor-&gt;NewInstance(argc, argv);
+
+  return scope.Close(instance);
+ }</pre> 
+<br> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">官方</span><span style="font-family:Tahoma"><span lang="EN-US">api</span></span><span style="font-family:'微软雅黑','sans-serif'">对</span><span style="font-family:Tahoma"><span lang="EN-US">NewInstance</span></span><span style="font-family:'微软雅黑','sans-serif'">的定义：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span lang="EN-US"><span style="font-family:Tahoma; font-size:14px">V8EXPORT Local&lt; Object &gt;<span style="">&nbsp; </span>NewInstance (int argc, Handle&lt; Value &gt;argv[]) const</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">注意这里的</span><span style="font-family:Tahoma"><span lang="EN-US">NewInstance</span></span><span style="font-family:'微软雅黑','sans-serif'">不是</span><span style="font-family:Tahoma"><span lang="EN-US">MyObject</span></span><span style="font-family:'微软雅黑','sans-serif'">的方法。</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">代码：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"></span></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_11_4111575" class="javascript" name="code">
+
+var addon = require('./build/Release/addon');
+
+ var obj = addon.createObject(10);
+ console.log( obj.plusOne() ); // 11
+ console.log( obj.plusOne() ); // 12
+ console.log( obj.plusOne() ); // 13
+
+ var obj2 = addon.createObject(20);
+ console.log( obj2.plusOne() ); // 21
+ console.log( obj2.plusOne() ); // 22
+ console.log( obj2.plusOne() ); // 23
+</pre> 
+<br> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">总结一下这</span><span style="font-family:Tahoma"><span lang="EN-US">2</span></span><span style="font-family:'微软雅黑','sans-serif'">段程序的流程吧：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">addon.cc</span></span><span style="font-family:'微软雅黑','sans-serif'">文件</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">1</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">Init</span></span><span style="font-family:'微软雅黑','sans-serif'">函数，用来初始化，在</span><span style="font-family:Tahoma"><span lang="EN-US">Init</span></span><span style="font-family:'微软雅黑','sans-serif'">函数中执行</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">的静态方法</span><span style="font-family:Tahoma"><span lang="EN-US">Init</span></span><span style="font-family:'微软雅黑','sans-serif'">、</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">2</span></span><span style="font-family:'微软雅黑','sans-serif'">、</span><span style="font-family:Tahoma"><span lang="EN-US">Init</span></span><span style="font-family:'微软雅黑','sans-serif'">函数第二行定义一个对外的方法</span><span lang="EN-US"><span style="font-family:Tahoma">createobject</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">createobject</span></span><span style="font-family:'微软雅黑','sans-serif'">方法，执行</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类的静态方法</span><span style="font-family:Tahoma"><span lang="EN-US">NewInstance</span></span><span style="font-family:'微软雅黑','sans-serif'">，然后将其值返回。</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span lang="EN-US"><span style="font-family:Tahoma; font-size:14px">myobject.h</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">1</span></span><span style="font-family:'微软雅黑','sans-serif'">、</span><span style="font-family:Tahoma"><span lang="EN-US">MYOBJECT_H</span></span><span style="font-family:'微软雅黑','sans-serif'">这个常量如果定义过则不重复定义，如果没有则执行</span><span style="font-family:Tahoma"><span lang="EN-US">myobject.h</span></span><span style="font-family:'微软雅黑','sans-serif'">，防止重复加载</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">2</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类，继承自</span><span style="font-family:Tahoma"><span lang="EN-US">node</span></span><span style="font-family:'微软雅黑','sans-serif'">命名空间下的</span><span style="font-family:Tahoma"><span lang="EN-US">ObjectWrap</span></span><span style="font-family:'微软雅黑','sans-serif'">基类</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3</span></span><span style="font-family:'微软雅黑','sans-serif'">、声明</span><span style="font-family:Tahoma"><span lang="EN-US">2</span></span><span style="font-family:'微软雅黑','sans-serif'">个</span><span style="font-family:Tahoma"><span lang="EN-US">public</span></span><span style="font-family:'微软雅黑','sans-serif'">的静态方法</span><span style="font-family:Tahoma"><span lang="EN-US">init</span></span><span style="font-family:'微软雅黑','sans-serif'">和</span><span lang="EN-US"><span style="font-family:Tahoma">NewInstance</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4</span></span><span style="font-family:'微软雅黑','sans-serif'">、声明</span><span style="font-family:Tahoma"><span lang="EN-US">private</span></span><span style="font-family:'微软雅黑','sans-serif'">的属性和方法，声明构造和析构函数，静态属性</span><span style="font-family:Tahoma"><span lang="EN-US">&nbsp;constructor</span></span><span style="font-family:'微软雅黑','sans-serif'">，静态方法</span><span style="font-family:Tahoma"><span lang="EN-US">new</span></span><span style="font-family:'微软雅黑','sans-serif'">和</span><span lang="EN-US"><span style="font-family:Tahoma">plusone</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">最重要的</span><span style="font-family:Tahoma"><span lang="EN-US">myobject.cc</span></span><span style="font-family:'微软雅黑','sans-serif'">文件，主要是对</span><span style="font-family:Tahoma"><span lang="EN-US">myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类各种方法的定义（声明在类中已经做过）</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">1</span></span><span style="font-family:'微软雅黑','sans-serif'">、将</span><span style="font-family:Tahoma"><span lang="EN-US">myobject.h</span></span><span style="font-family:'微软雅黑','sans-serif'">包涵进来</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">2</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义构造和析构函数</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">Init</span></span><span style="font-family:'微软雅黑','sans-serif'">函数</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3-1</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义一个函数模版，模版来源是</span><span style="font-family:Tahoma"><span lang="EN-US">c++</span></span><span style="font-family:'微软雅黑','sans-serif'">的</span><span style="font-family:Tahoma"><span lang="EN-US">myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类的静态方法</span><span lang="EN-US"><span style="font-family:Tahoma">new</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3-2</span></span><span style="font-family:'微软雅黑','sans-serif'">、设置模版函数</span><span style="font-family:Tahoma"><span lang="EN-US">tpl</span></span><span style="font-family:'微软雅黑','sans-serif'">的</span><span style="font-family:Tahoma"><span lang="EN-US">class</span></span><span style="font-family:'微软雅黑','sans-serif'">名，为</span><span lang="EN-US"><span style="font-family:Tahoma">Myobject</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3-3</span></span><span style="font-family:'微软雅黑','sans-serif'">、设置这个</span><span style="font-family:Tahoma"><span lang="EN-US">class</span></span><span style="font-family:'微软雅黑','sans-serif'">名为</span><span style="font-family:Tahoma"><span lang="EN-US">myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">的构造函数（</span><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">中叫这个吧，不是基类）的原形链上的方法</span><span style="font-family:Tahoma"><span lang="EN-US">plusone</span></span><span style="font-family:'微软雅黑','sans-serif'">，并且把</span><span style="font-family:Tahoma"><span lang="EN-US">c++</span></span><span style="font-family:'微软雅黑','sans-serif'">中</span><span style="font-family:Tahoma"><span lang="EN-US">myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类的静态私有方法</span><span style="font-family:Tahoma"><span lang="EN-US">plusone</span></span><span style="font-family:'微软雅黑','sans-serif'">作为函数模版赋值给它</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">3-4</span></span><span style="font-family:'微软雅黑','sans-serif'">、最后将</span><span style="font-family:Tahoma"><span lang="EN-US">constructor</span></span><span style="font-family:'微软雅黑','sans-serif'">变量指向</span><span style="font-family:Tahoma"><span lang="EN-US">tpl</span></span><span style="font-family:'微软雅黑','sans-serif'">转化为的</span><span style="font-family:Tahoma"><span lang="EN-US">Persistent&lt;Function&gt;</span></span><span style="font-family:'微软雅黑','sans-serif'">类型的</span><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">函数对象。</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">new</span></span><span style="font-family:'微软雅黑','sans-serif'">函数</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4-1</span></span><span style="font-family:'微软雅黑','sans-serif'">、创建一个指向</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject</span></span><span style="font-family:'微软雅黑','sans-serif'">类的实例的指针变量</span><span lang="EN-US"><span style="font-family:Tahoma"> obj</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4-2</span></span><span style="font-family:'微软雅黑','sans-serif'">、将这个实例的</span><span style="font-family:Tahoma"><span lang="EN-US">counter_</span></span><span style="font-family:'微软雅黑','sans-serif'">属性初始赋值为</span><span style="font-family:Tahoma"><span lang="EN-US">0</span></span><span style="font-family:'微软雅黑','sans-serif'">或者参数</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4-3</span></span><span style="font-family:'微软雅黑','sans-serif'">、将</span><span style="font-family:Tahoma"><span lang="EN-US">local&lt;object&gt;</span></span><span style="font-family:'微软雅黑','sans-serif'">对象</span><span style="font-family:Tahoma"><span lang="EN-US">wrap</span></span><span style="font-family:'微软雅黑','sans-serif'">包装</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4-4</span></span><span style="font-family:'微软雅黑','sans-serif'">、返回</span><span style="font-family:Tahoma"><span lang="EN-US">local&lt;object&gt;</span></span><span style="font-family:'微软雅黑','sans-serif'">，其实这里就是</span><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">实例的对象，就是</span><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">的</span><span style="font-family:Tahoma"><span lang="EN-US">createobject()</span></span><span style="font-family:'微软雅黑','sans-serif'">方法的返回值</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">5</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">NewInstance</span></span><span style="font-family:'微软雅黑','sans-serif'">方法</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">5-1</span></span><span style="font-family:'微软雅黑','sans-serif'">、生成参数，然后调用</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span lang="EN-US"><span style="font-family:Tahoma; font-size:14px">Local&lt;Object&gt; instance =constructor-&gt;NewInstance(argc, argv);</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">上面这段其实就是生成</span><span style="font-family:Tahoma"><span lang="EN-US">tpl</span></span><span style="font-family:'微软雅黑','sans-serif'">函数模版的实例，同时将参数传进去，就相当于执行了</span><span style="font-family:Tahoma"><span lang="EN-US">Myobject::new</span></span><span style="font-family:'微软雅黑','sans-serif'">的方法</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">5-2</span></span><span style="font-family:'微软雅黑','sans-serif'">、最后将生成的实例通过</span><span style="font-family:Tahoma"><span lang="EN-US">scope.Close</span></span><span style="font-family:'微软雅黑','sans-serif'">返回给客户端</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">6</span></span><span style="font-family:'微软雅黑','sans-serif'">、定义</span><span style="font-family:Tahoma"><span lang="EN-US">PlusOne</span></span><span style="font-family:'微软雅黑','sans-serif'">方法，将</span><span style="font-family:Tahoma"><span lang="EN-US">js</span></span><span style="font-family:'微软雅黑','sans-serif'">的实例对象转化为</span><span style="font-family:Tahoma"><span lang="EN-US">C++</span></span><span style="font-family:'微软雅黑','sans-serif'">对应的实例对象指针，然后执行属性</span><span style="font-family:Tahoma"><span lang="EN-US">counter_</span></span><span style="font-family:'微软雅黑','sans-serif'">加</span><span style="font-family:Tahoma"><span lang="EN-US">1</span></span><span style="font-family:'微软雅黑','sans-serif'">，最后返回数据</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"></span><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">4</span></span><span style="font-family:'微软雅黑','sans-serif'">、</span><span style="font-family:Tahoma"><span lang="EN-US">wrap</span></span><span style="font-family:'微软雅黑','sans-serif'">和</span><span lang="EN-US"><span style="font-family:Tahoma">unwrap</span></span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">除了</span><span style="font-family:Tahoma"><span lang="EN-US">wrap node </span></span><span style="font-family:'微软雅黑','sans-serif'">对象</span><span style="font-family:Tahoma"><span lang="EN-US">C++</span></span><span style="font-family:'微软雅黑','sans-serif'">对象以外，我们还可以用过</span><span style="font-family:Tahoma"><span lang="EN-US">node::ObjectWrap::Unwrap</span></span><span style="font-family:'微软雅黑','sans-serif'">这个方法来</span><span style="font-family:Tahoma"><span lang="EN-US">unwrap</span></span><span style="font-family:'微软雅黑','sans-serif'">的</span><span style="font-family:Tahoma"><span lang="EN-US">node</span></span><span style="font-family:'微软雅黑','sans-serif'">对象，供</span><span style="font-family:Tahoma"><span lang="EN-US">C++</span></span><span style="font-family:'微软雅黑','sans-serif'">使用</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"><br> </span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:Tahoma"><span lang="EN-US">wrap.cc</span></span><span style="font-family:'微软雅黑','sans-serif'">代码：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"></span></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_12_5333857" class="cpp" name="code">#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+#include "myobject.h"
+
+using namespace v8;
+
+Handle&lt;Value&gt; CreateObject(const Arguments&amp; args) {
+  HandleScope scope;
+  return scope.Close(MyObject::NewInstance(args));
+}
+
+Handle&lt;Value&gt; Add(const Arguments&amp; args) {
+  HandleScope scope;
+
+  MyObject* obj1 = node::ObjectWrap::Unwrap&lt;MyObject&gt;(
+      args[0]-&gt;ToObject());//这里告诉我们如何利用Unwrap将node的对象转化为C++的对象
+  MyObject* obj2 = node::ObjectWrap::Unwrap&lt;MyObject&gt;(
+      args[1]-&gt;ToObject());
+
+  double sum = obj1-&gt;Val() + obj2-&gt;Val();
+  return scope.Close(Number::New(sum));
+}
+
+void InitAll(Handle&lt;Object&gt; target) {
+  MyObject::Init();
+
+  target-&gt;Set(String::NewSymbol("createObject"),
+      FunctionTemplate::New(CreateObject)-&gt;GetFunction());
+
+  target-&gt;Set(String::NewSymbol("add"),
+      FunctionTemplate::New(Add)-&gt;GetFunction());
+}
+
+NODE_MODULE(addon, InitAll)
+</pre> 
+<br> 
+<span style="font-family:宋体; font-size:14px"></span> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:'微软雅黑','sans-serif'"><span style="font-size:14px">上面这段代码重点就是：</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"></span></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_13_6664040" class="cpp" name="code">
+
+  MyObject* obj1 = node::ObjectWrap::Unwrap&lt;MyObject&gt;(
+      args[0]-&gt;ToObject());//这里告诉我们如何利用Unwrap将node的对象转化为C++的对象
+</pre> 
+<br> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-family:宋体; font-size:14px"></span><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">我们可以利用这段代码，将</span><span style="font-family:Tahoma"><span lang="EN-US">node</span></span><span style="font-family:'微软雅黑','sans-serif'">端的对象转化</span><span style="font-family:Tahoma"><span lang="EN-US">C++</span></span><span style="font-family:'微软雅黑','sans-serif'">端的对象</span></span></p> 
+<p style="margin:0cm 0cm 10pt"><span style="font-size:14px"><span style="font-family:'微软雅黑','sans-serif'">mywrap.h</span></span></p> 
+<p style="margin:0cm 0cm 10pt"></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_14_7503855" class="cpp" name="code">#define BUILDING_NODE_EXTENSION
+#ifndef MYOBJECT_H
+#define MYOBJECT_H
+
+#include &lt;node.h&gt;
+
+class MyObject : public node::ObjectWrap {
+ public:
+  static void Init();
+  static v8::Handle&lt;v8::Value&gt; NewInstance(const v8::Arguments&amp; args);
+  double Val() const { return val_; }
+
+ private:
+  MyObject();
+  ~MyObject();
+
+  static v8::Persistent&lt;v8::Function&gt; constructor;
+  static v8::Handle&lt;v8::Value&gt; New(const v8::Arguments&amp; args);
+  double val_;
+};
+
+#endif
+mywrap.cc 
+#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+#include "myobject.h"
+
+using namespace v8;
+
+MyObject::MyObject() {};
+MyObject::~MyObject() {};
+
+Persistent&lt;Function&gt; MyObject::constructor;
+
+void MyObject::Init() {
+  // Prepare constructor template
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(New);
+  tpl-&gt;SetClassName(String::NewSymbol("MyObject"));
+  tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
+
+  constructor = Persistent&lt;Function&gt;::New(tpl-&gt;GetFunction());
+}
+
+Handle&lt;Value&gt; MyObject::New(const Arguments&amp; args) {
+  HandleScope scope;
+
+  MyObject* obj = new MyObject();
+  obj-&gt;val_ = args[0]-&gt;IsUndefined() ? 0 : args[0]-&gt;NumberValue();
+  obj-&gt;Wrap(args.This());
+
+  return args.This();
+}
+
+Handle&lt;Value&gt; MyObject::NewInstance(const Arguments&amp; args) {
+  HandleScope scope;
+
+  const unsigned argc = 1;
+  Handle&lt;Value&gt; argv[argc] = { args[0] };
+  Local&lt;Object&gt; instance = constructor-&gt;NewInstance(argc, argv);
+
+  return scope.Close(instance);
+}
+</pre> 
+<br> 
+<p></p> 
+<span style="font-family:宋体; font-size:14px"></span> 
+<p style="margin:0cm 0cm 10pt">js代码：</p> 
+<p style="margin:0cm 0cm 10pt"></p> 
+<pre code_snippet_id="272850" snippet_file_name="blog_20140403_15_4963363" class="javascript" name="code">var addon = require('./build/Release/addon');
+
+var obj1 = addon.createObject(10);
+var obj2 = addon.createObject(20);
+var result = addon.add(obj1, obj2);
+
+console.log(result); // 30
+</pre> 
+<br> 
+<p></p> 
+<p style="margin:0cm 0cm 10pt"><br> </p> 
+<p style="margin:0cm 0cm 10pt"><br> </p> 
+<p style="margin:0cm 0cm 10pt"><br> </p> 
+<div style="top:1909px">
+  ﻿﻿ 
+</div>
+        </div>
+            <div class="margin-top-20"></div>
+        	<div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 正文底部广告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="9020893119"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+    </div>
+		<div>
+	    	<div class="relative">相关文章</div>
+	    	<ul class="relative_list">
+		                <li>
+		                    1. <a href="http://www.voidcn.com/article/p-aolpjflo-bat.html" target="_blank" title="Nood.js C++ 模块 addon插件（一）"> Nood.js C++ 模块 addon插件（一） </a>
+		                </li>
+		                <li>
+		                    2. <a href="http://www.voidcn.com/article/p-fsrnnewm-bat.html" target="_blank" title="Nood.js C++ 模块 addon插件（三）"> Nood.js C++ 模块 addon插件（三） </a>
+		                </li>
+		                <li>
+		                    3. <a href="http://www.voidcn.com/article/p-urnfzyky-bat.html" target="_blank" title="Nood.js C++ 模块 addon插件（二）"> Nood.js C++ 模块 addon插件（二） </a>
+		                </li>
+		                <li>
+		                    4. <a href="http://www.voidcn.com/article/p-tepocfcc-mx.html" target="_blank" title="Opticks4.11模块插件"> Opticks4.11模块插件 </a>
+		                </li>
+		                <li>
+		                    5. <a href="http://www.voidcn.com/article/p-dfhglpap-dq.html" target="_blank" title="Android Application Addon(插件) 架构及管理"> Android Application Addon(插件) 架构及管理 </a>
+		                </li>
+		                <li>
+		                    6. <a href="http://www.voidcn.com/article/p-mufypdvp-xh.html" target="_blank" title="百度去广告 firefox 插件 addon"> 百度去广告 firefox 插件 addon </a>
+		                </li>
+		                <li>
+		                    7. <a href="http://www.voidcn.com/article/p-htydksbj-bka.html" target="_blank" title="nodejs c++ addon用户权限验证模块"> nodejs c++ addon用户权限验证模块 </a>
+		                </li>
+		                <li>
+		                    8. <a href="http://www.voidcn.com/article/p-xyafpkga-xb.html" target="_blank" title="jQuery 插件的模块化"> jQuery 插件的模块化 </a>
+		                </li>
+		                <li>
+		                    9. <a href="http://www.voidcn.com/article/p-ehjtjsoc-ry.html" target="_blank" title="nodejs添加C++模块"> nodejs添加C++模块 </a>
+		                </li>
+		                <li>
+		                    10. <a href="http://www.voidcn.com/article/p-cxapdxoh-qv.html" target="_blank" title="DownLoad模块 (四)"> DownLoad模块 (四) </a>
+		                </li>
+	            <li><a href='http://www.voidcn.com/relative/p-rvqdpgqo-bat.html' target='_blank' title="Nood.js C++ 模块 addon插件（四） 的相关文章"> 更多相关文章...</a></li>
+	        </ul>
+
+                <div class="margin-top-20"></div>
+                <div>
+                    <div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="3534271784"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+                </div>
+            <div class="margin-top-20"></div>
+
+	        <div class="relative">相关标签/搜索</div>
+	        <ul>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%A8%A1%E5%9D%97%E6%8F%92%E4%BB%B6" title="模块插件"> <span class="new-label">模块插件</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9D%97" title="四大模块"> <span class="new-label">四大模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/addon" title="addon"> <span class="new-label">addon</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%A8%A1%E5%9D%97%E6%8F%92%E5%85%A5" title="模块插入"> <span class="new-label">模块插入</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/Xutils3%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9D%97" title="Xutils3四大模块"> <span class="new-label">Xutils3四大模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/apache2+C%2B%2B%E6%A8%A1%E5%9D%97" title="apache2 C++模块"> <span class="new-label">apache2 C++模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/C%E6%A8%A1%E5%9D%97" title="C模块"> <span class="new-label">C模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/node.js+addon" title="node.js addon"> <span class="new-label">node.js addon</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E4%BA%8B%E4%BB%B6%E6%A8%A1%E5%9D%97" title="事件模块"> <span class="new-label">事件模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/tag/%E6%96%87%E4%BB%B6%E6%A8%A1%E5%9D%97" title="文件模块"> <span class="new-label">文件模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1411366" title="硬件模块"> <span class="new-label">硬件模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/874603" title="硬件模块"> <span class="new-label">硬件模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1556989" title="node.js addon"> <span class="new-label">node.js addon</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1116854" title="TecPlot AddOn"> <span class="new-label">TecPlot AddOn</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/808038" title="firefox addon"> <span class="new-label">firefox addon</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/304821d1" title="小模块（C#）"> <span class="new-label">小模块（C#）</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/2556111" title="c++模块"> <span class="new-label">c++模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1198879" title="模块"> <span class="new-label">模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/1782661" title="模块"> <span class="new-label">模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/cata/2838749" title="模块"> <span class="new-label">模块</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/column/c
+" title="C&C++"> <span class="new-label">C&C++</span></a>
+	        			<a target='_blank' href="http://www.voidcn.com/column/javascript
+" title="JavaScript"> <span class="new-label">JavaScript</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/ghdajn"><span class="new-label">c# paramiko模块</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/mljffx"><span class="new-label">nginx C++模块</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/cpajsv"><span class="new-label">子模块的spring boot maven 插件</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/yxkczk"><span class="new-label">%addon com_redhat_kdump</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/azunhv"><span class="new-label">sublime3 C/C++插件</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/armgyg"><span class="new-label">windows node C++模块</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/qdjpxu"><span class="new-label">c#插件 powermode</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/nsshjk"><span class="new-label">sublime c 插件</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/wpasyr"><span class="new-label">ppapi 插件 c#</span></a>
+		        		<a target='_blank' href="http://www.voidcn.com/search/gwpqfj"><span class="new-label">C# live555 插件</span></a>
+	        </ul>
+	    </div>
+    
+    <div class="article_social">
+        <div class="article_like">
+            <div class="circle circle-like" id="my_zan" data_id="eEvIVb6"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="share">
+			<span class="share-left bdsharebuttonbox" data-tag="share_1">
+				<a href="#" class="bds_more icon-share" data-cmd="more">
+					<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>
+				</a>
+			</span>
+			<div class="share-right action action-share bdsharebuttonbox" data-tag="share_1">
+				<span class="bdshare">
+					<a href="#" class="bds_sinaweibo icon-weibo" data-cmd="tsina" title="分享到新浪微博">分享到微博</a>
+					<a href="#" class="bds_weixin icon-wechat" data-cmd="weixin" title="分享到微信">分享到微信</a>
+					<a href="#" class="bds_qq icon-qq" data-cmd="sqq" title="分享到QQ好友">分享到QQ</a>
+				</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+    <div class="bottom_plink huodong-detail-plink-banner clearfix">
+        </div>
+    </div>
+
+
+
+	<script>
+		$(function () {
+		    $("#originfo").text("http://blog.csdn.net/zhuzg1991/article/details/22884129");
+		    $("#originfo").hover(function(){
+		        $("#originfo").attr("href" , "/link?url=http://blog.csdn.net/zhuzg1991/article/details/22884129");
+			},function(){
+		        $("#originfo").attr("href" , "javascript:void()");
+			});
+		});
+	</script>
+	
+    <script src="http://static02.voidcn.com/voidcn/script/article.js?time=1550311720688" type="text/javascript"></script>
+
+</div>
+<div class="span3 article_right_side">
+    <div class="right_top">
+    	<div id="right_site_articles" class="article_detail_bg">
+    <div class="article-part-title">
+        <span>每日一句</span>
+    </div>
+    <ul class="side_article_list">
+    	每一个你不满意的现在，都有一个你没有努力的曾经。
+    </ul>
+</div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 侧边栏 自适应 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6208739752673518"
+     data-ad-slot="8798382113"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>最新文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.voidcn.com/article/p-hnvbamfa-byy.html" target="_blank"
+	                       title="读取.properties文件的流程操作！！！"> 读取.properties文件的流程操作！！！ </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.voidcn.com/article/p-ujrehtoe-byy.html" target="_blank"
+	                       title="氚云——面向业务人员，让您的业务“随心而变”"> 氚云——面向业务人员，让您的业务“随心而变” </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.voidcn.com/article/p-esmwfgpv-byy.html" target="_blank"
+	                       title="Python 前端CSS样式"> Python 前端CSS样式 </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.voidcn.com/article/p-tabfjqkq-byy.html" target="_blank"
+	                       title="第三周星期四"> 第三周星期四 </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.voidcn.com/article/p-vrfihrih-byy.html" target="_blank"
+	                       title="Yii2 redis 使用方法"> Yii2 redis 使用方法 </a>
+	                </li>
+	                <li class="side_article_list_item">6.
+	                    <a href="http://www.voidcn.com/article/p-qklrgctg-byy.html" target="_blank"
+	                       title="SSM三大框架整合梳理"> SSM三大框架整合梳理 </a>
+	                </li>
+	                <li class="side_article_list_item">7.
+	                    <a href="http://www.voidcn.com/article/p-evmovxot-byy.html" target="_blank"
+	                       title="react详解state、props、refs"> react详解state、props、refs </a>
+	                </li>
+	                <li class="side_article_list_item">8.
+	                    <a href="http://www.voidcn.com/article/p-fdcclbmw-byy.html" target="_blank"
+	                       title="线段树题集"> 线段树题集 </a>
+	                </li>
+	                <li class="side_article_list_item">9.
+	                    <a href="http://www.voidcn.com/article/p-pjazuqce-byy.html" target="_blank"
+	                       title="AcWing - 254 - 天使玩偶 = CDQ分治"> AcWing - 254 - 天使玩偶 = CDQ分治 </a>
+	                </li>
+	                <li class="side_article_list_item">10.
+	                    <a href="http://www.voidcn.com/article/p-dmhtxtpp-byy.html" target="_blank"
+	                       title="react的三大属性"> react的三大属性 </a>
+	                </li>
+        </ul>
+        
+        
+    </div>
+
+    </div>
+
+    <div class="operate_zone">
+<div id="right_site_articles" class="article_detail_bg margin-top10">
+    <div class="article-part-title">
+        <span><a href="/contact" target="_blank">本站公众号</a></span>
+    </div>
+    <div class="side_article_list user-head">
+    	<span style="color: #5ba607;font-size:14px;">&nbsp;&nbsp;&nbsp;欢迎关注本站公众号,获取更多程序园信息</span><br/>
+    	<img src="http://open.weixin.qq.com/qr/code?username=develong" alt="开发小院" />
+    </div>
+</div>
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>相关文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.voidcn.com/article/p-aolpjflo-bat.html" target="_blank"
+	                       title="Nood.js C++ 模块 addon插件（一）"> Nood.js C++ 模块 addon插件（一） </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.voidcn.com/article/p-fsrnnewm-bat.html" target="_blank"
+	                       title="Nood.js C++ 模块 addon插件（三）"> Nood.js C++ 模块 addon插件（三） </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.voidcn.com/article/p-urnfzyky-bat.html" target="_blank"
+	                       title="Nood.js C++ 模块 addon插件（二）"> Nood.js C++ 模块 addon插件（二） </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.voidcn.com/article/p-tepocfcc-mx.html" target="_blank"
+	                       title="Opticks4.11模块插件"> Opticks4.11模块插件 </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.voidcn.com/article/p-dfhglpap-dq.html" target="_blank"
+	                       title="Android Application Addon(插件) 架构及管理"> Android Application Addon(插件) 架构及管理 </a>
+	                </li>
+	                <li class="side_article_list_item">6.
+	                    <a href="http://www.voidcn.com/article/p-mufypdvp-xh.html" target="_blank"
+	                       title="百度去广告 firefox 插件 addon"> 百度去广告 firefox 插件 addon </a>
+	                </li>
+	                <li class="side_article_list_item">7.
+	                    <a href="http://www.voidcn.com/article/p-htydksbj-bka.html" target="_blank"
+	                       title="nodejs c++ addon用户权限验证模块"> nodejs c++ addon用户权限验证模块 </a>
+	                </li>
+	                <li class="side_article_list_item">8.
+	                    <a href="http://www.voidcn.com/article/p-xyafpkga-xb.html" target="_blank"
+	                       title="jQuery 插件的模块化"> jQuery 插件的模块化 </a>
+	                </li>
+	                <li class="side_article_list_item">9.
+	                    <a href="http://www.voidcn.com/article/p-ehjtjsoc-ry.html" target="_blank"
+	                       title="nodejs添加C++模块"> nodejs添加C++模块 </a>
+	                </li>
+	                <li class="side_article_list_item">10.
+	                    <a href="http://www.voidcn.com/article/p-cxapdxoh-qv.html" target="_blank"
+	                       title="DownLoad模块 (四)"> DownLoad模块 (四) </a>
+	                </li>
+        </ul>
+        
+        	<div style='padding-left:10px;font-size:14px;padding-bottom:10px;'>
+        		<a href='http://www.voidcn.com/relative/p-rvqdpgqo-bat.html' target='_blank' title="Nood.js C++ 模块 addon插件（四） 的相关文章"> >>更多相关文章<< </a>
+    		</div>
+        
+    </div>
+
+    </div>
+</div>
+
+	</div>
+
+	<script type="text/javascript">
+        $('table').each(function (i) {
+            var size = $(this).children().size();
+            if (size > 1) {
+                $(this).attr('class', "table table-bordered");
+            } else if (size == 1) {
+                var e11 = $(this).children(":first");
+                var e1 = e11[0];
+                var name = e1.nodeName.toLowerCase();
+                if ("tbody" == name) {
+                    if (e1.children.length > 1) {
+                        $(this).attr('class', "table table-bordered");
+                    } else if (e1.children.length == 1) {
+                        var e12 = e1.children[0];
+                        var name2 = e12.nodeName.toLowerCase();
+                        if ("tr" == name2) {
+                            if (e12.children.length > 1) {
+                                $(this).attr('class', "table table-bordered");
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        window.page = 0;
+        window.last = 0;
+        window.first = true;
+        resize_article_image('#nei', 550);
+        
+        
+        
+		+ (function($){
+			window._bd_share_config = {
+				common: {
+					"bdText": "【" + $("title").text() + "】" + $(".post-content p:lt(2)").text(),
+					"bdMini": "2",
+					"bdMiniList": false,
+					"bdPic": $(".post-content img:first") ? $(".post-content img:first").attr("src") : "",
+					"bdStyle": "0",
+					"bdSize": "24"
+				},
+				share: [{
+					bdCustomStyle: 'http://static02.voidcn.com/voidcn/css/share.css'
+				}],
+			};
+			with(document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=" + ~ ( - new Date() / 36e5)];
+		})(window.jQuery);
+    </script>
+</div>
+<script type="text/javascript" src="http://static02.voidcn.com/voidcn/plugin/highlight/highlight.pack.js"></script>
+<link href="http://static02.voidcn.com/voidcn/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="footer">
+    <div class="footer-inner" style="padding-top: 50px;padding-bottom: 50px">
+        <a href="http://www.voidcn.com/contact" target="_blank">意见反馈</a>
+        <a href="http://www.voidcn.com/search">最近搜索</a>
+        <a href="http://www.voidcn.com/recent">最新文章</a>
+       	<script src="https://s4.cnzz.com/z_stat.php?id=1258680759&web_id=1258680759" language="JavaScript"></script>
+        <a href="http://cn.voidcc.com/" target="_blank">程序问答</a>
+        <a href="http://hk.voidcc.com/" target="_blank">程序問答</a>
+
+       		<div style="display:none;"><script src="https://s4.cnzz.com/z_stat.php?id=1261868352&web_id=1261868352" language="JavaScript"></script></div>
+    </div>
+    <div style="display:none;">
+		<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?05fb07b91f60527211b85c9c9b431b73";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+		</script>
+	</div>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-77509369-1');
+    </script>
+</div>
+
+<script type="text/javascript" src="http://static02.voidcn.com/voidcn/script/tip.js?time=1550311720688" async></script>
+
+</body>
+</html>

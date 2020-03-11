@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>c++: 将std :: string转换为v8 :: string，反之亦然？</title>
+    <meta name="theme-color" content="#fff" />
+        <meta name="description" content=" 
+我正在尝试用c ++创建我的第一个节点模块。我只是想做一个简单的Hello传递我的名字作为参数。我发现这种方式将参数转换为v8 :: strings，看起来很难看：
+Local&lt;String&gt; name = String::NewFromUtf8(isolate, *v8::String::Utf8Value(args[0]-&gt;ToString()));
+有没有人可以建议我做这种演员的简单方法？！我错过了什么吗？！
+     " />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/css/offcanvas.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/Content/js/jquery-slim.min.js"><\/script>')</script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-6993856910170847", enable_page_level_ads: true });</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145158127-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145158127-1');
+</script>
+
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <a class="navbar-brand mr-auto mr-lg-0" href="http://xbuba.com">xBuba.com</a>
+      <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="/top" title="Top Discussions">热门讨论</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/questions" title="All questions">所有问题</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/tags" title="Tags">标签</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="https://xbuba.com/registration" title="registration">注册</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="https://xbuba.com/login" title="login">登录</a>
+              </li>
+          </ul>
+        <form class="form-inline my-2 my-lg-0" id="search-block-in-menu">
+          <input class="form-control mr-sm-2" type="text" placeholder="搜索" aria-label="搜索">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Search">搜索</button>
+        </form>
+      </div>
+    </nav>
+    <main class="container">
+<!-- Buba 
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6993856910170847"
+                 data-ad-slot="9130738348"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>-->
+        
+<div class="container">
+    <div class="row">
+        <div class="col-9" id="question-content">
+            <h3>将std :: string转换为v8 :: string，反之亦然？</h3>
+                <div>
+                        <a href="/tags/c%2b%2b" class="badge badge-secondary">c++</a>
+                        <a href="/tags/node-dot-js" class="badge badge-secondary">node.js</a>
+                        <a href="/tags/string" class="badge badge-secondary">string</a>
+                        <a href="/tags/casting" class="badge badge-secondary">casting</a>
+                        <a href="/tags/v8" class="badge badge-secondary">v8</a>
+                </div>
+
+            <div class="row" id="question">
+                <div class="col-1 info-question">
+                    <div class="text-center">
+                        <p>
+                            <strong>1383</strong> 观看
+                        </p>
+                        <p>
+                            <strong>4</strong>回复
+                        </p>
+                            <p style="line-height: 1">
+                                <strong>43</strong>
+                                <span style="line-height: 1" title="Authors reputation">作者的声誉</span>
+                            </p>
+                    </div>
+                </div>
+                <div class="col-11 info-question-content">
+                     
+
+<p>我正在尝试用c ++创建我的第一个节点模块。我只是想做一个简单的Hello传递我的名字作为参数。我发现这种方式将参数转换为v8 :: strings，看起来很难看：</p>
+
+<pre><code>Local&lt;String&gt; name = String::NewFromUtf8(isolate, *v8::String::Utf8Value(args[0]-&gt;ToString()));
+</code></pre>
+
+<p>有没有人可以建议我做这种演员的简单方法？！我错过了什么吗？！</p>
+     
+                        <a href="https://stackoverflow.com/users/5075351/madalin-mad" class="btn btn-sm btn-outline-dark" title="Author: ...">作者: Madalin Mad</a>
+                    <a href="https://stackoverflow.com/questions/48113427/convert-stdstring-to-v8string-and-viceversa" class="btn btn-sm btn-outline-dark" title="Source">的来源</a>
+                    <span class="create_date" title="Posted by: ...">发布者： 2018 年 1 月 5 日</span>
+                </div>
+            </div>
+            <ins class="adsbygoogle"
+                 style="display:block; text-align:center;"
+                 data-ad-layout="in-article"
+                 data-ad-format="fluid"
+                 data-ad-client="ca-pub-6993856910170847"
+                 data-ad-slot="1403758730"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <h3 title="Answers">回应 4</h3>
+            <hr />
+                    <div class="answer row  bg-white ">
+                        <div class="col-1 info-question">
+                            <div class="text-center">
+                                <p>
+                                    <strong>3</strong>像
+                                </p>
+                                <p style="line-height: 1">
+                                    <strong>7660</strong>
+                                    <span style="line-height: 1" title="Authors reputation">作者的声誉</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-11 info-question-content">
+
+                             
+<p>转换为/从<code>std::string</code>，<code>NewFromUtf8</code>并且<code>Utf8Value</code>是适当的。但是，对于您的示例，来回转换不是必需的（事实上，效率非常低），您可以简单地执行以下操作：</p>
+
+<pre><code>Local&lt;String&gt; name = args[0]-&gt;ToString();
+</code></pre>
+     
+                            <a href="https://stackoverflow.com/users/6036428/jmrk" class="btn btn-sm btn-outline-dark" title="Author: ...">作者: jmrk</a>
+                            <span class="create_date" title="Posted by: ...">发布者: 2018 年 1 月 5 日</span>
+                        </div>
+                    </div>
+                    <div class="answer row  bg-white ">
+                        <div class="col-1 info-question">
+                            <div class="text-center">
+                                <p>
+                                    <strong>1</strong>像
+                                </p>
+                                <p style="line-height: 1">
+                                    <strong>21</strong>
+                                    <span style="line-height: 1" title="Authors reputation">作者的声誉</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-11 info-question-content">
+
+                             
+<p>我建议为此创建包装器。<code>name</code>如果它不是空的，您还必须检查本地句柄。较新的实现使用MaybeLocal句柄来确保已检查任何结果。</p>
+
+<p>我所做的一些例子：</p>
+
+<pre><code>/* Tool: JS execution has been terminated. */
+class TerminateEx : public exception {
+public:
+    virtual const char* what() const throw()
+    { return &quot;JSBaseClass: Execution terminated&quot;; };
+};
+
+/* Tool: Convert MaybeLocal&lt;&gt; to Local&lt;&gt;
+ * Throws TerminateEx if the handle is empty (JS execution has been
+ * terminated).
+ */
+template&lt;typename C&gt;
+inline v8::Local&lt;C&gt;
+JSBaseClass::toLocalHandle(v8::MaybeLocal&lt;C&gt; handle)
+{
+    if (handle.IsEmpty())
+        throw TerminateEx();
+    return handle.ToLocalChecked();
+}
+
+/* Tool: Create JS string*/
+inline
+v8::Local&lt;v8::String&gt;
+JSBaseClass::newJSString(v8::Isolate *isolate, const char *str)
+{
+    return (toLocalHandle(
+                v8::String::NewFromUtf8(
+                    isolate, str, v8::NewStringType::kNormal)));
+};
+
+/* Tool: Create JS string*/
+inline
+v8::Local&lt;v8::String&gt;
+JSBaseClass::newJSString(v8::Isolate *isolate, const string &amp;str)
+{
+    return newJSString(isolate, str.c_str());
+};
+
+/* Tool: Create JS string*/
+template&lt;typename T&gt;
+inline v8::Local&lt;v8::String&gt;
+JSBaseClass::newJSString(const T &amp;info, const string &amp;str)
+{
+    return newJSString(info.GetIsolate(), str.c_str());
+};
+
+[...]
+
+/* Tool: Throw JS exception */
+template&lt;typename T&gt; inline void
+JSBaseClass::throwJSError(const T &amp;info, const string &amp;text)
+{
+    info.GetIsolate()-&gt;ThrowException(
+        v8::Exception::Error(newJSString(info, text.c_str())));
+    info.GetReturnValue().SetUndefined();
+    return;
+};
+
+[...]
+
+/* Tool: Get string from JS value. returns false if the conversion failed. */
+inline bool
+JSBaseClass::valueToString(
+    const v8::Local&lt;v8::Context&gt; &amp;context,
+    const v8::Local&lt;v8::Value&gt; &amp;value,
+    string *str)
+{
+    v8::String::Utf8Value utf8Str(
+        toLocalHandle(value-&gt;ToString(context)));
+    if (!*utf8Str)
+        return false;
+
+    *str = *utf8Str;
+    return true;
+}
+</code></pre>
+
+<p>然后像这样使用它：</p>
+
+<pre><code>try {
+    auto isolate = info.GetIsolate();
+    auto context = isolate-&gt;GetCurrentContext();
+
+    Local&lt;Value&gt; name = JSBaseClass::newJSString(info, &quot;My Name&quot;);
+
+    [...]
+
+    string nameStr;
+
+    if (!JSBaseClass::valueToString(context, name, &amp;nameStr)) {
+        JSBaseClass::throwJSError(info, &quot;Not a string&quot;);
+        return;
+    }
+    [...]
+}
+catch (JSBaseClass::TemplateEx) {
+    return;
+}
+</code></pre>
+
+<p>我使用的是较新版本的V8，你应该避免使用已弃用的方法。目前的方法主要是返回<code>MaybeLocal&lt;&gt;</code>句柄。</p>
+     
+                            <a href="https://stackoverflow.com/users/5998081/marcus-hampel" class="btn btn-sm btn-outline-dark" title="Author: ...">作者: Marcus Hampel</a>
+                            <span class="create_date" title="Posted by: ...">发布者: 2018 年 1 月 10 日</span>
+                        </div>
+                    </div>
+                    <div class="answer row  bg-white ">
+                        <div class="col-1 info-question">
+                            <div class="text-center">
+                                <p>
+                                    <strong>0</strong>像
+                                </p>
+                                <p style="line-height: 1">
+                                    <strong>54</strong>
+                                    <span style="line-height: 1" title="Authors reputation">作者的声誉</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-11 info-question-content">
+
+                             
+<p>您也可以尝试这种方法</p>
+
+<pre><code>    void StringConversion(const FunctionCallbackInfo&lt;Value&gt;&amp; args){
+        Isolate* isolate = args.GetIsolate(); // isolate will isolate the whole process in new memory space; so that no other thread can make change onto it at the same time 
+        v8::String::Utf8Value s(args[0]); // take the string arg and convert it to v8::string
+        std::string str(*s); // take the v8::string convert it to c++ class string
+        //convert back the **str** to v8::String, so that we can set and return it 
+        Local&lt;String&gt; result= String::NewFromUtf8(isolate,str.c_str()); // c_str() will return a pointer to an array that contain null-terminator sequence  
+        args.GetReturnValue().Set(result);
+    }
+</code></pre>
+
+<p>谢谢 ！！</p>
+     
+                            <a href="https://stackoverflow.com/users/6274651/parit" class="btn btn-sm btn-outline-dark" title="Author: ...">作者: Parit</a>
+                            <span class="create_date" title="Posted by: ...">发布者: 2018 年 4 月 21 日</span>
+                        </div>
+                    </div>
+                    <div class="answer row  bg-white ">
+                        <div class="col-1 info-question">
+                            <div class="text-center">
+                                <p>
+                                    <strong>1</strong>像
+                                </p>
+                                <p style="line-height: 1">
+                                    <strong>7105</strong>
+                                    <span style="line-height: 1" title="Authors reputation">作者的声誉</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-11 info-question-content">
+
+                             
+<p>较新版本的v8也需要隔离：</p>
+
+<pre><code>void Foo(const v8::FunctionCallbackInfo&lt;v8::Value&gt; &amp;args)
+{
+  // from v8 to cpp
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::String::Utf8Value str(isolate, args[0]);
+  std::string cppStr(*str);
+
+  // back to v8
+  v8::Local&lt;v8::String&gt; v8String = v8::String::NewFromUtf8(isolate, cppStr.c_str(), v8::String::kNormalString);
+}
+</code></pre>
+     
+                            <a href="https://stackoverflow.com/users/4126633/daniel-krom" class="btn btn-sm btn-outline-dark" title="Author: ...">作者: Daniel Krom</a>
+                            <span class="create_date" title="Posted by: ...">发布者: 2018 年 12 月 14 日</span>
+                        </div>
+                    </div>
+        </div>
+        <div class="col-3 border-left" id="other-questions">
+
+            <h6 title="Questions from the category ...">来自类别的问题 :</h6>
+            <ul class="list-unstyled">
+                    <li class="hyperlink"><a href="/questions/5727"><span class="badge badge-pill badge-secondary">c++</span> 理解指针有什么障碍，克服它们可以做些什么？</a></li>
+                    <li class="hyperlink"><a href="/questions/12633"><span class="badge badge-pill badge-secondary">c++</span> 在C ++中解析INI文件的最简单方法是什么？</a></li>
+                    <li class="hyperlink"><a href="/questions/25730"><span class="badge badge-pill badge-secondary">c++</span> 什么是C / C ++程序及其插件DLL的最佳免费内存泄漏检测器？</a></li>
+                    <li class="hyperlink"><a href="/questions/27220"><span class="badge badge-pill badge-secondary">c++</span> 如何在C ++（Unicode）中将std :: string转换为LPCWSTR</a></li>
+                    <li class="hyperlink"><a href="/questions/281264"><span class="badge badge-pill badge-secondary">node.js</span> 在Javascript中从数组中删除空元素</a></li>
+                    <li class="hyperlink"><a href="/questions/1779858"><span class="badge badge-pill badge-secondary">node.js</span> 如何在节点中为shell命令转义字符串？</a></li>
+                    <li class="hyperlink"><a href="/questions/1801160"><span class="badge badge-pill badge-secondary">node.js</span> 我可以在Node.js中使用jQuery吗？</a></li>
+                    <li class="hyperlink"><a href="/questions/1911015"><span class="badge badge-pill badge-secondary">node.js</span> 如何调试Node.js应用程序？</a></li>
+                    <li class="hyperlink"><a href="/questions/7074"><span class="badge badge-pill badge-secondary">string</span> C＃中字符串和字符串有什么区别？</a></li>
+                    <li class="hyperlink"><a href="/questions/10323"><span class="badge badge-pill badge-secondary">string</span> 为什么Ruby没有真正的StringBuffer或StringIO？</a></li>
+                    <li class="hyperlink"><a href="/questions/16100"><span class="badge badge-pill badge-secondary">string</span> 在C＃中将字符串转换为枚举</a></li>
+                    <li class="hyperlink"><a href="/questions/18524"><span class="badge badge-pill badge-secondary">string</span> 将List &lt;Integer&gt;转换为List &lt;String&gt;</a></li>
+                    <li class="hyperlink"><a href="/questions/29482"><span class="badge badge-pill badge-secondary">casting</span> 在C＃中将int转换为枚举</a></li>
+                    <li class="hyperlink"><a href="/questions/44942"><span class="badge badge-pill badge-secondary">casting</span> 在.NET 2.0中将List &lt;int&gt;转换为List &lt;string&gt;</a></li>
+                    <li class="hyperlink"><a href="/questions/103512"><span class="badge badge-pill badge-secondary">casting</span> 为什么使用static_cast &lt;int&gt;（x）而不是（int）x？</a></li>
+                    <li class="hyperlink"><a href="/questions/332030"><span class="badge badge-pill badge-secondary">casting</span> 什么时候应该使用static_cast，dynamic_cast，const_cast和reinterpret_cast？</a></li>
+                    <li class="hyperlink"><a href="/questions/356948"><span class="badge badge-pill badge-secondary">v8</span> 从.NET应用程序引用Google的V8引擎</a></li>
+                    <li class="hyperlink"><a href="/questions/5175925"><span class="badge badge-pill badge-secondary">v8</span> 在Google Chrome中，array.splice（）的时间复杂度是多少？</a></li>
+                    <li class="hyperlink"><a href="/questions/5276915"><span class="badge badge-pill badge-secondary">v8</span> 常见的JavaScript实现是否使用字符串实习？</a></li>
+            </ul>
+            <!-- Вертикальный баннер слева -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:600px"
+                 data-ad-client="ca-pub-6993856910170847"
+                 data-ad-slot="7406307724"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+    </div>
+</div>
+    </main>
+    <script src="/Content/js/popper.min.js"></script>
+    <script src="/Content/js/bootstrap.min.js"></script>
+    <script src="/Content/js/holder.min.js"></script>
+    <script src="/Content/js/offcanvas.js"></script>
+    <script src="/Content/js/pagination.min.js"></script>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="2" style="font-weight:bold;font-size:2pt;font-family:Arial, Helvetica, Open Sans, sans-serif">32x32</text></svg>
+    
+</body>
+</html>
